@@ -1,0 +1,33 @@
+[submodule "cookbooks/apache2"]
+	path = cookbooks/apache2
+	url = http://github.com/opscode-cookbooks/apache2
+[submodule "cookbooks/apt"]
+	path = cookbooks/apt
+	url = http://github.com/opscode-cookbooks/apt
+[submodule "cookbooks/ark"]
+	path = cookbooks/ark
+	url = https://github.com/opscode-cookbooks/ark
+[submodule "cookbooks/build-essential"]
+	path = cookbooks/build-essential
+	url = http://github.com/opscode-cookbooks/build-essential
+[submodule "cookbooks/database"]
+	path = cookbooks/database
+	url = http://github.com/opscode-cookbooks/database
+[submodule "cookbooks/gis"]
+	path = cookbooks/gis
+	url = git://github.com/marsam/cookbook-gis.git
+[submodule "cookbooks/java"]
+	path = cookbooks/java
+	url = http://github.com/opscode-cookbooks/java
+[submodule "cookbooks/logrotate"]
+	path = cookbooks/logrotate
+	url = http://github.com/opscode-cookbooks/logrotate
+[submodule "cookbooks/openssl"]
+	path = cookbooks/openssl
+	url = http://github.com/opscode-cookbooks/openssl
+[submodule "cookbooks/postgresql"]
+	path = cookbooks/postgresql
+	url = http://github.com/opscode-cookbooks/postgresql
+[submodule "cookbooks/tomcat"]
+	path = cookbooks/tomcat
+	url = git://github.com/bryanwb/chef-tomcat.git
