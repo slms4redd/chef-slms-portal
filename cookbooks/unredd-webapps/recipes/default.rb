@@ -1,5 +1,5 @@
 geoserver "stg_geoserver" do
-  download_url  "http://nfms4redd.org/downloads/geoserver/geoserver-2.2+gdal+pyramid+flow.war"
+  download_url         "http://nfms4redd.org/downloads/geoserver/geoserver-2.2+gdal+pyramid+flow.war"
   tomcat_http_port     8201
   tomcat_ajp_port      8101
   tomcat_shutdown_port 8021

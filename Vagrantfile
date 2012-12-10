@@ -2,10 +2,10 @@
 # vi: set ft=ruby :
 
 Vagrant::Config.run do |config|
-  config.vm.box = "precise32"
+  config.vm.box = 'precise32'
   config.vm.box_url = 'http://files.vagrantup.com/precise32.box'
-  # config.vm.box = "lucid32"
-  # config.vm.box_url = 'http://files.vagrantup.com/lucid32.box'
+  #config.vm.box = 'lucid32'
+  #config.vm.box_url = 'http://files.vagrantup.com/lucid32.box'
 
   config.vm.forward_port 80, 4567
 
@@ -16,8 +16,8 @@ Vagrant::Config.run do |config|
 
   config.vm.provision :chef_solo do |chef|
     chef.cookbooks_path = "cookbooks"
-    chef.roles_path     = "roles" # not used (yet?)
-    chef.data_bags_path = "data_bags" # not used (yet?)
+    #chef.roles_path     = "roles" # not used (yet?)
+    #chef.data_bags_path = "data_bags" # not used (yet?)
 
 
     chef.add_recipe "apt" # execute apt-get update

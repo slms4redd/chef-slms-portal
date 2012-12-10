@@ -1,7 +1,7 @@
 define :geoserver do
-  include_recipe "unredd-apache"
+  include_recipe "unredd-webapps::apache2-conf"
   include_recipe "tomcat::base"
-  include_recipe "unredd-db-conf"
+  include_recipe "unredd-webapps::db-conf"
 
   tomcat_user = node['tomcat']['user']
 
