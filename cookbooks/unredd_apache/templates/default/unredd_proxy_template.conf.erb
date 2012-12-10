@@ -1,0 +1,32 @@
+# Don't rewrite hostname
+ProxyPreserveHost on
+
+# Proxy rules for the staging area
+ProxyPass        /stg_geostore   ajp://localhost:8100/stg_geostore
+ProxyPassReverse /stg_geostore   ajp://localhost:8100/stg_geostore
+ProxyPassReverse /stg_geostore/  ajp://localhost:8100/stg_geostore/
+
+ProxyPass        /stg_geoserver   ajp://localhost:8101/stg_geoserver
+ProxyPassReverse /stg_geoserver   ajp://localhost:8101/stg_geoserver
+ProxyPassReverse /stg_geoserver/  ajp://localhost:8101/stg_geoserver/
+
+ProxyPass        /stg_geobatch   ajp://localhost:8102/stg_geobatch
+ProxyPassReverse /stg_geobatch   ajp://localhost:8102/stg_geobatch
+ProxyPassReverse /stg_geobatch/  ajp://localhost:8102/stg_geobatch/
+
+ProxyPass        /admin   ajp://localhost:8103/admin
+ProxyPassReverse /admin   ajp://localhost:8103/admin
+ProxyPassReverse /admin/  ajp://localhost:8103/admin/
+
+# Proxy rules for the dissemination area
+ProxyPass        /diss_geostore   ajp://localhost:8104/diss_geostore
+ProxyPassReverse /diss_geostore   ajp://localhost:8104/diss_geostore
+ProxyPassReverse /diss_geostore/  ajp://localhost:8104/diss_geostore/
+
+ProxyPass        /diss_geoserver   ajp://localhost:8105/diss_geoserver
+ProxyPassReverse /diss_geoserver   ajp://localhost:8105/diss_geoserver
+ProxyPassReverse /diss_geoserver/  ajp://localhost:8105/diss_geoserver/
+
+ProxyPass        /portal   ajp://localhost:8106/portal
+ProxyPassReverse /portal   ajp://localhost:8106/portal
+ProxyPassReverse /portal/  ajp://localhost:8106/portal/
