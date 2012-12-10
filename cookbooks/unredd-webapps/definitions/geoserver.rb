@@ -33,6 +33,17 @@ define :geoserver do
 
   # Create GeoServer data and log directories
 
+  # Permission of some directories are not set correcly by the remote_directory resource
+  # so set them using chown/chmod
+  execute "set data_dir permissions" do
+    user "root"  
+    command <<-EOH
+      sudo chown -R #{tomcat_user}:#{tomcat_user} #{geoserver_data_dir}
+      sudo chmod -R 755 #{geoserver_data_dir}
+    EOH
+    action :nothing
+  end
+
   remote_directory geoserver_data_dir do
     source      "geoserver_data_dir"
     files_owner tomcat_user
@@ -44,16 +55,8 @@ define :geoserver do
     #files_mode  "755"
 
     not_if { ::File.exists?(geoserver_data_dir) }
-  end
 
-  # Permission of some directories are not set correcly by the remote_directory resource
-  # so set them using chown/chmod
-  execute "set data_dir permissions" do
-    user "root"  
-    command <<-EOH
-      sudo chown -R #{tomcat_user}:#{tomcat_user} #{geoserver_data_dir}
-      sudo chmod -R 755 #{geoserver_data_dir}
-    EOH
+    notifies :run, resources(:execute => "set data_dir permissions")
   end
 
   directory geoserver_logs_dir do
@@ -62,12 +65,6 @@ define :geoserver do
     recursive true
   end
 
-  # Download and deploy GeoServer
-  unredd_webapps_app geoserver_instance_name do
-    tomcat_instance geoserver_instance_name
-    download_url    params[:download_url]
-    user            tomcat_user
-  end
 
 
   # Configure postgis
