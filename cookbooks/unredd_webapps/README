@@ -1,8 +1,0 @@
-README
-
-TODO:
-  - check if the webapp version is new and deploy only in that case
-  - lots of repetitions - refactor, especially in deploy_geostores.rb
-  - put users and passwords in node parameters
-  - lots of parameters (geostore user, db user, passwords, urls, install directories, etc.) are hard coded, must be put in node attributes
-  - put downloaded files in another dir but /tmp
