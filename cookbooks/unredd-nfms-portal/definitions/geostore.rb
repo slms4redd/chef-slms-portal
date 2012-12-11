@@ -72,10 +72,10 @@ define :geostore do
   end
 
   geostore_postgresql_connection_info = { :host => "localhost", :username => geostore_db_user, :password => geostore_db_pwd }
-  # Create the stg and diss geostore tables and sequences and change owner
+  # Create the geostore tables and sequences
   postgresql_database "run script" do
     connection geostore_postgresql_connection_info
-    sql { ::File.open("/tmp/002_create_schema_postgres.sql").read }
+    sql { ::File.open("/tmp/create_schema_postgres.sql").read }
     database_name geostore_db
 
     action :query
@@ -120,7 +120,7 @@ define :geostore do
     #action :create_if_missing
   end
 
-  # Create init_categories file for stg and diss geostore
+  # Create init_categories file
   template "/var/#{geostore_instance_name}/init_categories.xml" do
     source "init_categories.xml.erb"
     owner tomcat_user
@@ -130,7 +130,7 @@ define :geostore do
     #action :create_if_missing
   end
 
-  # Download GeoStore and deploy dissemination and staging instances
+  # Download and deploy GeoStore
   unredd_nfms_portal_app "#{geostore_instance_name}" do
     tomcat_instance tomcat_instance_name
     download_url    params[:download_url]
