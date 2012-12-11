@@ -8,8 +8,12 @@ define :geoserver do
   geoserver_instance_name = params[:name]
   geoserver_data_dir      = params[:data_dir]
   geoserver_logs_dir      = params[:logs_dir]
+  geoserver_postgis_db    = params[:db]
+  geoserver_postgis_user  = params[:db_user]
+  geoserver_postgis_pwd   = params[:db_password]
+  tomcat_instance_name    = params[:tomcat_instance_name] || geoserver_instance_name
 
-  tomcat geoserver_instance_name do
+  tomcat tomcat_instance_name do
     user tomcat_user
     http_port     params[:tomcat_http_port]
     ajp_port      params[:tomcat_ajp_port]
@@ -72,9 +76,9 @@ define :geoserver do
 
   # CREATE USER diss_geoserver LOGIN PASSWORD 'admin' NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE;
   # TODO: check that the following corresponds to the above
-  postgresql_database_user geoserver_instance_name do
+  postgresql_database_user geoserver_postgis_user do
     connection postgresql_connection_info
-    password   'admin'
+    password   geoserver_postgis_pwd
     action     :create
   end
 
@@ -85,8 +89,16 @@ define :geoserver do
     template   'template_postgis'
     encoding   'DEFAULT'
     tablespace 'DEFAULT'
-    owner      geoserver_instance_name
+    owner      geoserver_postgis_user
     action     :create
     #connection_limit '-1'
   end
+
+  # Download and deploy GeoServer
+  unredd_webapps_app geoserver_instance_name do
+    tomcat_instance tomcat_instance_name
+    download_url    params[:download_url]
+    user            tomcat_user
+  end
+
 end

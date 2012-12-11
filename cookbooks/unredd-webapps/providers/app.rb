@@ -13,8 +13,6 @@ action :install do
     owner new_resource.user
     action :nothing
   end
-
-
   http_request "HEAD #{new_resource.download_url}" do
     message ""
     url new_resource.download_url
@@ -30,7 +28,7 @@ action :install do
     user new_resource.user
     #Chef::Log.info "#{new_resource.base}/#{new_resource.app_name}/webapps/#{new_resource.app_name}.war" # DEBUG
     command <<-EOH
-      cp /tmp/#{file_name} #{new_resource.base}/#{new_resource.app_name}/webapps/#{new_resource.app_name}.war
+      cp /tmp/#{file_name} #{new_resource.base}/#{new_resource.tomcat_instance}/webapps/#{new_resource.app_name}.war
     EOH
     # cp /tmp/#{file_name} /var/tomcat/diss_geoserver/webapps/diss_geoserver.war
     #command "cp /tmp/geoserver.zip /var/tomcat/diss_geoserver/webapps"

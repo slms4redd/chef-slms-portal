@@ -5,7 +5,50 @@ define :geostore do
 
   tomcat_user = node['tomcat']['user']
 
-  # Download the GeoStore postgres schema file
+  geostore_instance_name = params[:name]
+  #geoserver_data_dir     = params[:data_dir]
+  #geoserver_logs_dir     = params[:logs_dir]
+
+  tomcat geostore_instance_name do
+    user tomcat_user
+    shutdown_port params[:tomcat_shutdown_port]
+    ajp_port params[:tomcat_ajp_port]
+    http_port params[:tomcat_http_port]
+    jvm_opts [
+      "-server",
+      "-Xms#{params[:xms]}",
+      "-Xmx#{params[:xmx]}",
+      "-Dgeostore-ovr=#{node['unredd_webapps']['stg_geostore']['properties_ovr_file']}",
+      "-Duser.timezone=GMT"
+    ]
+    manage_config_file true
+  end
+
+  # Configure postgis
+  postgresql_connection_info = { :host => "localhost", :username => 'postgres', :password => node['postgresql']['password']['postgres'] }
+
+  # CREATE USER stg_geostore LOGIN PASSWORD 'admin' NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE;
+  # TODO: check that the following corresponds to the above
+  postgresql_database_user geostore_instance_name do
+    connection postgresql_connection_info
+    password   'admin'
+    action     :create
+  end
+
+  # createdb -O stg_geostore stg_geostore
+  # TODO: check that the following corresponds to the above
+  postgresql_database geostore_instance_name do
+    connection postgresql_connection_info
+    encoding   'DEFAULT'
+    tablespace 'DEFAULT'
+    owner      geostore_instance_name
+    action     :create
+    #connection_limit '-1'
+  end
+
+
+
+  # Download the geostore postgres schema file only if the remote source has changed (uses http_request resource)
   geostore_postgres_schema_file = '/tmp/002_create_schema_postgres.sql'
   geostore_postgres_schema_url  = 'https://raw.github.com/geosolutions-it/geostore/1.0.1/doc/sql/002_create_schema_postgres.sql'
 
@@ -23,27 +66,8 @@ define :geostore do
     end
     notifies :create, resources(:remote_file => geostore_postgres_schema_file), :immediately
   end
-
-  # Create stg_geostore user
-  execute "create stg_geostore user" do
-    user 'postgres'
-    command <<-EOH
-      echo "CREATE USER stg_geostore LOGIN PASSWORD 'admin'  NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE;" | psql
-    EOH
-
-    not_if 'psql -c "select * from pg_user where usename=\'stg_geostore\'" | grep -c stg_geostore', :user => 'postgres'
-  end
-
-  # Create stg_geostore database
-  execute "create stg_geostore database" do
-    user 'postgres'
-    command "createdb -O stg_geostore stg_geostore"
-
-    not_if 'psql -c "SELECT * from pg_database WHERE datname=\'stg_geostore\'" | grep -c stg_geostore', :user => 'postgres'
-  end
-
   # Create the stg and diss geostore tables and sequences and change owner
-  execute "configure postgis for stg_geostore" do
+  execute "configure geostore db" do
     user "postgres"
     # create the tables and sequences and change owner to stg_geostore
     command <<-EOH
@@ -55,12 +79,12 @@ define :geostore do
     
     #not_if 'blabla" | grep -c template_postgis', :user => 'postgres'
   end
-
+  
 
   directory "/var/stg_geostore" do
-    owner tomcat_user
-    #group "tomcat6"
-    mode "0755"
+    owner     tomcat_user
+    group     tomcat_user
+    recursive true
   end
 
 
@@ -108,3 +132,5 @@ define :geostore do
     user tomcat_user
   end
 end
+
+
