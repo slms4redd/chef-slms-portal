@@ -11,8 +11,7 @@ define :geostore do
   geostore_db_pwd               = params[:db_password]
   geostore_postgres_schema_url  = params[:postgres_schema_url]
   tomcat_instance_name          = params[:tomcat_instance_name] || geostore_instance_name
-  web_admin_user                = params[:web_admin_user]
-  web_admin_pwd                 = params[:web_admin_pwd]
+  
 
   tomcat geostore_instance_name do
     user tomcat_user
@@ -89,7 +88,7 @@ define :geostore do
   end
 
 
-  # Create datasource-ovr file for stg and diss geostore
+  # Create datasource-ovr file
   template "/var/#{geostore_instance_name}/geostore-datasource-ovr.properties" do
     source "geostore-datasource-ovr.properties.erb"
     owner tomcat_user
@@ -100,21 +99,20 @@ define :geostore do
       :password      => geostore_db_pwd,
       :instance_name => geostore_instance_name
     )
+
     #action :create_if_missing
-    #notifies :restart, "service[stg_geostore]", :delayed
   end
 
-  # Create init_users file for stg and diss geostore
+  # Create init_users file
   template "/var/#{geostore_instance_name}/init_users.xml" do
     source "init_users.xml.erb"
     owner tomcat_user
     mode "0755"
     variables(
-      :user     => web_admin_user,
-      :password => web_admin_pwd
+      :user     => params[:web_admin_user],
+      :password => params[:web_admin_pwd]
     )
     #action :create_if_missing
-    #notifies :restart, "service[stg_geostore]", :delayed
   end
 
   # Create init_categories file for stg and diss geostore
@@ -122,8 +120,8 @@ define :geostore do
     source "init_categories.xml.erb"
     owner tomcat_user
     mode "0755"
+
     #action :create_if_missing
-    #notifies :restart, "service[stg_geostore]", :delayed
   end
 
   # Download GeoStore and deploy dissemination and staging instances

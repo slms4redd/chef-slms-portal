@@ -5,6 +5,7 @@ TODO:
   - put users and passwords in node parameters
   - lots of parameters (geostore user, db user, passwords, urls, install directories, etc.) are hard coded, must be put in node attributes
   - put downloaded files in another dir but /tmp
+  - add apache proxy directives from definition (geobatch.rb, geoserver.rb, and geostore.rb)
   + Setup mod_proxy - now it blocks everything
 
 
