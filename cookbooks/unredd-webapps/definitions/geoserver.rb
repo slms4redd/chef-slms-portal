@@ -1,3 +1,6 @@
+require 'pathname'
+
+
 define :geoserver do
   include_recipe "unredd-webapps::apache2-conf"
   include_recipe "tomcat::base"
@@ -7,11 +10,14 @@ define :geoserver do
 
   geoserver_instance_name = params[:name]
   geoserver_data_dir      = params[:data_dir]
-  geoserver_logs_dir      = params[:logs_dir]
+  geoserver_log_location  = params[:log_location]
   geoserver_postgis_db    = params[:db]
   geoserver_postgis_user  = params[:db_user]
   geoserver_postgis_pwd   = params[:db_password]
   tomcat_instance_name    = params[:tomcat_instance_name] || geoserver_instance_name
+
+  geoserver_log_dir = Pathname.new(geoserver_log_location).parent.to_s
+
 
   tomcat tomcat_instance_name do
     user tomcat_user
@@ -63,7 +69,7 @@ define :geoserver do
     notifies :run, resources(:execute => "set data_dir permissions")
   end
 
-  directory geoserver_logs_dir do
+  directory geoserver_log_dir do
     owner     tomcat_user
     group     tomcat_user
     recursive true
@@ -84,7 +90,7 @@ define :geoserver do
 
   # createdb -O diss_geoserver -T template_postgis stg_geoserver
   # TODO: check that the following corresponds to the above
-  postgresql_database geoserver_instance_name do
+  postgresql_database geoserver_postgis_db do
     connection postgresql_connection_info
     template   'template_postgis'
     encoding   'DEFAULT'

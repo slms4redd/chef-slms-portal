@@ -6,3 +6,11 @@ TODO:
   - lots of parameters (geostore user, db user, passwords, urls, install directories, etc.) are hard coded, must be put in node attributes
   - put downloaded files in another dir but /tmp
   + Setup mod_proxy - now it blocks everything
+
+
+geostore users are initialized to:
+user                                                     role  pwd
+node['unredd_webapps']['stg_geostore']['web_admin_user'] ADMIN node['unredd_webapps']['stg_geostore']['web_admin_password']
+user                                                     USER  node['unredd_webapps']['stg_geostore']['web_admin_password']
+
+Please note that the user password is the same as the admin one

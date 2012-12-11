@@ -5,9 +5,14 @@ define :geostore do
 
   tomcat_user = node['tomcat']['user']
 
-  geostore_instance_name = params[:name]
-  #geoserver_data_dir     = params[:data_dir]
-  #geoserver_logs_dir     = params[:logs_dir]
+  geostore_instance_name        = params[:name]
+  geostore_db                   = params[:db]
+  geostore_db_user              = params[:db_user]
+  geostore_db_pwd               = params[:db_password]
+  geostore_postgres_schema_url  = params[:postgres_schema_url]
+  tomcat_instance_name          = params[:tomcat_instance_name] || geostore_instance_name
+  web_admin_user                = params[:web_admin_user]
+  web_admin_pwd                 = params[:web_admin_pwd]
 
   tomcat geostore_instance_name do
     user tomcat_user
@@ -18,7 +23,7 @@ define :geostore do
       "-server",
       "-Xms#{params[:xms]}",
       "-Xmx#{params[:xmx]}",
-      "-Dgeostore-ovr=#{node['unredd_webapps']['stg_geostore']['properties_ovr_file']}",
+      "-Dgeostore-ovr=#{params[:properties_ovr_file]}",
       "-Duser.timezone=GMT"
     ]
     manage_config_file true
@@ -27,21 +32,21 @@ define :geostore do
   # Configure postgis
   postgresql_connection_info = { :host => "localhost", :username => 'postgres', :password => node['postgresql']['password']['postgres'] }
 
-  # CREATE USER stg_geostore LOGIN PASSWORD 'admin' NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE;
+  # CREATE USER <geostore_db_user> LOGIN PASSWORD 'admin' NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE;
   # TODO: check that the following corresponds to the above
-  postgresql_database_user geostore_instance_name do
+  postgresql_database_user geostore_db_user do
     connection postgresql_connection_info
-    password   'admin'
+    password   geostore_db_pwd
     action     :create
   end
 
-  # createdb -O stg_geostore stg_geostore
+  # createdb -O <geostore_db_user> <geostore_db>
   # TODO: check that the following corresponds to the above
-  postgresql_database geostore_instance_name do
+  postgresql_database geostore_db do
     connection postgresql_connection_info
     encoding   'DEFAULT'
     tablespace 'DEFAULT'
-    owner      geostore_instance_name
+    owner      geostore_db_user
     action     :create
     #connection_limit '-1'
   end
@@ -49,10 +54,7 @@ define :geostore do
 
 
   # Download the geostore postgres schema file only if the remote source has changed (uses http_request resource)
-  geostore_postgres_schema_file = '/tmp/002_create_schema_postgres.sql'
-  geostore_postgres_schema_url  = 'https://raw.github.com/geosolutions-it/geostore/1.0.1/doc/sql/002_create_schema_postgres.sql'
-
-  remote_file geostore_postgres_schema_file do
+  remote_file '/tmp/create_schema_postgres.sql' do
     source geostore_postgres_schema_url
     owner 'postgres'
     action :nothing
@@ -61,27 +63,26 @@ define :geostore do
     message ""
     url geostore_postgres_schema_url
     action :head
-    if ::File.exists?(geostore_postgres_schema_file)
-      headers "If-Modified-Since" => ::File.mtime(geostore_postgres_schema_file).httpdate
+    if ::File.exists?('/tmp/create_schema_postgres.sql')
+      headers "If-Modified-Since" => ::File.mtime('/tmp/create_schema_postgres.sql').httpdate
     end
-    notifies :create, resources(:remote_file => geostore_postgres_schema_file), :immediately
+    notifies :create, resources(:remote_file => '/tmp/create_schema_postgres.sql'), :immediately
   end
+
+  geostore_postgresql_connection_info = { :host => "localhost", :username => geostore_db_user, :password => geostore_db_pwd }
   # Create the stg and diss geostore tables and sequences and change owner
-  execute "configure geostore db" do
-    user "postgres"
-    # create the tables and sequences and change owner to stg_geostore
-    command <<-EOH
-      psql -f /tmp/002_create_schema_postgres.sql stg_geostore
-      for tbl in `psql -qAt -c "select tablename from pg_tables where schemaname = 'public';" stg_geostore` ; do psql -c "alter table $tbl owner to stg_geostore" stg_geostore ; done
-      for tbl in `psql -qAt -c "select sequence_name from information_schema.sequences where sequence_schema = 'public';" stg_geostore` ; do psql -c "alter table $tbl owner to stg_geostore" stg_geostore ; done
-      for tbl in `psql -qAt -c "select table_name from information_schema.views where table_schema = 'public';" stg_geostore` ; do psql -c "alter table $tbl owner to stg_geostore" stg_geostore ; done
-    EOH
-    
-    #not_if 'blabla" | grep -c template_postgis', :user => 'postgres'
+  postgresql_database "run script" do
+    connection geostore_postgresql_connection_info
+    sql { ::File.open("/tmp/002_create_schema_postgres.sql").read }
+    database_name geostore_db
+
+    action :query
+
+    not_if 'psql -c "select * from pg_class where relname=\'gs_attribute\' and relkind=\'r\'" #{geostore_db} | grep -c gs_attribute', :user => 'postgres'
   end
   
 
-  directory "/var/stg_geostore" do
+  directory "/var/#{geostore_instance_name}" do
     owner     tomcat_user
     group     tomcat_user
     recursive true
@@ -89,35 +90,35 @@ define :geostore do
 
 
   # Create datasource-ovr file for stg and diss geostore
-  template "/var/stg_geostore/geostore-datasource-ovr.properties" do
+  template "/var/#{geostore_instance_name}/geostore-datasource-ovr.properties" do
     source "geostore-datasource-ovr.properties.erb"
     owner tomcat_user
     mode "0755"
     variables(
-      :database      => 'stg_geostore',
-      :username      => 'stg_geostore',
-      :password      => 'stg_geostore',
-      :instance_name => 'stg_geostore'
+      :database      => geostore_db,
+      :username      => geostore_db_user,
+      :password      => geostore_db_pwd,
+      :instance_name => geostore_instance_name
     )
     #action :create_if_missing
     #notifies :restart, "service[stg_geostore]", :delayed
   end
 
   # Create init_users file for stg and diss geostore
-  template "/var/stg_geostore/init_users.xml" do
+  template "/var/#{geostore_instance_name}/init_users.xml" do
     source "init_users.xml.erb"
     owner tomcat_user
     mode "0755"
     variables(
-      :user     => node['unredd_webapps']['stg_geostore']['web_admin_user'],
-      :password => node['unredd_webapps']['stg_geostore']['web_admin_password']
+      :user     => web_admin_user,
+      :password => web_admin_pwd
     )
     #action :create_if_missing
     #notifies :restart, "service[stg_geostore]", :delayed
   end
 
   # Create init_categories file for stg and diss geostore
-  template "/var/stg_geostore/init_categories.xml" do
+  template "/var/#{geostore_instance_name}/init_categories.xml" do
     source "init_categories.xml.erb"
     owner tomcat_user
     mode "0755"
@@ -126,8 +127,8 @@ define :geostore do
   end
 
   # Download GeoStore and deploy dissemination and staging instances
-  unredd_webapps_app "stg_geostore" do
-    tomcat_instance "stg_geostore"
+  unredd_webapps_app "#{geostore_instance_name}" do
+    tomcat_instance tomcat_instance_name
     download_url    params[:download_url]
     user tomcat_user
   end
