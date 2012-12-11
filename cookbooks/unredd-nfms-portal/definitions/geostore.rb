@@ -1,7 +1,10 @@
+# As we need two instances of GeoStore for the full NFMS portal we are using a definition
+
+
 define :geostore do
-  include_recipe "unredd-webapps::apache2-conf"
+  include_recipe "unredd-nfms-portal::apache2-conf"
   include_recipe "tomcat::base"
-  include_recipe "unredd-webapps::db-conf"
+  include_recipe "unredd-nfms-portal::db-conf"
 
   tomcat_user = node['tomcat']['user']
 
@@ -125,7 +128,7 @@ define :geostore do
   end
 
   # Download GeoStore and deploy dissemination and staging instances
-  unredd_webapps_app "#{geostore_instance_name}" do
+  unredd_nfms_portal_app "#{geostore_instance_name}" do
     tomcat_instance tomcat_instance_name
     download_url    params[:download_url]
     user tomcat_user

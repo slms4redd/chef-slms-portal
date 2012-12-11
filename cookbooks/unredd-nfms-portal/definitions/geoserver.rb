@@ -1,10 +1,12 @@
+# As we need two instances of GeoServer for the full NFMS portal we are using a definition
+
 require 'pathname'
 
 
 define :geoserver do
-  include_recipe "unredd-webapps::apache2-conf"
+  include_recipe "unredd-nfms-portal::apache2-conf"
   include_recipe "tomcat::base"
-  include_recipe "unredd-webapps::db-conf"
+  include_recipe "unredd-nfms-portal::db-conf"
 
   tomcat_user = node['tomcat']['user']
 
@@ -101,7 +103,7 @@ define :geoserver do
   end
 
   # Download and deploy GeoServer
-  unredd_webapps_app geoserver_instance_name do
+  unredd_nfms_portal_app geoserver_instance_name do
     tomcat_instance tomcat_instance_name
     download_url    params[:download_url]
     user            tomcat_user

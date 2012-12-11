@@ -29,7 +29,7 @@ Vagrant::Config.run do |config|
 
     chef.add_recipe "gis" # Needed to install PostGIS
 
-    chef.add_recipe "unredd-webapps"
+    chef.add_recipe "unredd-nfms-portal"
 
     chef.json = {
       # PostgreSQL configuration
