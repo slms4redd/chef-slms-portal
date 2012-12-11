@@ -12,7 +12,6 @@ geostore "stg_geostore" do
   db                   'stg_geostore'
   db_user              'stg_geostore'
   db_password          'admin'
-  postgres_schema_file '/tmp/002_create_schema_postgres.sql'
   postgres_schema_url  'https://raw.github.com/geosolutions-it/geostore/1.0.1/doc/sql/002_create_schema_postgres.sql'
 end
 
@@ -30,6 +29,5 @@ geostore "diss_geostore" do
   db                   'diss_geostore'
   db_user              'diss_geostore'
   db_password          'admin'
-  postgres_schema_file '/tmp/002_create_schema_postgres.sql'
   postgres_schema_url  'https://raw.github.com/geosolutions-it/geostore/1.0.1/doc/sql/002_create_schema_postgres.sql'
 end
