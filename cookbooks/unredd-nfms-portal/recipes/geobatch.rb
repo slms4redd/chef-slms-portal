@@ -9,10 +9,10 @@ tomcat "stg_geobatch" do
   http_port 8202
   jvm_opts [
     "-server",
-    "-Xms#{node['unredd_webapps']['stg_geobatch']['jvm_opts']['xms']}",
-    "-Xmx#{node['unredd_webapps']['stg_geobatch']['jvm_opts']['xmx']}",
-    "-DGEOBATCH_CONFIG_DIR=#{node['unredd_webapps']['stg_geobatch']['config_dir']}",
-    "-DGEOBATCH_TEMP_DIR=#{node['unredd_webapps']['stg_geobatch']['temp_dir']}",
+    "-Xms#{node['unredd-nfms-portal']['stg_geobatch']['jvm_opts']['xms']}",
+    "-Xmx#{node['unredd-nfms-portal']['unredd-nfms-portal']['jvm_opts']['xmx']}",
+    "-DGEOBATCH_CONFIG_DIR=#{node['unredd-nfms-portal']['stg_geobatch']['config_dir']}",
+    "-DGEOBATCH_TEMP_DIR=#{node['unredd-nfms-portal']['stg_geobatch']['temp_dir']}",
     "-Duser.timezone=GMT"
   ]
   manage_config_file true

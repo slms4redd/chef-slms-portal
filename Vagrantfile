@@ -77,7 +77,7 @@ Vagrant::Config.run do |config|
       },
 
       # The unredd webapps will be installed in /var/tomcat/<app_name> by the tomcat cookbook
-      :unredd_webapps => {
+      :'unredd-nfms-portal' => {
         # Configuration parameters for the unredd tomcat instances
         # These parameters are for a test virtual machie, leave the default one for a minimal server setup (or override them with bigger values)
         :stg_geostore => {

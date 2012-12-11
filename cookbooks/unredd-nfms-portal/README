@@ -11,7 +11,7 @@ TODO:
 
 geostore users are initialized to:
 user                                                     role  pwd
-node['unredd_webapps']['stg_geostore']['web_admin_user'] ADMIN node['unredd_webapps']['stg_geostore']['web_admin_password']
-user                                                     USER  node['unredd_webapps']['stg_geostore']['web_admin_password']
+node['unredd-nfms-portal']['stg_geostore']['web_admin_user'] ADMIN node['unredd-nfms-portal']['stg_geostore']['web_admin_password']
+user                                                     USER  node['unredd-nfms-portal']['stg_geostore']['web_admin_password']
 
 Please note that the user password is the same as the admin one
