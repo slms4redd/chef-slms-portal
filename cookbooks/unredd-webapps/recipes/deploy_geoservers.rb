@@ -2,7 +2,7 @@
 
 tomcat_user = node['tomcat']['user']
 
-require 'pathname'
+#require 'pathname'
 
 #catalina_parent = Pathname.new(node['tomcat']['home']).parent.to_s
 

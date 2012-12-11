@@ -26,13 +26,10 @@ action :install do
   # TODO: The app is deployed every time Chef runs, even if there's no chance - check for changes
   execute "deploy" do
     user new_resource.user
-    #Chef::Log.info "#{new_resource.base}/#{new_resource.app_name}/webapps/#{new_resource.app_name}.war" # DEBUG
+    destination = ::File.join(new_resource.base, new_resource.tomcat_instance, 'webapps', "#{new_resource.app_name}.war")
     command <<-EOH
-      cp /tmp/#{file_name} #{new_resource.base}/#{new_resource.tomcat_instance}/webapps/#{new_resource.app_name}.war
+      cp /tmp/#{file_name} #{destination}
     EOH
-    # cp /tmp/#{file_name} /var/tomcat/diss_geoserver/webapps/diss_geoserver.war
-    #command "cp /tmp/geoserver.zip /var/tomcat/diss_geoserver/webapps"
-
     action :run
   end
 end
