@@ -32,13 +32,13 @@ geoserver "diss_geoserver" do
   log_location         node['unredd_webapps']['diss_geoserver']['log_location']
 end
 
-# geostore "stg_geostore" do
-#   download_url         "http://nfms4redd.org/downloads/geoserver/geoserver-2.2+gdal+pyramid+flow.war"
-#   tomcat_http_port     8200
-#   tomcat_ajp_port      8100
-#   tomcat_shutdown_port 8020
-#   xms                  node['unredd_webapps']['stg_geostore']['jvm_opts']['xms']
-#   xmx                  node['unredd_webapps']['stg_geostore']['jvm_opts']['xmx']
-# end
+geostore "stg_geostore" do
+  download_url         "http://nfms4redd.org/downloads/geostore/nfms-geostore-1.0.1.war"
+  tomcat_http_port     8200
+  tomcat_ajp_port      8100
+  tomcat_shutdown_port 8020
+  xms                  node['unredd_webapps']['stg_geostore']['jvm_opts']['xms']
+  xmx                  node['unredd_webapps']['stg_geostore']['jvm_opts']['xmx']
+end
 
 #include_recipe "unredd_webapps::deploy_geostores"

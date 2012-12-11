@@ -128,7 +128,7 @@ define :geostore do
   # Download GeoStore and deploy dissemination and staging instances
   unredd_webapps_app "stg_geostore" do
     tomcat_instance "stg_geostore"
-    download_url "http://nfms4redd.org/downloads/geostore/nfms-geostore-1.0.1.zip"
+    download_url    params[:download_url]
     user tomcat_user
   end
 end

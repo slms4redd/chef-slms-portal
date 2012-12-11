@@ -5,4 +5,4 @@ TODO:
   - put users and passwords in node parameters
   - lots of parameters (geostore user, db user, passwords, urls, install directories, etc.) are hard coded, must be put in node attributes
   - put downloaded files in another dir but /tmp
-  - Setup mod_proxy - now it blocks everything
+  + Setup mod_proxy - now it blocks everything
