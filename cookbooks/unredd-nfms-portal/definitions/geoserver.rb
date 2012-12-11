@@ -71,7 +71,7 @@ define :geoserver do
     notifies :run, resources(:execute => "set data_dir permissions")
   end
 
-  directory geoserver_log_dir do
+  directory geoserver_data_dir do
     owner     tomcat_user
     group     tomcat_user
     recursive true

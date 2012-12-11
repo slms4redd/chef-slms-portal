@@ -95,6 +95,7 @@ define :geostore do
   template "/var/#{geostore_instance_name}/geostore-datasource-ovr.properties" do
     source "geostore-datasource-ovr.properties.erb"
     owner tomcat_user
+    group tomcat_user
     mode "0755"
     variables(
       :database      => geostore_db,
@@ -110,6 +111,7 @@ define :geostore do
   template "/var/#{geostore_instance_name}/init_users.xml" do
     source "init_users.xml.erb"
     owner tomcat_user
+    group tomcat_user
     mode "0755"
     variables(
       :user     => params[:web_admin_user],
@@ -122,6 +124,7 @@ define :geostore do
   template "/var/#{geostore_instance_name}/init_categories.xml" do
     source "init_categories.xml.erb"
     owner tomcat_user
+    group tomcat_user
     mode "0755"
 
     #action :create_if_missing
