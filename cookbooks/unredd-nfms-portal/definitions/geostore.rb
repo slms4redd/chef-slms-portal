@@ -72,14 +72,14 @@ define :geostore do
 
   geostore_postgresql_connection_info = { :host => "localhost", :username => geostore_db_user, :password => geostore_db_pwd }
   # Create the geostore tables and sequences
-  postgresql_database "run script" do
+  postgresql_database "create #{geostore_db} schema" do
     connection geostore_postgresql_connection_info
     sql { ::File.open("/var/tmp/create_schema_postgres.sql").read }
     database_name geostore_db
 
     action :query
 
-    not_if "psql -c \"select * from pg_class where relname='gs_attribute' and relkind='r'\" #{params[:db]} | grep -c gs_attribute", :user => 'postgres'
+    not_if "psql -c \"select * from pg_class where relname='gs_attribute' and relkind='r'\" #{geostore_db} | grep -c gs_attribute", :user => 'postgres'
   end
   
 
