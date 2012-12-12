@@ -56,7 +56,7 @@ define :geostore do
 
 
   # Download the geostore postgres schema file only if the remote source has changed (uses http_request resource)
-  remote_file '/tmp/create_schema_postgres.sql' do
+  remote_file '/var/tmp/create_schema_postgres.sql' do
     source geostore_postgres_schema_url
     owner 'postgres'
     action :nothing
@@ -65,22 +65,22 @@ define :geostore do
     message ""
     url geostore_postgres_schema_url
     action :head
-    if ::File.exists?('/tmp/create_schema_postgres.sql')
-      headers "If-Modified-Since" => ::File.mtime('/tmp/create_schema_postgres.sql').httpdate
+    if ::File.exists?('/var/tmp/create_schema_postgres.sql')
+      headers "If-Modified-Since" => ::File.mtime('/var/tmp/create_schema_postgres.sql').httpdate
     end
-    notifies :create, resources(:remote_file => '/tmp/create_schema_postgres.sql'), :immediately
+    notifies :create, resources(:remote_file => '/var/tmp/create_schema_postgres.sql'), :immediately
   end
 
   geostore_postgresql_connection_info = { :host => "localhost", :username => geostore_db_user, :password => geostore_db_pwd }
   # Create the geostore tables and sequences
   postgresql_database "run script" do
     connection geostore_postgresql_connection_info
-    sql { ::File.open("/tmp/create_schema_postgres.sql").read }
+    sql { ::File.open("/var/tmp/create_schema_postgres.sql").read }
     database_name geostore_db
 
     action :query
 
-    not_if 'psql -c "select * from pg_class where relname=\'gs_attribute\' and relkind=\'r\'" #{geostore_db} | grep -c gs_attribute', :user => 'postgres'
+    not_if "psql -c \"select * from pg_class where relname='gs_attribute' and relkind='r'\" #{geostore_db} | grep -c gs_attribute", :user => 'postgres'
   end
   
 
