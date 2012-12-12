@@ -45,18 +45,8 @@ define :geoserver do
 
   # Create GeoServer data and log directories
 
-  # Permission of some directories are not set correcly by the remote_directory resource
+  # Permission of some directories are not set correctly by the remote_directory resource
   # so set them using chown/chmod
-  execute "set #{geoserver_data_dir} permissions" do
-    user "root"  
-    command <<-EOH
-      chown -R #{tomcat_user}:#{tomcat_user} #{geoserver_data_dir}
-      find #{geoserver_data_dir} -type d -exec chmod 755 {} \\;
-      find #{geoserver_data_dir} -type f -exec chmod 644 {} \\;
-    EOH
-
-    action :nothing
-  end
 
   directory geoserver_data_dir do
     owner     tomcat_user
@@ -69,9 +59,20 @@ define :geoserver do
     recursive true
   end
 
+  execute "set #{geoserver_data_dir} permissions" do
+    user "root"  
+    command <<-EOH
+      chown -R #{tomcat_user}:#{tomcat_user} #{geoserver_data_dir}
+      find #{geoserver_data_dir} -type d -exec chmod 755 {} \\;
+      find #{geoserver_data_dir} -type f -exec chmod 644 {} \\;
+    EOH
+
+    action :nothing
+  end
+
   remote_directory geoserver_data_dir do
     source      "geoserver_data_dir"
-    files_owner tomcat_user
+    #files_owner tomcat_user
     #owner       tomcat_user
     #group       tomcat_user
     #mode        "644"

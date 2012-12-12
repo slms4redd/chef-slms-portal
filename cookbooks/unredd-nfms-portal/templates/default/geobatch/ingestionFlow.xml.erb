@@ -18,7 +18,7 @@
 
 		<!-- Place here the absolute path of your ingestion dir. Geobatch continuosly watch there for new inputs -->
 		<!-- SUGGESTION: keep the watch dir into GEOBATCH_CONFIG_DIR and externalize it outside the application deploy (see documentation) -->
-		<watchDirectory>{WATCH_DIRECTORY}</watchDirectory>
+		<watchDirectory><%= @ingestion_input_dir %></watchDirectory>
 		<wildCard>*.zip</wildCard>
 
 		<osType>OS_UNDEFINED</osType>
@@ -36,7 +36,7 @@
 
 		<!-- First and only Action configuration -->
 		<IngestionConfiguration>
-			<overrideConfigDir>{WATCH_DIRECTORY}</overrideConfigDir>
+			<overrideConfigDir><%= @ingestion_config_override_dir %></overrideConfigDir>
 			<serviceID>IngestionGeneratorService</serviceID>
 
 			<id>ingestionFlow</id>
@@ -51,7 +51,7 @@
 
 			<!-- the directory where save the input if the ingestion terminates with no errors -->
 			<!-- ATTENTION: At today 04/10/2012 this feature isn't implemented yet but you have to setup this dir anyway-->
-			<originalDataTargetDir>{ORIGINAL_DATA_DIR}</originalDataTargetDir>
+			<originalDataTargetDir><%= @original_data_dir %></originalDataTargetDir>
 
 			<!-- The Url and credentials of the Staging Geostore -->
 			<geoStoreConfig>
