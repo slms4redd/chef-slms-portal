@@ -54,7 +54,6 @@ define :geostore do
   end
 
 
-
   # Download the geostore postgres schema file only if the remote source has changed (uses http_request resource)
   remote_file '/var/tmp/create_schema_postgres.sql' do
     source geostore_postgres_schema_url
@@ -80,7 +79,7 @@ define :geostore do
 
     action :query
 
-    not_if "psql -c \"select * from pg_class where relname='gs_attribute' and relkind='r'\" #{geostore_db} | grep -c gs_attribute", :user => 'postgres'
+    not_if "psql -c \"select * from pg_class where relname='gs_attribute' and relkind='r'\" #{params[:db]} | grep -c gs_attribute", :user => 'postgres'
   end
   
 
