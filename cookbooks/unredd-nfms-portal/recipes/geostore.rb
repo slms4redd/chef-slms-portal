@@ -1,5 +1,6 @@
 geostore "stg_geostore" do
   download_url         node['unredd-nfms-portal']['geostore_download_url']
+  root_dir             node['unredd-nfms-portal']['stg_geostore']['root_dir']
   tomcat_instance_name node['unredd-nfms-portal']['stg_geostore']['tomcat_instance_name']
   tomcat_http_port     node['unredd-nfms-portal']['stg_geostore']['tomcat_http_port']
   tomcat_ajp_port      node['unredd-nfms-portal']['stg_geostore']['tomcat_ajp_port']
@@ -17,6 +18,7 @@ end
 
 geostore "diss_geostore" do
   download_url         node['unredd-nfms-portal']['geostore_download_url']
+  root_dir             node['unredd-nfms-portal']['diss_geostore']['root_dir']
   tomcat_instance_name node['unredd-nfms-portal']['diss_geostore']['tomcat_instance_name']
   tomcat_http_port     node['unredd-nfms-portal']['diss_geostore']['tomcat_http_port']
   tomcat_ajp_port      node['unredd-nfms-portal']['diss_geostore']['tomcat_ajp_port']

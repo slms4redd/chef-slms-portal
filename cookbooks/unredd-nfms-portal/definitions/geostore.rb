@@ -8,13 +8,15 @@ define :geostore do
 
   tomcat_user = node['tomcat']['user']
 
-  geostore_instance_name        = params[:name]
-  geostore_db                   = params[:db]
-  geostore_db_user              = params[:db_user]
-  geostore_db_pwd               = params[:db_password]
-  geostore_postgres_schema_url  = params[:postgres_schema_url]
-  tomcat_instance_name          = params[:tomcat_instance_name] || geostore_instance_name
+  root_dir                     = params[:root_dir]
+  geostore_instance_name       = params[:name]
+  geostore_db                  = params[:db]
+  geostore_db_user             = params[:db_user]
+  geostore_db_pwd              = params[:db_password]
+  geostore_postgres_schema_url = params[:postgres_schema_url]
+  tomcat_instance_name         = params[:tomcat_instance_name] || geostore_instance_name
   
+  temp_dir = '/var/tmp'
 
   tomcat geostore_instance_name do
     user tomcat_user
@@ -25,7 +27,7 @@ define :geostore do
       "-server",
       "-Xms#{params[:xms]}",
       "-Xmx#{params[:xmx]}",
-      "-Dgeostore-ovr=/var/#{geostore_instance_name}/geostore-datasource-ovr.properties",
+      "-Dgeostore-ovr={root_dir}/#{geostore_instance_name}/geostore-datasource-ovr.properties",
       "-Duser.timezone=GMT"
     ]
     manage_config_file true
@@ -55,7 +57,7 @@ define :geostore do
 
 
   # Download the geostore postgres schema file only if the remote source has changed (uses http_request resource)
-  remote_file '/var/tmp/create_schema_postgres.sql' do
+  remote_file "#{temp_dir}/create_schema_postgres.sql" do
     source geostore_postgres_schema_url
     owner 'postgres'
     action :nothing
@@ -64,17 +66,17 @@ define :geostore do
     message ""
     url geostore_postgres_schema_url
     action :head
-    if ::File.exists?('/var/tmp/create_schema_postgres.sql')
-      headers "If-Modified-Since" => ::File.mtime('/var/tmp/create_schema_postgres.sql').httpdate
+    if ::File.exists?("#{temp_dir}/create_schema_postgres.sql")
+      headers "If-Modified-Since" => ::File.mtime("#{temp_dir}/create_schema_postgres.sql").httpdate
     end
-    notifies :create, resources(:remote_file => '/var/tmp/create_schema_postgres.sql'), :immediately
+    notifies :create, resources(:remote_file => "#{temp_dir}/create_schema_postgres.sql"), :immediately
   end
 
   geostore_postgresql_connection_info = { :host => "localhost", :username => geostore_db_user, :password => geostore_db_pwd }
   # Create the geostore tables and sequences
   postgresql_database "create #{geostore_db} schema" do
     connection geostore_postgresql_connection_info
-    sql { ::File.open("/var/tmp/create_schema_postgres.sql").read }
+    sql { ::File.open("#{temp_dir}/create_schema_postgres.sql").read }
     database_name geostore_db
 
     action :query
@@ -83,7 +85,7 @@ define :geostore do
   end
   
 
-  directory "/var/#{geostore_instance_name}" do
+  directory "#{root_dir}/#{geostore_instance_name}" do
     owner     tomcat_user
     group     tomcat_user
     mode "0755"
@@ -92,7 +94,7 @@ define :geostore do
 
 
   # Create datasource-ovr file
-  template "/var/#{geostore_instance_name}/geostore-datasource-ovr.properties" do
+  template "#{root_dir}/#{geostore_instance_name}/geostore-datasource-ovr.properties" do
     source "geostore-datasource-ovr.properties.erb"
     owner tomcat_user
     group tomcat_user
@@ -108,7 +110,7 @@ define :geostore do
   end
 
   # Create init_users file
-  template "/var/#{geostore_instance_name}/init_users.xml" do
+  template "#{root_dir}/#{geostore_instance_name}/init_users.xml" do
     source "init_users.xml.erb"
     owner tomcat_user
     group tomcat_user
@@ -121,7 +123,7 @@ define :geostore do
   end
 
   # Create init_categories file
-  template "/var/#{geostore_instance_name}/init_categories.xml" do
+  template "#{root_dir}/#{geostore_instance_name}/init_categories.xml" do
     source "init_categories.xml.erb"
     owner tomcat_user
     group tomcat_user
