@@ -47,13 +47,26 @@ define :geoserver do
 
   # Permission of some directories are not set correcly by the remote_directory resource
   # so set them using chown/chmod
-  execute "set data_dir permissions" do
+  execute "set #{geoserver_data_dir} permissions" do
     user "root"  
     command <<-EOH
-      sudo chown -R #{tomcat_user}:#{tomcat_user} #{geoserver_data_dir}
-      sudo chmod -R 755 #{geoserver_data_dir}
+      chown -R #{tomcat_user}:#{tomcat_user} #{geoserver_data_dir}
+      find #{geoserver_data_dir} -type d -exec chmod 755 {} \\;
+      find #{geoserver_data_dir} -type f -exec chmod 644 {} \\;
     EOH
+
     action :nothing
+  end
+
+  directory geoserver_data_dir do
+    owner     tomcat_user
+    group     tomcat_user
+    recursive true
+  end
+  directory geoserver_log_dir do
+    owner     tomcat_user
+    group     tomcat_user
+    recursive true
   end
 
   remote_directory geoserver_data_dir do
@@ -66,17 +79,13 @@ define :geoserver do
     #files_group tomcat_user
     #files_mode  "755"
 
+    overwrite false
+    purge false
+
     not_if { ::File.exists?(geoserver_data_dir) }
 
-    notifies :run, resources(:execute => "set data_dir permissions")
+    notifies :run, resources(:execute => "set #{geoserver_data_dir} permissions")
   end
-
-  directory geoserver_data_dir do
-    owner     tomcat_user
-    group     tomcat_user
-    recursive true
-  end
-
 
 
   # Configure postgis

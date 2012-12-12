@@ -2,6 +2,7 @@
 
 tomcat_user = node['tomcat']['user']
 
+
 tomcat "stg_geobatch" do
   user tomcat_user
   shutdown_port 8022

@@ -25,7 +25,7 @@ define :geostore do
       "-server",
       "-Xms#{params[:xms]}",
       "-Xmx#{params[:xmx]}",
-      "-Dgeostore-ovr=#{params[:properties_ovr_file]}",
+      "-Dgeostore-ovr=/var/#{geostore_instance_name}/geostore-datasource-ovr.properties",
       "-Duser.timezone=GMT"
     ]
     manage_config_file true
@@ -86,6 +86,7 @@ define :geostore do
   directory "/var/#{geostore_instance_name}" do
     owner     tomcat_user
     group     tomcat_user
+    mode "0755"
     recursive true
   end
 
