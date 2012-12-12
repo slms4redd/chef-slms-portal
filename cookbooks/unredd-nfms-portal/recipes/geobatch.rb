@@ -14,7 +14,7 @@ end
 # Permission of some directories are not set correctly by the remote_directory resource
 # so set them using chown/chmod
 execute "set #{geobatch_base} permissions" do
-  user "root"  
+  user "root"
   command <<-EOH
     chown -R #{tomcat_user}:#{tomcat_user} #{geobatch_base}
     find #{geobatch_base} -type d -exec chmod 755 {} \\;
@@ -42,25 +42,10 @@ template "#{geobatch_base}/config/ingestionFlow.xml" do
     :ingestion_input_dir           => "#{geobatch_base}/input/ingest",
     :ingestion_config_override_dir => "#{geobatch_base}/config/ingestionFlow",
     :original_data_dir             => "#{geobatch_base}/orig",
-    :XXX => XXX,
-    :XXX => XXX,
-    :XXX => XXX,
-    :XXX => XXX,
-    :XXX => XXX,
-    :XXX => XXX,
-    :XXX => XXX,
-    :XXX => XXX,
-    :XXX => XXX,
-    :XXX => XXX,
-    :XXX => XXX,
-    :XXX => XXX,
-    :XXX => XXX,
-    :XXX => XXX,
-    :XXX => XXX,
+    :XXX => 'XXX',
+    :XXX => 'XXX',
+    :XXX => 'XXX'
   )
-  if ::File.exists?("#{node['apache']['dir']}/sites-enabled/#{application_name}.conf")
-    notifies :reload, resources(:service => "apache2"), :delayed
-  end
 end
 
 
@@ -135,4 +120,4 @@ end
 #     mode "0774"
 #     variables( :session_timeout => new_resource.session_timeout )
 #     action :create
-#   end  
+#   end
