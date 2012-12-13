@@ -4,9 +4,9 @@ require 'pathname'
 
 
 define :geoserver do
-  include_recipe "unredd-nfms-portal::apache2-conf"
+  include_recipe "unredd-nfms-portal::apache2_conf"
   include_recipe "tomcat::base"
-  include_recipe "unredd-nfms-portal::db-conf"
+  include_recipe "unredd-nfms-portal::db_conf"
 
   tomcat_user = node['tomcat']['user']
 
@@ -60,7 +60,7 @@ define :geoserver do
   end
 
   execute "set #{geoserver_data_dir} permissions" do
-    user "root"  
+    user "root"
     command <<-EOH
       chown -R #{tomcat_user}:#{tomcat_user} #{geoserver_data_dir}
       find #{geoserver_data_dir} -type d -exec chmod 755 {} \\;

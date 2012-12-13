@@ -1,25 +1,25 @@
-#case node['platform']
-#when "ubuntu"
-  #package "chkconfig"
+# Configure PostGIS
+execute "configure postgis" do
+  user "postgres"
+  command <<-EOH
+  createdb template_postgis
+  psql -d template_postgis -c "UPDATE pg_database SET datistemplate=true WHERE datname='template_postgis'"
+  psql -d template_postgis -f /usr/share/postgresql/9.1/contrib/postgis-2.0/postgis.sql
+  psql -d template_postgis -f /usr/share/postgresql/9.1/contrib/postgis-2.0/spatial_ref_sys.sql
+  psql -d template_postgis -f /usr/share/postgresql/9.1/contrib/postgis-2.0/postgis_comments.sql
+  EOH
 
-  # Configure PostGIS
-  execute "configure postgis" do
-    user "postgres"  
-    command <<-EOH    
-    createdb template_postgis
-    psql -d template_postgis -c "UPDATE pg_database SET datistemplate=true WHERE datname='template_postgis'"
-    psql -d template_postgis -f /usr/share/postgresql/9.1/contrib/postgis-2.0/postgis.sql
-    psql -d template_postgis -f /usr/share/postgresql/9.1/contrib/postgis-2.0/spatial_ref_sys.sql
-    psql -d template_postgis -f /usr/share/postgresql/9.1/contrib/postgis-2.0/postgis_comments.sql
-    EOH
-
-    not_if 'psql -t -c "select datname from pg_catalog.pg_database where datname = \'template_postgis\'" | grep -c template_postgis', :user => 'postgres'
-  end
+  not_if 'psql -t -c "select datname from pg_catalog.pg_database where datname = \'template_postgis\'" | grep -c template_postgis', :user => 'postgres'
+end
 
 
-  #############################################################################
-  # Create users
-  #############################################################################
+# case node['platform']
+# when "ubuntu"
+#   #package "chkconfig"
+
+#   #############################################################################
+#   # Create users
+#   #############################################################################
 
 #   # Create stg_geostore user
 #   execute "create stg_geostore user" do
@@ -50,7 +50,7 @@
 
 #     not_if 'psql -c "select * from pg_user where usename=\'stg_geoserver\'" | grep -c stg_geoserver', :user => 'postgres'
 #   end
-  
+
 #   # Create diss_geoserver user
 #   execute "create diss_geoserver user" do
 #     user 'postgres'
@@ -61,7 +61,7 @@
 #     not_if 'psql -c "select * from pg_user where usename=\'diss_geoserver\'" | grep -c diss_geoserver', :user => 'postgres'
 #   end
 
-  
+
 #   #############################################################################
 #   # Create databases
 #   #############################################################################

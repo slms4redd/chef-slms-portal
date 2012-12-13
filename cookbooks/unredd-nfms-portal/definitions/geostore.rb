@@ -2,9 +2,9 @@
 
 
 define :geostore do
-  include_recipe "unredd-nfms-portal::apache2-conf"
+  include_recipe "unredd-nfms-portal::apache2_conf"
   include_recipe "tomcat::base"
-  include_recipe "unredd-nfms-portal::db-conf"
+  include_recipe "unredd-nfms-portal::db_conf"
 
   tomcat_user = node['tomcat']['user']
 
@@ -98,7 +98,7 @@ define :geostore do
     source "geostore-datasource-ovr.properties.erb"
     owner tomcat_user
     group tomcat_user
-    mode "0755"
+    mode "0644"
     variables(
       :database      => geostore_db,
       :username      => geostore_db_user,
@@ -114,7 +114,7 @@ define :geostore do
     source "init_users.xml.erb"
     owner tomcat_user
     group tomcat_user
-    mode "0755"
+    mode "0644"
     variables(
       :user     => params[:web_admin_user],
       :password => params[:web_admin_pwd]
@@ -127,7 +127,7 @@ define :geostore do
     source "init_categories.xml.erb"
     owner tomcat_user
     group tomcat_user
-    mode "0755"
+    mode "0644"
 
     #action :create_if_missing
   end
