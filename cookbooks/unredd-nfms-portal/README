@@ -8,6 +8,8 @@ TODO:
   - add geobatch
   - add admin ui
   - add portal front end
+  - GeoServer users and passwords are the the default ones - put in some node attibutes or generate dynamically, and set both in geoserver and in geobatch config
+  - Dynamically set schema in geobatch config (now set to public)
   + put users and passwords in node parameters
   + put downloaded files in another dir but /tmp
   + Setup mod_proxy - now it blocks everything

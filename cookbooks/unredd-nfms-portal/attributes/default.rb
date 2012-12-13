@@ -65,7 +65,7 @@ default['unredd-nfms-portal']['diss_geoserver']['log_location']         = '/var/
 
 
 # Staging GeoBatch
-default['unredd-nfms-portal']['diss_geoserver']['root_dir']     = '/var/geobatch'
+default['unredd-nfms-portal']['stg_geobatch']['root_dir']        = '/var/stg_geobatch'
 default['unredd-nfms-portal']['stg_geobatch']['jvm_opts']['xms'] = '2048m'
 default['unredd-nfms-portal']['stg_geobatch']['jvm_opts']['xmx'] = '2048m'
 default['unredd-nfms-portal']['stg_geobatch']['config_dir']      = '/var/stg_geobatch/config'

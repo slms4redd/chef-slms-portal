@@ -1,156 +1,152 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <FlowConfiguration>
 
-	<!-- REPLACE ALL BRACKET ENCLOSING VALUE with your custom value -->
-	<!-- Example <watchDirectory>{WATCH_DIRECTORY}</watchDirectory> becomes <watchDirectory>/var/geobatch/input/ingestion</watchDirectory>  -->
+  <!-- ID MUST be the same as file name -->
+  <id>ingestionFlow</id>
+  <name>UNREDD_ingestion_flow</name>
+  <description>UNREDD - Ingest time granules for predefined raster or vector layers and process data. See Documentation for input zip archive description.</description>
 
+  <autorun>true</autorun>
 
-	<!-- ID MUST be the same as file name -->
-	<id>ingestionFlow</id>
-	<name>UNREDD_ingestion_flow</name>
-	<description>UNREDD - Ingest time granules for predefined raster or vector layers and process data. See Documentation for input zip archive description.</description>
+  <EventGeneratorConfiguration>
+    <id>ingestEGC</id>
+    <serviceID>fsEventGeneratorService</serviceID>
 
-	<autorun>true</autorun>
+    <!-- Place here the absolute path of your ingestion dir. Geobatch continuosly watch there for new inputs -->
+    <!-- SUGGESTION: keep the watch dir into GEOBATCH_CONFIG_DIR and externalize it outside the application deploy (see documentation) -->
+    <watchDirectory><%= node['unredd-nfms-portal']['stg_geobatch']['root_dir'] %>/input/ingest</watchDirectory>
+    <wildCard>*.zip</wildCard>
 
-	<EventGeneratorConfiguration>
-		<id>ingestEGC</id>
-		<serviceID>fsEventGeneratorService</serviceID>
+    <osType>OS_UNDEFINED</osType>
+    <eventType>FILE_ADDED</eventType>
+  </EventGeneratorConfiguration>
 
-		<!-- Place here the absolute path of your ingestion dir. Geobatch continuosly watch there for new inputs -->
-		<!-- SUGGESTION: keep the watch dir into GEOBATCH_CONFIG_DIR and externalize it outside the application deploy (see documentation) -->
-		<watchDirectory><%= @ingestion_input_dir %></watchDirectory>
-		<wildCard>*.zip</wildCard>
+  <EventConsumerConfiguration>
+    <id>ingestionECC</id>
 
-		<osType>OS_UNDEFINED</osType>
-		<eventType>FILE_ADDED</eventType>
-	</EventGeneratorConfiguration>
+    <listenerId>IngestionConsumerLogger0</listenerId>
+    <listenerId>IngestionCumulator0</listenerId>
+    <listenerId>IngestionStatusActionLogger0</listenerId>
 
-	<EventConsumerConfiguration>
-		<id>ingestionECC</id>
+    <performBackup>false</performBackup>
 
-		<listenerId>IngestionConsumerLogger0</listenerId>
-		<listenerId>IngestionCumulator0</listenerId>
-		<listenerId>IngestionStatusActionLogger0</listenerId>
+    <!-- First and only Action configuration -->
+    <IngestionConfiguration>
+      <overrideConfigDir><%= node['unredd-nfms-portal']['stg_geobatch']['root_dir'] %>/config/ingestionFlow</overrideConfigDir>
+      <serviceID>IngestionGeneratorService</serviceID>
 
-		<performBackup>false</performBackup>
+      <id>ingestionFlow</id>
+      <name>UNREDD_ingestion_flow</name>
+      <description>UNREDD - Ingest time granules for predefined raster or vector layers and process data</description>
 
-		<!-- First and only Action configuration -->
-		<IngestionConfiguration>
-			<overrideConfigDir><%= @ingestion_config_override_dir %></overrideConfigDir>
-			<serviceID>IngestionGeneratorService</serviceID>
+      <listenerId>IngestionConsumerLogger0</listenerId>
+      <listenerId>IngestionCumulator0</listenerId>
+      <listenerId>IngestionStatusActionLogger0</listenerId>
 
-			<id>ingestionFlow</id>
-			<name>UNREDD_ingestion_flow</name>
-			<description>UNREDD - Ingest time granules for predefined raster or vector layers and process data</description>
+      <failIgnored>false</failIgnored>
 
-			<listenerId>IngestionConsumerLogger0</listenerId>
-			<listenerId>IngestionCumulator0</listenerId>
-			<listenerId>IngestionStatusActionLogger0</listenerId>
+      <!-- the directory where save the input if the ingestion terminates with no errors -->
+      <!-- ATTENTION: At today 04/10/2012 this feature isn't implemented yet but you have to setup this dir anyway-->
+      <originalDataTargetDir><%= node['unredd-nfms-portal']['stg_geobatch']['root_dir'] %>/orig</originalDataTargetDir>
 
-			<failIgnored>false</failIgnored>
+      <!-- The Url and credentials of the Staging Geostore -->
+      <geoStoreConfig>
+        <url>http://localhost/stg_geostore/rest</url> <!-- TODO: parametrize -->
+        <username><%= node['unredd-nfms-portal']['stg_geostore']['web_admin_user'] %></username>
+        <password><%= node['unredd-nfms-portal']['stg_geostore']['web_admin_password'] %></password>
+      </geoStoreConfig>
 
-			<!-- the directory where save the input if the ingestion terminates with no errors -->
-			<!-- ATTENTION: At today 04/10/2012 this feature isn't implemented yet but you have to setup this dir anyway-->
-			<originalDataTargetDir><%= @original_data_dir %></originalDataTargetDir>
+      <!-- Credentials and path for the staging Postgis used by geoserver for store infos about ImageMosaic granules ingested-->
+      <!-- host and port are the postgis default, change it if your deploy has different setup -->
+      <postGisConfig>
+        <host>localhost</host>
+        <port>5432</port>
+        <database><%= node['unredd-nfms-portal']['stg_geoserver']['db'] %></database>
+        <schema>public</schema> <!-- TODO: parametrize -->
+        <!-- The user must have at least insert ad select grants -->
+        <username><%= node['unredd-nfms-portal']['stg_geoserver']['db_user'] %></username>
+        <password><%= node['unredd-nfms-portal']['stg_geoserver']['db_password'] %></password>
+      </postGisConfig>
+      
+      <!-- Staging geoserver configuration -->
+      <geoServerConfig>
+        <id>stgeGS</id>
+        <name>stgeGS</name>
+        <description>The staging geoserver</description>
 
-			<!-- The Url and credentials of the Staging Geostore -->
-			<geoStoreConfig>
-				<url>http://localhost:{PORT}/{STAGING_GEOSTORE_CONTEXT_NAME}/rest</url>
-				<username>{USERNAME}</username>
-				<password>{PASSWORD}</password>
-			</geoStoreConfig>
+        <failIgnored>false</failIgnored>
+        <!-- Credentials and path for the staging Geoserver -->
+        <geoserverURL>http://localhost/stg_geoserver</geoserverURL>
+        <geoserverUID>admin</geoserverUID>     <!-- TODO: parametrize -->
+        <geoserverPWD>geoserver</geoserverPWD> <!-- TODO: parametrize -->
+        <workspace>unredd</workspace>          <!-- TODO: parametrize -->
+      </geoServerConfig>
 
-			<!-- Credentials and path for the staging Postgis used by geoserver for store infos about ImageMosaic granules ingested-->
-			<!-- host and port are the postgis default, change it if your deploy has different setup -->
-			<postGisConfig>
-				<host>localhost</host>
-				<port>5432</port>
-				<database>{DB_NAME}</database>
-				<schema>{DB_SCHEMA}</schema>
-				<!-- The user must have at least insert ad select grants -->
-				<username>{USERNAME}</username>
-				<password>{PASSWORD}</password>
-			</postGisConfig>
-			
-			<!-- Staging geoserver configuration -->
-			<geoServerConfig>
-				<id>stgeGS</id>
-				<name>stgeGS</name>
-				<description>The staging geoserver</description>
+      <!-- Gdal rasterize, used for create a raster file during vector layerUpdate ingestion -->
+      <rasterizeConfig>
+        <executable>gdal_rasterize</executable> <!-- for example: gdal_rasterize -->
+        <taskExecutorXslFileName><%= node['unredd-nfms-portal']['stg_geobatch']['root_dir'] %>/config/ingestionFlow/gdalrasterize.xsl</taskExecutorXslFileName> <!--  for example:  [path_to]/gdalrasterize.xsl -->
+        <freeMarkerTemplate><%= node['unredd-nfms-portal']['stg_geobatch']['root_dir'] %>/config/ingestionFlow/gdalrasterize.xml</freeMarkerTemplate> <!--  for example:  [path_to]/gdalrasterize.xml -->
+      </rasterizeConfig>
 
-				<failIgnored>false</failIgnored>
-				<!-- Credentials and path for the staging Geoserver -->
-				<geoserverURL>http://localhost:{PORT}/{STAGING_GEOSERVER_CONTEXT_NAME}</geoserverURL>
-				<geoserverUID>{USERNAME}</geoserverUID>
-				<geoserverPWD>{PASSWORD}</geoserverPWD>
-				<workspace>{WORKSPACE_NAME}</workspace>
-			</geoServerConfig>
+      <overviewsEmbedderConfiguration>
+        <id>overviewEmbedder</id>
+        <name>overviewEmbedder</name>
+        <description>Generate Overviews for a given Geotiff</description>
+        <failIgnored>false</failIgnored>
 
-			<!-- Gdal rasterize, used for create a raster file during vector layerUpdate ingestion -->
-			<rasterizeConfig>
-				<executable>{GDAL_EXECUTABLE}</executable> <!-- for example: gdal_rasterize -->
-				<taskExecutorXslFileName>{XSL_FILENAME}</taskExecutorXslFileName> <!--  for example:  [path_to]/gdalrasterize.xsl -->
-				<freeMarkerTemplate>{XML_FILE_NAME}</freeMarkerTemplate> <!--  for example:  [path_to]/gdalrasterize.xml -->
-			</rasterizeConfig>
+        <JAICapacity>0</JAICapacity>
+        <compressionRatio>0.75</compressionRatio>
+        <compressionScheme>Nearest</compressionScheme> <!-- Nearest, Bilinear, Bicubic, Average, Filtered; -->
+        <downsampleStep>2</downsampleStep>
+        <numSteps>10</numSteps>
+        <tileH>512</tileH>
+        <tileW>512</tileW>
+        <wildcardString>*.*</wildcardString>
+        <logNotification>true</logNotification>
+        <interp>0</interp>
+      </overviewsEmbedderConfiguration>
 
-			<overviewsEmbedderConfiguration>
-				<id>overviewEmbedder</id>
-				<name>overviewEmbedder</name>
-				<description>Generate Overviews for a given Geotiff</description>
-				<failIgnored>false</failIgnored>
+      <retilerConfiguration>
+        <id>retilerConfiguration</id>
+        <name>retilerConfiguration</name>
+        <description>Generate Tiles for a given GEOTiff</description>
+        <failIgnored>false</failIgnored>
 
-				<JAICapacity>0</JAICapacity>
-				<compressionRatio>0.75</compressionRatio>
-				<compressionScheme>Nearest</compressionScheme> <!-- Nearest, Bilinear, Bicubic, Average, Filtered; -->
-				<downsampleStep>2</downsampleStep>
-				<numSteps>10</numSteps>
-				<tileH>512</tileH>
-				<tileW>512</tileW>
-				<wildcardString>*.*</wildcardString>
-				<logNotification>true</logNotification>
-				<interp>0</interp>
-			</overviewsEmbedderConfiguration>
+        <JAICapacity>0</JAICapacity>
+        <compressionRatio>NaN</compressionRatio>
+        <compressionScheme>LZW</compressionScheme>
+        <tileH>256</tileH>
+        <tileW>256</tileW>
+        <forceToBigTiff>false</forceToBigTiff>
+      </retilerConfiguration>
 
-			<retilerConfiguration>
-				<id>retilerConfiguration</id>
-				<name>retilerConfiguration</name>
-				<description>Generate Tiles for a given GEOTiff</description>
-				<failIgnored>false</failIgnored>
+    </IngestionConfiguration>
+  </EventConsumerConfiguration>
 
-				<JAICapacity>0</JAICapacity>
-				<compressionRatio>NaN</compressionRatio>
-				<compressionScheme>LZW</compressionScheme>
-				<tileH>256</tileH>
-				<tileW>256</tileW>
-				<forceToBigTiff>false</forceToBigTiff>
-			</retilerConfiguration>
+  <ListenerConfigurations>
+    <StatusProgressListener>
+      <serviceID>statusListenerService</serviceID>
+      <id>IngestionStatusActionLogger0</id>
+    </StatusProgressListener>
 
-		</IngestionConfiguration>
-	</EventConsumerConfiguration>
+    <LoggingProgressListener>
+      <serviceID>loggingListenerService</serviceID>
+      <id>IngestionActionLogger0</id>
+      <loggerName>IngestionActionLogger0</loggerName>
+    </LoggingProgressListener>
 
-	<ListenerConfigurations>
-		<StatusProgressListener>
-			<serviceID>statusListenerService</serviceID>
-			<id>IngestionStatusActionLogger0</id>
-		</StatusProgressListener>
+    <LoggingProgressListener>
+      <serviceID>loggingListenerService</serviceID>
+      <id>IngestionConsumerLogger0</id>
+      <loggerName>IngestionConsumerLogger0</loggerName>
+    </LoggingProgressListener>
 
-		<LoggingProgressListener>
-			<serviceID>loggingListenerService</serviceID>
-			<id>IngestionActionLogger0</id>
-			<loggerName>IngestionActionLogger0</loggerName>
-		</LoggingProgressListener>
-
-		<LoggingProgressListener>
-			<serviceID>loggingListenerService</serviceID>
-			<id>IngestionConsumerLogger0</id>
-			<loggerName>IngestionConsumerLogger0</loggerName>
-		</LoggingProgressListener>
-
-		<CumulatingProgressListener>
-			<serviceID>cumulatingListenerService</serviceID>
-			<id>IngestionCumulator0</id>
-		</CumulatingProgressListener>
-	</ListenerConfigurations>
+    <CumulatingProgressListener>
+      <serviceID>cumulatingListenerService</serviceID>
+      <id>IngestionCumulator0</id>
+    </CumulatingProgressListener>
+  </ListenerConfigurations>
 
 </FlowConfiguration>
-		
+    

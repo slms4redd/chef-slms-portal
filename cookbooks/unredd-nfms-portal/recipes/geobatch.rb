@@ -1,8 +1,11 @@
-tomcat_user = node['tomcat']['user']
-geobatch_base = "/var/stg_geobatch"
-geobatch_parent = Pathname.new(geobatch_base).parent.to_s
+tomcat_user       = node['tomcat']['user']
+geobatch_root_dir = node['unredd-nfms-portal']['stg_geobatch']['root_dir']
+geobatch_parent   = Pathname.new(geobatch_root_dir).parent.to_s
 
-
+Chef::Log.info("------------------------------------------------------------")
+Chef::Log.info("geobatch_root_dir = " + geobatch_root_dir)
+Chef::Log.info("geobatch_parent   = " + geobatch_parent)
+Chef::Log.info("------------------------------------------------------------")
 
 directory geobatch_parent do
   owner tomcat_user
@@ -13,41 +16,46 @@ end
 
 # Permission of some directories are not set correctly by the remote_directory resource
 # so set them using chown/chmod
-execute "set #{geobatch_base} permissions" do
+execute "set #{geobatch_root_dir} permissions" do
   user "root"
   command <<-EOH
-    chown -R #{tomcat_user}:#{tomcat_user} #{geobatch_base}
-    find #{geobatch_base} -type d -exec chmod 755 {} \\;
-    find #{geobatch_base} -type f -exec chmod 644 {} \\;
+    chown -R #{tomcat_user}:#{tomcat_user} #{geobatch_root_dir}
+    find #{geobatch_root_dir} -type d -exec chmod 755 {} \\;
+    find #{geobatch_root_dir} -type f -exec chmod 644 {} \\;
   EOH
 
   action :nothing
 end
 
-remote_directory geobatch_base do
+remote_directory geobatch_root_dir do
   source      "geobatch_dir"
   overwrite false
   purge false
-  notifies :run, resources(:execute => "set #{geobatch_base} permissions")
+  notifies :run, resources(:execute => "set #{geobatch_root_dir} permissions")
 
   not_if { ::File.exists?("/var/stg_geobatch") }
 end
 
-template "#{geobatch_base}/config/ingestionFlow.xml" do
+template "#{geobatch_root_dir}/config/ingestionFlow.xml" do
   source "geobatch/ingestionFlow.xml.erb"
   owner tomcat_user
   group tomcat_user
   mode 0644
-  variables(
-    :ingestion_input_dir           => "#{geobatch_base}/input/ingest",
-    :ingestion_config_override_dir => "#{geobatch_base}/config/ingestionFlow",
-    :original_data_dir             => "#{geobatch_base}/orig",
-    :XXX => 'XXX',
-    :XXX => 'XXX',
-    :XXX => 'XXX'
-  )
 end
 
+template "#{geobatch_root_dir}/config/publishingFlow.xml" do
+  source "geobatch/publishingFlow.xml.erb"
+  owner tomcat_user
+  group tomcat_user
+  mode 0644
+end
+
+template "#{geobatch_root_dir}/config/reprocessFlow.xml" do
+  source "geobatch/reprocessFlow.xml.erb"
+  owner tomcat_user
+  group tomcat_user
+  mode 0644
+end
 
 
 # tomcat "stg_geobatch" do
