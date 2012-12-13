@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <FlowConfiguration>
-  
+
   <!-- ID MUST be the same as file name -->
   <id>publishingFlow</id>
   <name>UNREDD_publish_flow</name>
@@ -11,7 +11,7 @@
   <EventGeneratorConfiguration>
     <id>publishingEGC</id>
     <serviceID>fsEventGeneratorService</serviceID>
-    
+
     <!-- Place here the absolute path of your ingestion dir. Geobatch continuosly watch there for new inputs -->
     <!-- SUGGESTION: keep the watch dir into GEOBATCH_CONFIG_DIR and externalize it outside the application deploy (see documentation) -->
     <watchDirectory><%= node['unredd-nfms-portal']['stg_geobatch']['root_dir'] %>/input/publish</watchDirectory>
@@ -43,16 +43,16 @@
       <listenerId>PublishStatusActionLogger0</listenerId>
 
       <failIgnored>false</failIgnored>
-      
+
       <!-- STAGING ENVIRONMENT CONFIGURATION, in publish flow act as a source where take data to publish -->
-      
+
       <!-- The Url and credentials of the Staging Geostore -->
       <srcGeoStoreConfig>
         <url>http://localhost/stg_geostore/rest</url> <!-- TODO: parametrize -->
         <username><%= node['unredd-nfms-portal']['stg_geostore']['web_admin_user'] %></username>
         <password><%= node['unredd-nfms-portal']['stg_geostore']['web_admin_password'] %></password>
       </srcGeoStoreConfig>
-      
+
       <!-- Credentials and path for the staging Postgis where are stored infos about the ImageMosaic granules ingested-->
       <!-- host and port are the postgis default, change it if your deploy has different setup -->
       <srcPostGisConfig>
@@ -65,13 +65,13 @@
         <username><%= node['unredd-nfms-portal']['stg_geoserver']['db_user'] %></username>
         <password><%= node['unredd-nfms-portal']['stg_geoserver']['db_password'] %></password>
       </srcPostGisConfig>
-      
+
       <!-- Staging geoserver configuration -->
       <srcGeoServerConfig>
         <id>srcGSC</id>
         <name>srcGSC</name>
         <description>srcGSC</description>
-        
+
         <failIgnored>false</failIgnored>
         <!-- Credentials and path for the staging Geoserver -->
         <geoserverURL>http://localhost/stg_geoserver</geoserverURL> <!-- TODO: parametrize -->
@@ -95,11 +95,11 @@
         <host>localhost</host>
         <port>5432</port>
         <!-- The user must have at least insert ad select grants -->
-        <database>{DB_NAME}</database>
-        <schema>{DB_SCHEMA}</schema>
-        <!-- The user must have at least insert, select and create grants -->
-        <username>{USERNAME}</username>
-        <password>{PASSWORD}</password>
+        <database><%= node['unredd-nfms-portal']['diss_geoserver']['db'] %></database>
+        <schema>public</schema> <!-- TODO: parametrize -->
+        <!-- The user must have at least select grants -->
+        <username><%= node['unredd-nfms-portal']['diss_geoserver']['db_user'] %></username>
+        <password><%= node['unredd-nfms-portal']['diss_geoserver']['db_password'] %></password>
       </dstPostGisConfig>
 
       <!-- Dissemination geoserver configuration -->
@@ -107,7 +107,7 @@
         <id>dissGSC</id>
         <name>dissGSC</name>
         <description>dissGSC</description>
-        
+
         <failIgnored>false</failIgnored>
         <!-- Credentials and path for the staging Geoserver -->
         <geoserverURL>http://localhost/diss_geoserver</geoserverURL> <!-- TODO: parametrize -->
@@ -115,7 +115,7 @@
         <geoserverPWD>geoserver</geoserverPWD> <!-- TODO: parametrize -->
         <workspace>unredd</workspace> <!-- TODO: parametrize -->
       </dstGeoServerConfig>
-      
+
     </PublishingConfiguration>
   </EventConsumerConfiguration>
 
