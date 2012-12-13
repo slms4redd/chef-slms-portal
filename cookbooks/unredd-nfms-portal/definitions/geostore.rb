@@ -15,7 +15,7 @@ define :geostore do
   geostore_db_pwd              = params[:db_password]
   geostore_postgres_schema_url = params[:postgres_schema_url]
   tomcat_instance_name         = params[:tomcat_instance_name] || geostore_instance_name
-  
+
   temp_dir = '/var/tmp'
 
   tomcat geostore_instance_name do
@@ -27,7 +27,7 @@ define :geostore do
       "-server",
       "-Xms#{params[:xms]}",
       "-Xmx#{params[:xmx]}",
-      "-Dgeostore-ovr={root_dir}/#{geostore_instance_name}/geostore-datasource-ovr.properties",
+      "-Dgeostore-ovr=file:#{root_dir}/#{geostore_instance_name}/geostore-datasource-ovr.properties",
       "-Duser.timezone=GMT"
     ]
     manage_config_file true
@@ -83,7 +83,7 @@ define :geostore do
 
     not_if "psql -c \"select * from pg_class where relname='gs_attribute' and relkind='r'\" #{geostore_db} | grep -c gs_attribute", :user => 'postgres'
   end
-  
+
 
   directory "#{root_dir}/#{geostore_instance_name}" do
     owner     tomcat_user
