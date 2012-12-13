@@ -48,11 +48,11 @@ define :geoserver do
   # Permission of some directories are not set correctly by the remote_directory resource
   # so set them using chown/chmod
 
-  directory geoserver_data_dir do
-    owner     tomcat_user
-    group     tomcat_user
-    recursive true
-  end
+  # directory geoserver_data_dir do
+  #   owner     tomcat_user
+  #   group     tomcat_user
+  #   recursive true
+  # end
   directory geoserver_log_dir do
     owner     tomcat_user
     group     tomcat_user
