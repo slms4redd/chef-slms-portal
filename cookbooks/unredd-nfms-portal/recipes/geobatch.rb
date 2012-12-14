@@ -24,7 +24,7 @@ execute "set #{geobatch_root_dir} permissions" do
 end
 
 remote_directory geobatch_root_dir do
-  source      "geobatch_dir"
+  source "geobatch_dir"
   overwrite false
   purge false
   notifies :run, resources(:execute => "set #{geobatch_root_dir} permissions")

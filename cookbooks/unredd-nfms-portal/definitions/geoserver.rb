@@ -4,7 +4,6 @@ require 'pathname'
 
 
 define :geoserver do
-  include_recipe "unredd-nfms-portal::apache2_conf"
   include_recipe "tomcat::base"
   include_recipe "unredd-nfms-portal::db_conf"
 
@@ -16,7 +15,7 @@ define :geoserver do
   geoserver_postgis_db    = params[:db]
   geoserver_postgis_user  = params[:db_user]
   geoserver_postgis_pwd   = params[:db_password]
-  tomcat_instance_name    = params[:tomcat_instance_name] || geoserver_instance_name
+  tomcat_instance_name    = params[:tomcat_instance_name]
 
   geoserver_log_dir = Pathname.new(geoserver_log_location).parent.to_s
 
@@ -86,6 +85,31 @@ define :geoserver do
     not_if { ::File.exists?(geoserver_data_dir) }
 
     notifies :run, resources(:execute => "set #{geoserver_data_dir} permissions")
+  end
+
+  # Set custom admin password updating the users.xml file
+  template "#{geoserver_data_dir}/security/usergroup/default/users.xml" do
+    source "geoserver/users.xml.erb"
+    owner tomcat_user
+    group tomcat_user
+    mode "0644"
+    variables(
+      :web_admin_user     => params[:web_admin_user],
+      :web_admin_password => params[:web_admin_password]
+    )
+
+    action :create_if_missing
+  end
+  template "#{geoserver_data_dir}/security/role/default/roles.xml" do
+    source "geoserver/roles.xml.erb"
+    owner tomcat_user
+    group tomcat_user
+    mode "0644"
+    variables(
+      :web_admin_user     => params[:web_admin_user],
+    )
+
+    action :create_if_missing
   end
 
 

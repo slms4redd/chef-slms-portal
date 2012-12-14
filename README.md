@@ -17,13 +17,13 @@
 * add admin ui
 * add portal front end
 * GeoServer users and passwords are the the default ones - put in some node attibutes or generate dynamically, and set both in geoserver and in geobatch config
-* Dynamically set schema in geobatch config (now set to public)
-* Set correct permissions for groovy scripts etc.
-* Hard coded stuff in geobatch flow config files
-* Review install instructions
+* dynamically set schema in geobatch config (now set to public)
+* det correct permissions for groovy scripts etc.
+* hard coded stuff in geobatch flow config files
+* review install instructions
 
 
-geostore users are initialized to:
+GeoStore users are initialized to:
 
 <table>
   <tr>

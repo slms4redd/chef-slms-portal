@@ -2,7 +2,6 @@
 
 
 define :geostore do
-  include_recipe "unredd-nfms-portal::apache2_conf"
   include_recipe "tomcat::base"
   include_recipe "unredd-nfms-portal::db_conf"
 
@@ -14,7 +13,7 @@ define :geostore do
   geostore_db_user             = params[:db_user]
   geostore_db_pwd              = params[:db_password]
   geostore_postgres_schema_url = params[:postgres_schema_url]
-  tomcat_instance_name         = params[:tomcat_instance_name] || geostore_instance_name
+  tomcat_instance_name         = params[:tomcat_instance_name]
 
   temp_dir = '/var/tmp'
 

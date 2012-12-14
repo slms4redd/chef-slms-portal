@@ -4,7 +4,7 @@
     <string>default</string>
   </authProviderNames>
   <anonymousAuth>true</anonymousAuth>
-  <configPasswordEncrypterName>pbePasswordEncoder</configPasswordEncrypterName>
+  <configPasswordEncrypterName>plainTextPasswordEncoder</configPasswordEncrypterName>
   <encryptingUrlParams>false</encryptingUrlParams>
   <filterChain>
     <filters name="web" path="/web/**,/gwc/rest/web/**">

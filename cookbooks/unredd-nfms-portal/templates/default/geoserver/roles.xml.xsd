@@ -5,7 +5,7 @@
         <role id="GROUP_ADMIN"/>
     </roleList>
     <userList>
-        <userRoles username="admin">
+        <userRoles username="<%= @web_admin_user %>">
             <roleRef roleID="ADMIN"/>
         </userRoles>
     </userList>
