@@ -7,11 +7,13 @@ Vagrant::Config.run do |config|
   #config.vm.box = 'lucid32'
   #config.vm.box_url = 'http://files.vagrantup.com/lucid32.box'
 
+  config.vm.customize ["modifyvm", :id, "--memory", 3072]
+
   config.vm.forward_port 80, 4567
 
   config.vm.share_folder "shared", "~/shared", "."
 
-  # Upgrade Chef - getting "TypeError: can't convert nil into String Chef" otherwise. Might not be needed with other versions of precise32
+  # Upgrade Chef - On precise32 getting "TypeError: can't convert nil into String Chef" otherwise. Might not be needed with other boxes
   config.vm.provision :shell, :inline => "gem update chef"
 
   config.vm.provision :chef_solo do |chef|
@@ -37,7 +39,6 @@ Vagrant::Config.run do |config|
         :version => "9.1",
         :password => {
           :postgres => "postgres" # with chef-solo you must specify them in the json_attribs file used
-                                  # TODO: this doesn't seem to have any effect
         },
         :pg_hba => [
           { :type => 'local', :db => 'all', :user => 'postgres', :addr => nil,            :method => 'peer' },
@@ -78,8 +79,9 @@ Vagrant::Config.run do |config|
 
       # The unredd webapps will be installed in /var/tomcat/<app_name> by the tomcat cookbook
       :'unredd-nfms-portal' => {
-        # Configuration parameters for the unredd tomcat instances
-        # These parameters are for a test virtual machie, leave the default one for a minimal server setup (or override them with bigger values)
+        # Configuration parameters for the unredd tomcat instances.
+        # The jvm_opts parameters are ood for a test virtual machine, leave the default ones
+        # for a production server setup (or override them with bigger values).
         :stg_geostore => {
           :jvm_opts => { :xms => "128m", :xmx => "256m" }
         },

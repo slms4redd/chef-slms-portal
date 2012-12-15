@@ -14,7 +14,7 @@
 
     <!-- Place here the absolute path of your ingestion dir. Geobatch continuosly watch there for new inputs -->
     <!-- SUGGESTION: keep the watch dir into GEOBATCH_CONFIG_DIR and externalize it outside the application deploy (see documentation) -->
-    <watchDirectory><%= node['unredd-nfms-portal']['stg_geobatch']['root_dir'] %>/var/geobatch/input/reprocess</watchDirectory>
+    <watchDirectory><%= node['unredd-nfms-portal']['stg_geobatch']['root_dir'] %>/input/reprocess</watchDirectory>
     <wildCard>*.xml</wildCard>
 
     <osType>OS_UNDEFINED</osType>
@@ -39,8 +39,8 @@
       <description>Single-step action for reprocessing layers, stats, charts</description>
 
       <listenerId>ReprocessConsumerLogger0</listenerId>
-            <listenerId>ReprocessCumulator0</listenerId>
-            <listenerId>ReprocessStatusActionLogger0</listenerId>
+      <listenerId>ReprocessCumulator0</listenerId>
+      <listenerId>ReprocessStatusActionLogger0</listenerId>
       <failIgnored>false</failIgnored>
 
       <!-- The Url and credentials of the Staging Geostore -->
@@ -54,9 +54,9 @@
       <!-- host and port are the postgis default, change it if your deploy has different setup -->
       <postGisConfig>
         <host>localhost</host>
-        <port>5432</port>
+        <port><%= node['postgresql']['config']['port'] %></port>
         <database><%= node['unredd-nfms-portal']['stg_geoserver']['db'] %></database>
-        <schema>public</schema> <!-- TODO: parametrize -->
+        <schema>public</schema> <%# TODO: parametrize %>
         <!-- The user must have at least select grants -->
         <username><%= node['unredd-nfms-portal']['stg_geoserver']['db_user'] %></username>
         <password><%= node['unredd-nfms-portal']['stg_geoserver']['db_password'] %></password>

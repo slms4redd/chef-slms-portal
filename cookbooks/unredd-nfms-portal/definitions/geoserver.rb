@@ -106,7 +106,7 @@ define :geoserver do
     group tomcat_user
     mode "0644"
     variables(
-      :web_admin_user     => params[:web_admin_user],
+      :web_admin_user     => params[:web_admin_user]
     )
 
     action :create_if_missing

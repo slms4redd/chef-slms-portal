@@ -48,7 +48,7 @@
 
       <!-- The Url and credentials of the Staging Geostore -->
       <srcGeoStoreConfig>
-        <url>http://localhost/stg_geostore/rest</url> <!-- TODO: parametrize -->
+        <url>http://localhost/stg_geostore/rest</url> <%# TODO: parametrize %>
         <username><%= node['unredd-nfms-portal']['stg_geostore']['web_admin_user'] %></username>
         <password><%= node['unredd-nfms-portal']['stg_geostore']['web_admin_password'] %></password>
       </srcGeoStoreConfig>
@@ -57,10 +57,10 @@
       <!-- host and port are the postgis default, change it if your deploy has different setup -->
       <srcPostGisConfig>
         <host>localhost</host>
-        <port>5432</port>
+        <port><%= node['postgresql']['config']['port'] %></port>
         <!-- The user must have at least insert ad select grants -->
         <database><%= node['unredd-nfms-portal']['stg_geoserver']['db'] %></database>
-        <schema>public</schema> <!-- TODO: parametrize -->
+        <schema>public</schema> <%# TODO: parametrize %>
         <!-- The user must have at least select grants -->
         <username><%= node['unredd-nfms-portal']['stg_geoserver']['db_user'] %></username>
         <password><%= node['unredd-nfms-portal']['stg_geoserver']['db_password'] %></password>
@@ -74,7 +74,7 @@
 
         <failIgnored>false</failIgnored>
         <!-- Credentials and path for the staging Geoserver -->
-        <geoserverURL>http://localhost/stg_geoserver</geoserverURL> <!-- TODO: parametrize -->
+        <geoserverURL>http://localhost/stg_geoserver</geoserverURL> <%# TODO: parametrize %>
         <geoserverUID><%= node['unredd-nfms-portal']['stg_geoserver']['web_admin_user'] %></geoserverUID>
         <geoserverPWD><%= node['unredd-nfms-portal']['stg_geoserver']['web_admin_password'] %></geoserverPWD>
         <workspace>unredd</workspace>
@@ -93,10 +93,10 @@
       <!-- host and port are the postgis default, change it if your deploy has different setup -->
       <dstPostGisConfig>
         <host>localhost</host>
-        <port>5432</port>
+        <port>node['postgresql']['config']['port']</port>
         <!-- The user must have at least insert ad select grants -->
         <database><%= node['unredd-nfms-portal']['diss_geoserver']['db'] %></database>
-        <schema>public</schema> <!-- TODO: parametrize -->
+        <schema>public</schema> <%# TODO: parametrize %>
         <!-- The user must have at least select grants -->
         <username><%= node['unredd-nfms-portal']['diss_geoserver']['db_user'] %></username>
         <password><%= node['unredd-nfms-portal']['diss_geoserver']['db_password'] %></password>
@@ -110,10 +110,10 @@
 
         <failIgnored>false</failIgnored>
         <!-- Credentials and path for the dissemination Geoserver -->
-        <geoserverUID><%= node['unredd-nfms-portal']['diss_geoserver']['web_admin_user'] %></geoserverUID>     <!-- TODO: parametrize -->
-        <geoserverPWD><%= node['unredd-nfms-portal']['diss_geoserver']['web_admin_password'] %></geoserverPWD> <!-- TODO: parametrize -->
-        <geoserverPWD>geoserver</geoserverPWD> <!-- TODO: parametrize -->
-        <workspace>unredd</workspace> <!-- TODO: parametrize -->
+        <geoserverURL>http://localhost/diss_geoserver</geoserverURL> <%# TODO: parametrize %>
+        <geoserverUID><%= node['unredd-nfms-portal']['diss_geoserver']['web_admin_user'] %></geoserverUID>
+        <geoserverPWD><%= node['unredd-nfms-portal']['diss_geoserver']['web_admin_password'] %></geoserverPWD>
+        <workspace>unredd</workspace> <%# TODO: parametrize %>
       </dstGeoServerConfig>
 
     </PublishingConfiguration>

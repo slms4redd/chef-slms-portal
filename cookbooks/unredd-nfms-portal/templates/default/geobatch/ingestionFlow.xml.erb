@@ -51,7 +51,7 @@
 
       <!-- The Url and credentials of the Staging Geostore -->
       <geoStoreConfig>
-        <url>http://localhost/stg_geostore/rest</url> <!-- TODO: parametrize -->
+        <url>http://localhost/stg_geostore/rest</url> <%# TODO: parametrize %>
         <username><%= node['unredd-nfms-portal']['stg_geostore']['web_admin_user'] %></username>
         <password><%= node['unredd-nfms-portal']['stg_geostore']['web_admin_password'] %></password>
       </geoStoreConfig>
@@ -60,9 +60,9 @@
       <!-- host and port are the postgis default, change it if your deploy has different setup -->
       <postGisConfig>
         <host>localhost</host>
-        <port>5432</port>
+        <port><%= node['postgresql']['config']['port'] %></port>
         <database><%= node['unredd-nfms-portal']['stg_geoserver']['db'] %></database>
-        <schema>public</schema> <!-- TODO: parametrize -->
+        <schema>public</schema> <%# TODO: parametrize %>
         <!-- The user must have at least insert ad select grants -->
         <username><%= node['unredd-nfms-portal']['stg_geoserver']['db_user'] %></username>
         <password><%= node['unredd-nfms-portal']['stg_geoserver']['db_password'] %></password>
@@ -77,9 +77,9 @@
         <failIgnored>false</failIgnored>
         <!-- Credentials and path for the staging Geoserver -->
         <geoserverURL>http://localhost/stg_geoserver</geoserverURL>
-        <geoserverUID><%= node['unredd-nfms-portal']['stg_geoserver']['web_admin_user'] %></geoserverUID>     <!-- TODO: parametrize -->
-        <geoserverPWD><%= node['unredd-nfms-portal']['stg_geoserver']['web_admin_password'] %></geoserverPWD> <!-- TODO: parametrize -->
-        <workspace>unredd</workspace>          <!-- TODO: parametrize -->
+        <geoserverUID><%= node['unredd-nfms-portal']['stg_geoserver']['web_admin_user'] %></geoserverUID>
+        <geoserverPWD><%= node['unredd-nfms-portal']['stg_geoserver']['web_admin_password'] %></geoserverPWD>
+        <workspace>unredd</workspace> <%# TODO: parametrize %>
       </geoServerConfig>
 
       <!-- Gdal rasterize, used for create a raster file during vector layerUpdate ingestion -->
