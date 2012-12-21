@@ -1,0 +1,16 @@
+### DB SETUP
+geostoreDataSource.driverClassName=org.postgresql.Driver
+geostoreDataSource.url=jdbc:postgresql://localhost:5432/<%= @database %>
+geostoreDataSource.username=<%= @username %>
+geostoreDataSource.password=<%= @password %>
+geostoreVendorAdapter.databasePlatform=org.hibernate.dialect.PostgreSQLDialect
+geostoreEntityManagerFactory.jpaPropertyMap[hibernate.hbm2ddl.auto]=validate
+geostoreEntityManagerFactory.jpaPropertyMap[hibernate.default_schema]=public
+geostoreVendorAdapter.generateDdl=true
+geostoreVendorAdapter.showSql=false
+
+### USERS INITIALIZAZITION
+geostoreInitializer.userListInitFile=file://var/<%= @instance_name %>/init_users.xml
+
+### CATEGORIES INITIALIZATION
+geostoreInitializer.categoryListInitFile=file://var/<%= @instance_name %>/init_categories.xml

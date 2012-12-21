@@ -47,8 +47,8 @@ default['unredd-nfms-portal']['stg_geoserver']['jvm_opts']['xms']      = '1024m'
 default['unredd-nfms-portal']['stg_geoserver']['jvm_opts']['xmx']      = '1024m'
 default['unredd-nfms-portal']['stg_geoserver']['data_dir']             = '/var/stg_geoserver/data'
 default['unredd-nfms-portal']['stg_geoserver']['log_location']         = '/var/stg_geoserver/logs/geoserver.log'
-default['unredd-nfms-portal']['stg_geoserver']['web_admin_user']       = 'admin__'
-default['unredd-nfms-portal']['stg_geoserver']['web_admin_password']   = 'Unr3dd__'
+default['unredd-nfms-portal']['stg_geoserver']['web_admin_user']       = 'admin'
+default['unredd-nfms-portal']['stg_geoserver']['web_admin_password']   = 'Unr3dd'
 
 
 # Dissemination GeoServer
@@ -64,8 +64,8 @@ default['unredd-nfms-portal']['diss_geoserver']['jvm_opts']['xms']      = '1024m
 default['unredd-nfms-portal']['diss_geoserver']['jvm_opts']['xmx']      = '1024m'
 default['unredd-nfms-portal']['diss_geoserver']['data_dir']             = '/var/diss_geoserver/data'
 default['unredd-nfms-portal']['diss_geoserver']['log_location']         = '/var/diss_geoserver/logs/geoserver.log'
-default['unredd-nfms-portal']['diss_geoserver']['web_admin_user']       = 'admin__'
-default['unredd-nfms-portal']['diss_geoserver']['web_admin_password']   = 'Unr3dd__'
+default['unredd-nfms-portal']['diss_geoserver']['web_admin_user']       = 'admin'
+default['unredd-nfms-portal']['diss_geoserver']['web_admin_password']   = 'Unr3dd'
 
 
 # Staging GeoBatch
@@ -78,6 +78,9 @@ default['unredd-nfms-portal']['stg_geobatch']['tomcat_http_port']     = 8202
 default['unredd-nfms-portal']['stg_geobatch']['tomcat_ajp_port']      = 8102
 default['unredd-nfms-portal']['stg_geobatch']['tomcat_shutdown_port'] = 8022
 
+
+# Admin
+default['unredd-nfms-portal']['admin']['password']  = 'Unr3dd'
 
 # Portal
 default['unredd-nfms-portal']['portal']['config_dir']  = '/var/portal/'

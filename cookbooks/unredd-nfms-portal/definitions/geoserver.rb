@@ -129,7 +129,9 @@ define :geoserver do
   postgresql_database geoserver_postgis_db do
     connection postgresql_connection_info
     template   'template_postgis'
-    encoding   'DEFAULT'
+    encoding  'DEFAULT'
+    # encoding   'UTF8'
+    # collation  'en_US.utf8'
     tablespace 'DEFAULT'
     owner      geoserver_postgis_user
     action     :create

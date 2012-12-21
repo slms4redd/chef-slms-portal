@@ -21,6 +21,7 @@ Vagrant::Config.run do |config|
     #chef.roles_path     = "roles" # not used (yet?)
     #chef.data_bags_path = "data_bags" # not used (yet?)
 
+    # chef.add_recipe "locale" # Set locale
 
     chef.add_recipe "apt" # execute apt-get update
 
@@ -32,8 +33,13 @@ Vagrant::Config.run do |config|
     chef.add_recipe "gis" # Needed to install PostGIS
 
     chef.add_recipe "unredd-nfms-portal"
+    chef.add_recipe "unredd-nfms-portal::install_test_data"
 
     chef.json = {
+      # :locale => {
+      #   :lang => "en_US.utf8" # en_US.utf8 is the default value
+      # },
+
       # PostgreSQL configuration
       :postgresql => {
         :version => "9.1",

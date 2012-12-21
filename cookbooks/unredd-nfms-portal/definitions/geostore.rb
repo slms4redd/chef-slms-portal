@@ -48,6 +48,8 @@ define :geostore do
   postgresql_database geostore_db do
     connection postgresql_connection_info
     encoding   'DEFAULT'
+    #encoding   'UTF8'
+    #collation  'en_US.utf8'
     tablespace 'DEFAULT'
     owner      geostore_db_user
     action     :create
@@ -94,7 +96,7 @@ define :geostore do
 
   # Create datasource-ovr file
   template "#{root_dir}/#{geostore_instance_name}/geostore-datasource-ovr.properties" do
-    source "geostore-datasource-ovr.properties.erb"
+    source "geostore/geostore-datasource-ovr.properties.erb"
     owner tomcat_user
     group tomcat_user
     mode "0644"
@@ -110,7 +112,7 @@ define :geostore do
 
   # Create init_users file
   template "#{root_dir}/#{geostore_instance_name}/init_users.xml" do
-    source "init_users.xml.erb"
+    source "geostore/init_users.xml.erb"
     owner tomcat_user
     group tomcat_user
     mode "0644"
@@ -123,7 +125,7 @@ define :geostore do
 
   # Create init_categories file
   template "#{root_dir}/#{geostore_instance_name}/init_categories.xml" do
-    source "init_categories.xml.erb"
+    source "geostore/init_categories.xml.erb"
     owner tomcat_user
     group tomcat_user
     mode "0644"

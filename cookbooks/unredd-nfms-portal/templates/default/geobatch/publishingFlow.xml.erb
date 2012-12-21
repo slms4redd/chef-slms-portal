@@ -93,7 +93,7 @@
       <!-- host and port are the postgis default, change it if your deploy has different setup -->
       <dstPostGisConfig>
         <host>localhost</host>
-        <port>node['postgresql']['config']['port']</port>
+        <port><%= node['postgresql']['config']['port'] %></port>
         <!-- The user must have at least insert ad select grants -->
         <database><%= node['unredd-nfms-portal']['diss_geoserver']['db'] %></database>
         <schema>public</schema> <%# TODO: parametrize %>
