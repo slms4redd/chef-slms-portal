@@ -3,7 +3,7 @@
 ## Installation
 
 1. Install vagrant (see http://vagrantup.com/v1/docs/getting-started/index.html)
-2. Download this repository with submodules: ``https://github.com/nfms4redd/chef-nfms-portal.git``
+2. Download this repository with submodules: ``git clone --recursive https://github.com/nfms4redd/chef-nfms-portal.git``
 3. Run Vagrant:
 
         cd chef-nfms-portal
