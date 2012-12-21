@@ -42,7 +42,7 @@ To setup stg_geostore for the demo data type ``curl -u admin:admin -XPUT -H "Con
     <td>Unr3dd</td>
   <tr>
   <tr>
-    <td>GepBatch</td>
+    <td>GeoBatch</td>
     <td>admin</td>
     <td>admin</td>
   <tr>
