@@ -19,7 +19,8 @@ The unredd-nfms-portal::install_test_data recipe sets up stg_geoserver, stg_geos
 ``area.tif`` and ``provinces.tif`` are copied in ``/var/stg_geoserver/extdata/forest_mask_mosaic``
 the directory ``/var/stg_geoserver/extdata/forest_mask_mosaic`` is created with the .properties
 
-curl -u admin:admin -XPUT -H "Content-type: text/xml" -d @/var/tmp/unredd_geostore_backup.xml http://localhost/stg_geostore/rest/backup/quick/
+
+To setup stg_geostore for the demo data type ``curl -u admin:admin -XPUT -H "Content-type: text/xml" -d @/var/tmp/unredd_geostore_backup.xml http://localhost/stg_geostore/rest/backup/quick/`` on the terminal
 
 
 ## Passwords
