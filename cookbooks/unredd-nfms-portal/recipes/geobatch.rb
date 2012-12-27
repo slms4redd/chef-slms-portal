@@ -10,6 +10,15 @@ directory geobatch_parent do
   action :create
 end
 
+remote_directory geobatch_root_dir do
+  source "geobatch_dir"
+  overwrite false
+  purge false
+  #notifies :run, resources(:execute => "set #{geobatch_root_dir} permissions")
+
+  not_if { ::File.exists?("/var/stg_geobatch") }
+end
+
 # Permission of some directories are not set correctly by the remote_directory resource
 # so set them using chown/chmod
 execute "set #{geobatch_root_dir} permissions" do
@@ -20,16 +29,7 @@ execute "set #{geobatch_root_dir} permissions" do
     find #{geobatch_root_dir} -type f -exec chmod 644 {} \\;
   EOH
 
-  action :nothing
-end
-
-remote_directory geobatch_root_dir do
-  source "geobatch_dir"
-  overwrite false
-  purge false
-  notifies :run, resources(:execute => "set #{geobatch_root_dir} permissions")
-
-  not_if { ::File.exists?("/var/stg_geobatch") }
+  #action :nothing
 end
 
 # GeoBatch flows config

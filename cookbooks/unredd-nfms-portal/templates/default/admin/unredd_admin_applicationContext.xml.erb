@@ -49,7 +49,7 @@ default-autowire="autodetect">
   -->
 
   <bean id="configure" class="org.fao.unredd.Configure">
-    <property name="geobatchFlowSaveDir" value="<%= node['unredd-nfms-portal']['stg_geobatch']['root_dir'] %>/input/ingest" />
+    <property name="geobatchFlowSaveDir" value="<%= node['unredd-nfms-portal']['stg_geobatch']['root_dir'] %>/input" />
   </bean>
 
 </beans>

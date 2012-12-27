@@ -129,13 +129,19 @@ define :geoserver do
   postgresql_database geoserver_postgis_db do
     connection postgresql_connection_info
     template   'template_postgis'
-    encoding  'DEFAULT'
+    encoding   'DEFAULT'
     # encoding   'UTF8'
     # collation  'en_US.utf8'
     tablespace 'DEFAULT'
     owner      geoserver_postgis_user
     action     :create
     #connection_limit '-1'
+  end
+
+  %w( geometry_columns spatial_ref_sys geography_columns ).each do |table|
+    execute "psql -c 'ALTER TABLE #{table} OWNER TO #{geoserver_postgis_user}' #{geoserver_postgis_db}" do
+      user "postgres"
+    end
   end
 
   # Download and deploy GeoServer

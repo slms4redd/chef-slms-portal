@@ -7,6 +7,8 @@ Vagrant::Config.run do |config|
   #config.vm.box = 'lucid32'
   #config.vm.box_url = 'http://files.vagrantup.com/lucid32.box'
 
+  config.vm.host_name = "unredd"
+
   config.vm.customize ["modifyvm", :id, "--memory", 3072]
 
   config.vm.forward_port 80, 4567

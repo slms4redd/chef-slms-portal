@@ -23,6 +23,14 @@ execute "uncompress sample data" do
   EOH
 end
 
+template "/var/stg_geoserver/extdata/forest_mask_mosaic/datastore.properties" do
+  source "test_data/datastore.properties.erb"
+  owner  node['tomcat']['user']
+  group  node['tomcat']['user']
+  mode   0644
+end
+
+
 execute "set stg_geoserver extdata dir permissions" do
   user "root"
   command <<-EOH

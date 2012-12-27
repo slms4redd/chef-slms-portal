@@ -53,7 +53,7 @@
       <!-- Credentials and path for the staging Postgis used by geoserver for store infos about ImageMosaic granules ingested-->
       <!-- host and port are the postgis default, change it if your deploy has different setup -->
       <postGisConfig>
-        <host>localhost</host>
+        <host><%= node['postgresql']['config']['listen_addresses'] %></host>
         <port><%= node['postgresql']['config']['port'] %></port>
         <database><%= node['unredd-nfms-portal']['stg_geoserver']['db'] %></database>
         <schema>public</schema> <%# TODO: parametrize %>

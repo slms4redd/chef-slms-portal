@@ -56,13 +56,12 @@ To setup stg_geostore for the demo data type ``curl -u admin:admin -XPUT -H "Con
 
 ## TODO
 
+* install JAI
 * Tomcat webapps are deployed in the webapps directory every time chef runs -  check if the webapp version is new and deploy only in that case
 * add apache proxy directives from definitions (geobatch.rb, geoserver.rb, and geostore.rb)
-* GeoServer users and passwords are the the default ones - put in some node attibutes or generate dynamically, and set both in geoserver and in geobatch config
 * dynamically set schema in geobatch config (now set to public)
 * set correct permissions for groovy scripts etc.
 * hard coded stuff in geobatch flow config files
-* review install instructions above
 
 
 

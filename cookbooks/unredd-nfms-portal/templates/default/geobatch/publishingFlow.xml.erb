@@ -56,7 +56,7 @@
       <!-- Credentials and path for the staging Postgis where are stored infos about the ImageMosaic granules ingested-->
       <!-- host and port are the postgis default, change it if your deploy has different setup -->
       <srcPostGisConfig>
-        <host>localhost</host>
+        <host><%= node['postgresql']['config']['listen_addresses'] %></host>
         <port><%= node['postgresql']['config']['port'] %></port>
         <!-- The user must have at least insert ad select grants -->
         <database><%= node['unredd-nfms-portal']['stg_geoserver']['db'] %></database>
@@ -92,7 +92,7 @@
       <!-- Credentials and path for the dissemination Postgis where copy stored infos about the published ImageMosaic granules -->
       <!-- host and port are the postgis default, change it if your deploy has different setup -->
       <dstPostGisConfig>
-        <host>localhost</host>
+        <host><%= node['postgresql']['config']['listen_addresses'] %></host>
         <port><%= node['postgresql']['config']['port'] %></port>
         <!-- The user must have at least insert ad select grants -->
         <database><%= node['unredd-nfms-portal']['diss_geoserver']['db'] %></database>
