@@ -7,8 +7,10 @@ include_recipe "unredd-nfms-portal::geobatch"
 
 tomcat_user = node['tomcat']['user']
 
-diss_geoserver_tomcat = node['unredd-nfms-portal']['diss_geoserver']['tomcat_instance_name']
 
+# Install the portal front end
+
+diss_geoserver_tomcat = node['unredd-nfms-portal']['diss_geoserver']['tomcat_instance_name']
 
 # Reopen the diss_geoserver tomcat resource and add portal jvm options
 t = resources(:tomcat => "diss_geoserver")
@@ -17,13 +19,6 @@ t.jvm_opts += [
   "-DMINIFIED_JS=#{node['unredd-nfms-portal']['portal']['minified_js']}",
   "-Duser.timezone=GMT"
 ]
-
-# Install portal front end
-unredd_nfms_portal_app "portal" do
-  tomcat_instance diss_geoserver_tomcat
-  download_url    "http://nfms4redd.org/downloads/portal/portal-0.9.1.war"
-  user            tomcat_user
-end
 
 portal_config_dir = node['unredd-nfms-portal']['portal']['config_dir']
 
@@ -49,7 +44,17 @@ execute "set #{portal_config_dir} permissions" do
   #action :nothing
 end
 
+unredd_nfms_portal_app "portal" do
+  tomcat_instance diss_geoserver_tomcat
+  download_url    "http://nfms4redd.org/downloads/portal/portal-0.9.1.war"
+  user            tomcat_user
+end
 
+
+# Install the admin ui
+# Since we need to modify unredd_admin_applicationContext.xml and security.xml and
+# the configuration directory can't be moved yet outside of the webapps directory,
+# we manually expand the war and copy the full webapp dir into tomcat
 
 catalina_parent = Pathname.new(node['tomcat']['home']).parent.to_s
 stg_geoserver_tomcat  = node['unredd-nfms-portal']['stg_geoserver']['tomcat_instance_name']
