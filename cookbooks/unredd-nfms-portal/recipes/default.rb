@@ -14,7 +14,7 @@ diss_geoserver_tomcat = node['unredd-nfms-portal']['diss_geoserver']['tomcat_ins
 t = resources(:tomcat => "diss_geoserver")
 t.jvm_opts += [
   "-DPORTAL_CONFIG_DIR=#{node['unredd-nfms-portal']['portal']['config_dir']}",
-  "-DMINIFIED_JS=#{node['unredd-nfms-portal']['portal']['mivnified_js']}",
+  "-DMINIFIED_JS=#{node['unredd-nfms-portal']['portal']['minified_js']}",
   "-Duser.timezone=GMT"
 ]
 
@@ -25,7 +25,29 @@ unredd_nfms_portal_app "portal" do
   user            tomcat_user
 end
 
+portal_config_dir = node['unredd-nfms-portal']['portal']['config_dir']
 
+remote_directory portal_config_dir do
+  source "portal_config_dir"
+  overwrite false
+  purge false
+  #notifies :run, resources(:execute => "set #{geobatch_root_dir} permissions")
+
+  not_if { ::File.exists?("#{portal_config_dir}") }
+end
+
+# Permission of some directories are not set correctly by the remote_directory resource
+# so set them using chown/chmod
+execute "set #{portal_config_dir} permissions" do
+  user "root"
+  command <<-EOH
+    chown -R #{tomcat_user}:#{tomcat_user} #{portal_config_dir}
+    find #{portal_config_dir} -type d -exec chmod 755 {} \\;
+    find #{portal_config_dir} -type f -exec chmod 644 {} \\;
+  EOH
+
+  #action :nothing
+end
 
 
 
@@ -93,31 +115,3 @@ execute "deploy admin ui" do
   EOH
   action :run
 end
-
-
-
-# # Install portal
-# unredd_nfms_portal_app "portal" do
-#   tomcat_instance diss_geoserver_tomcat
-#   download_url    "http://nfms4redd.org/downloads/portal/portal-0.9.1.war"
-#   user            tomcat_user
-# end
-
-
-
-
-# # Install admin ui
-# unredd_nfms_portal_app "admin" do
-#   tomcat_instance stg_geoserver_tomcat
-#   download_url    "http://nfms4redd.org/downloads/admin/admin-0.6.war"
-#   user            tomcat_user
-# end
-
-# catalina_parent = Pathname.new(node['tomcat']['home']).parent.to_s
-
-# template "#{catalina_parent}/#{stg_geoserver_tomcat}/webapps/admin/WEB-INF/unredd_admin_applicationContext.xml" do
-#   source "admin/unredd_admin_applicationContext.xml.erb"
-#   owner tomcat_user
-#   group tomcat_user
-#   mode 0644
-# end

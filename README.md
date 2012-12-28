@@ -295,7 +295,7 @@ The unredd-nfms-portal::install_test_data recipe sets up stg_geoserver, stg_geos
 the directory ``/var/stg_geoserver/extdata/forest_mask_mosaic`` is created with the .properties
 
 
-To setup stg_geostore for the demo data type ``curl -u admin:admin -XPUT -H "Content-type: text/xml" -d @/var/tmp/unredd_geostore_backup.xml http://localhost/stg_geostore/rest/backup/quick/`` on the terminal
+To setup stg_geostore for the demo data type ``curl -u admin:Unr3dd -XPUT -H "Content-type: text/xml" -d @/var/tmp/unredd_geostore_backup.xml http://localhost/stg_geostore/rest/backup/quick/`` on the terminal
 
 
 
