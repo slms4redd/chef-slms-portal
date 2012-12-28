@@ -231,7 +231,7 @@ The following web applications are installed:
 * Tomcat ajp port: 8105
 * database: diss_geoserver
 * data directory: /var/diss_geoserver/data
-* log file: /var/stg_geoserver/diss_geoserver/geoserver.log
+* log file: /var/diss_geoserver/diss_geoserver/geoserver.log
 
 
 #### Staging GeoStore
@@ -268,27 +268,22 @@ The following web applications are installed:
 * Temp directory: /var/stg_geobatch/temp
 
 
+#### Portal administration
+
 * Webapp directory: /var/tomcat/stg_geoserver/webapps/admin
 * User: admin
 * Password: Unr3dd
-* Tomcat http port: 8202
-* Tomcat ajp port: 8102
-* Configuration directory: /var/portal/nr3dd
-
-
-#### Portal administration
-
-* Webapp directory: /var/tomcat/diss_geoserver/webapps/portal
 * Tomcat http port: 8201
-* Tomcat ajp port: 8201
+* Tomcat ajp port: 8101
+
 
 #### Monitoring Portal
 
-* CATALINA_BASE: /var/stg_geobatch
-* User: admin
-* Password: admin
+* Webapp directory: /var/tomcat/diss_geoserver/webapps/portal
 * Tomcat http port: 8205
-* Tomcat ajp port: 8105
+* Tomcat ajp port: 8205
+* Configuration directory: /var/portal
+
 
 ## Demo data
 
