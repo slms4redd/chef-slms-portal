@@ -56,7 +56,7 @@ Host name is set to ``unredd`` through the following line in ``Vagrantfile``
 
 ### Forward ports
 
-Currently only port 80 in the VM is forwarded to port 4567 on the hosting machine.
+Currently only port 80 in the VM is forwarded to port 4567 on the host OS.
 
 ``config.vm.forward_port 80, 4567`` in ``Vagrantfile``
 
@@ -70,9 +70,9 @@ A shared folder is created through the line ``config.vm.share_folder "shared", "
 
 Three users are created on the Vagrant virtual machine:
 
-* vagrant
-* tomcat6
-* postgres
+* ``vagrant``
+* ``tomcat6``
+* ``postgres``
 
 ### Applications/services installed
 
@@ -108,7 +108,9 @@ Tomcat is installed with the ``CATALINA_BASE`` method to have multiple instances
 
 Version: 9.1
 
-``postgres`` user password: ``postgres``
+Configuration files are in ``/etc/postgresql/9.1/main``
+
+``postgres`` user password is ``postgres``
 
 ##### Default databases/owners/passwords:
 
@@ -153,18 +155,140 @@ Installed through the package manager by the gis cookbook. Currently version is 
 
 ### Web applications
 
+The following web applications are installed:
 
-#### stg_geoserver
+<table>
+  <tr>
+    <th>Webapp</th>
+    <th>URL on the host OS</th>
+    <th>User</th>
+    <th>Password</th>
+  </tr>
+  <tr>
+    <td>Staging GeoServer</td>
+    <td>http://localhost:4567/stg_geoserver</td>
+    <td>admin</td>
+    <td>Unr3dd</td>
+  </tr>
+  <tr>
+    <td>Dissemination GeoServer</td>
+    <td>http://localhost:4567/diss_geoserver</td>
+    <td>admin</td>
+    <td>Unr3dd</td>
+  <tr>
+  <tr>
+    <td>Staging GeoStore</td>
+    <td>http://localhost:4567/stg_geostore</td>
+    <td>admin</td>
+    <td>Unr3dd</td>
+  <tr>
+  <tr>
+    <td>Dissemination GeoStore</td>
+    <td>http://localhost:4567/diss_geostore</td>
+    <td>admin</td>
+    <td>Unr3dd</td>
+  <tr>
+  <tr>
+    <td>GeoBatch</td>
+    <td>http://localhost:4567/stg_geostore</td>
+    <td>admin</td>
+    <td>admin</td>
+  <tr>
+  <tr>
+    <td>Portal administration</td>
+    <td>http://localhost:4567/admin</td>
+    <td>admin</td>
+    <td>Unr3dd</td>
+  <tr>
+  <tr>
+    <td>Monitoring Portal</td>
+    <td>http://localhost:4567/portal</td>
+    <td>admin</td>
+    <td>Unr3dd</td>
+  <tr>
+</table>
 
-#### diss_geoserver
 
-#### stg_geostore
 
-#### diss_geostore
+#### Staging GeoServer
 
-#### admin
+* Webapp directory: /var/tomcat/stg_geoserver/webapps/stg_geoserver
+* User: admin
+* Password: Unr3dd
+* Tomcat http port: 8201
+* Tomcat ajp port: 8101
+* database: stg_geoserver
+* data directory: /var/stg_geoserver/data
+* log file: /var/stg_geoserver/logs/geoserver.log
 
-#### portal
+
+#### Dissemination GeoServer
+
+* Webapp directory: /var/tomcat/diss_geoserver/webapps/diss_geoserver
+* User: admin
+* Password: Unr3dd
+* Tomcat http port: 8205
+* Tomcat ajp port: 8105
+* database: diss_geoserver
+* data directory: /var/diss_geoserver/data
+* log file: /var/stg_geoserver/diss_geoserver/geoserver.log
+
+
+#### Staging GeoStore
+
+* Webapp directory: /var/tomcat/stg_geostore/webapps/stg_geostore
+* User: admin
+* Password: Unr3dd
+* Tomcat http port: 8200
+* Tomcat ajp port: 8100
+* database: stg_geostore
+* log file: /var/tomcat/stg_geostore/logs/catalina.out
+
+
+#### Dissemination GeoStore
+
+* Webapp directory: /var/tomcat/diss_geostore/webapps/diss_geostore
+* User: admin
+* Password: Unr3dd
+* Tomcat http port: 8204
+* Tomcat ajp port: 8104
+* database: diss_geostore
+* log file: /var/tomcat/diss_geostore/logs/catalina.out
+
+
+#### Staging GeoBatch
+
+* Webapp directory: /var/tomcat/stg_geobatch/webapps/stg_geobatch
+* User: admin
+* Password: admin
+* Tomcat http port: 8202
+* Tomcat ajp port: 8102
+* Configuration directory: /var/stg_geobatch/config
+* Input directory: /var/stg_geobatch
+* Temp directory: /var/stg_geobatch/temp
+
+
+* Webapp directory: /var/tomcat/stg_geoserver/webapps/admin
+* User: admin
+* Password: Unr3dd
+* Tomcat http port: 8202
+* Tomcat ajp port: 8102
+* Configuration directory: /var/portal/nr3dd
+
+
+#### Portal administration
+
+* Webapp directory: /var/tomcat/diss_geoserver/webapps/portal
+* Tomcat http port: 8201
+* Tomcat ajp port: 8201
+
+#### Monitoring Portal
+
+* CATALINA_BASE: /var/stg_geobatch
+* User: admin
+* Password: admin
+* Tomcat http port: 8205
+* Tomcat ajp port: 8105
 
 ## Demo data
 
@@ -180,40 +304,10 @@ To setup stg_geostore for the demo data type ``curl -u admin:admin -XPUT -H "Con
 
 
 
-## Passwords
-
-<table>
-  <tr>
-    <th>Application</th>
-    <th>user</th>
-    <th>pwd</th>
-  </tr>
-  <tr>
-    <td>Admin UI</td>
-    <td>admin</td>
-    <td>Unr3dd</td>
-  </tr>
-  <tr>
-    <td>GeoServer</td>
-    <td>admin</td>
-    <td>Unr3dd</td>
-  <tr>
-  <tr>
-    <td>GeoBatch</td>
-    <td>admin</td>
-    <td>admin</td>
-  <tr>
-  <tr>
-    <td>GeoStore</td>
-    <td>admin</td>
-    <td>Unr3dd</td>
-  <tr>
-</table>
-
 
 ## TODO
 
-* install JAI
+* install native JAI
 * Tomcat webapps are deployed in the webapps directory every time chef runs -  check if the webapp version is new and deploy only in that case
 * add apache proxy directives from definitions (geobatch.rb, geoserver.rb, and geostore.rb)
 * dynamically set schema in geobatch config (now set to public)
