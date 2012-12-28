@@ -16,7 +16,7 @@ default['unredd-nfms-portal']['stg_geostore']['db_password']          = 'admin'
 default['unredd-nfms-portal']['stg_geostore']['jvm_opts']['xms']      = '512m'
 default['unredd-nfms-portal']['stg_geostore']['jvm_opts']['xmx']      = '512m'
 default['unredd-nfms-portal']['stg_geostore']['web_admin_user']       = 'admin'
-default['unredd-nfms-portal']['stg_geostore']['web_admin_password']   = 'admin'
+default['unredd-nfms-portal']['stg_geostore']['web_admin_password']   = 'Unr3dd'
 
 
 # Dissemination GeoStore
@@ -31,7 +31,7 @@ default['unredd-nfms-portal']['diss_geostore']['db_password']          = 'admin'
 default['unredd-nfms-portal']['diss_geostore']['jvm_opts']['xms']      = '512m'
 default['unredd-nfms-portal']['diss_geostore']['jvm_opts']['xmx']      = '1024m'
 default['unredd-nfms-portal']['diss_geostore']['web_admin_user']       = 'admin'
-default['unredd-nfms-portal']['diss_geostore']['web_admin_password']   = 'admin'
+default['unredd-nfms-portal']['diss_geostore']['web_admin_password']   = 'Unr3dd'
 
 
 # Staging GeoServer
