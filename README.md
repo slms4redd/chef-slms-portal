@@ -145,12 +145,12 @@ Configuration files are in ``/etc/postgresql/9.1/main``
 
 #### Postgis
 
-Installed through the package manager by the gis cookbook. Currently version is ``2.0.1`` is installed.
+Installed through the package manager by the gis cookbook. Currently version  ``2.0.1`` is installed.
 
 
 #### gdal
 
-Installed through the package manager by the gis cookbook. Currently version is ``1.9.2``is installed.
+Installed through the package manager by the gis cookbook. Currently version  ``1.9.2`` is installed.
 
 
 ### Web applications
@@ -212,82 +212,82 @@ The following web applications are installed:
 
 #### Staging GeoServer
 
-* Webapp directory: /var/tomcat/stg_geoserver/webapps/stg_geoserver
-* User: admin
-* Password: Unr3dd
-* Tomcat http port: 8201
-* Tomcat ajp port: 8101
-* database: stg_geoserver
-* data directory: /var/stg_geoserver/data
-* log file: /var/stg_geoserver/logs/geoserver.log
+* Webapp directory: ``/var/tomcat/stg_geoserver/webapps/stg_geoserver``
+* User: ``admin``
+* Password: ``Unr3dd``
+* Tomcat http port: ``8201``
+* Tomcat ajp port: ``8101``
+* database: ``stg_geoserver``
+* data directory: ``/var/stg_geoserver/data``
+* log file: ``/var/stg_geoserver/logs/geoserver.log``
 
 
 #### Dissemination GeoServer
 
-* Webapp directory: /var/tomcat/diss_geoserver/webapps/diss_geoserver
-* User: admin
-* Password: Unr3dd
-* Tomcat http port: 8205
-* Tomcat ajp port: 8105
-* database: diss_geoserver
-* data directory: /var/diss_geoserver/data
-* log file: /var/diss_geoserver/diss_geoserver/geoserver.log
+* Webapp directory: ``/var/tomcat/diss_geoserver/webapps/diss_geoserver``
+* User: ``admin``
+* Password: ``Unr3dd``
+* Tomcat http port: ``8205``
+* Tomcat ajp port: ``8105``
+* database: ``diss_geoserver``
+* data directory: ``/var/diss_geoserver/data``
+* log file: ``/var/diss_geoserver/diss_geoserver/geoserver.log``
 
 
 #### Staging GeoStore
 
-* Webapp directory: /var/tomcat/stg_geostore/webapps/stg_geostore
-* User: admin
-* Password: Unr3dd
-* Tomcat http port: 8200
-* Tomcat ajp port: 8100
-* database: stg_geostore
-* log file: /var/tomcat/stg_geostore/logs/catalina.out
+* Webapp directory: ``/var/tomcat/stg_geostore/webapps/stg_geostore``
+* User: ``admin``
+* Password: ``Unr3dd``
+* Tomcat ``http port: 8200``
+* Tomcat ajp port: ``8100``
+* database: ``stg_geostore``
+* log file: ``/var/tomcat/stg_geostore/logs/catalina.out``
 
 
 #### Dissemination GeoStore
 
-* Webapp directory: /var/tomcat/diss_geostore/webapps/diss_geostore
-* User: admin
-* Password: Unr3dd
-* Tomcat http port: 8204
-* Tomcat ajp port: 8104
-* database: diss_geostore
-* log file: /var/tomcat/diss_geostore/logs/catalina.out
+* Webapp directory: ``/var/tomcat/diss_geostore/webapps/diss_geostore``
+* User: ``admin
+* Password: ``Unr3dd``
+* Tomcat http port: ``8204``
+* Tomcat ajp port: ``8104``
+* database: ``diss_geostore``
+* log file: ``/var/tomcat/diss_geostore/logs/catalina.out``
 
 
 #### Staging GeoBatch
 
-* Webapp directory: /var/tomcat/stg_geobatch/webapps/stg_geobatch
-* User: admin
-* Password: admin
-* Tomcat http port: 8202
-* Tomcat ajp port: 8102
-* Configuration directory: /var/stg_geobatch/config
-* Input directory: /var/stg_geobatch
-* Temp directory: /var/stg_geobatch/temp
+* Webapp directory: ``/var/tomcat/stg_geobatch/webapps/stg_geobatch``
+* User: ``admin``
+* Password: ``admin``
+* Tomcat http port: ``8202``
+* Tomcat ajp port: ``8102``
+* Configuration directory: ``/var/stg_geobatch/config``
+* Input directory: ``/var/stg_geobatch``
+* Temp directory: ``/var/stg_geobatch/temp``
 
 
 #### Portal administration
 
-* Webapp directory: /var/tomcat/stg_geoserver/webapps/admin
-* User: admin
-* Password: Unr3dd
-* Tomcat http port: 8201
-* Tomcat ajp port: 8101
+* Webapp directory: ``/var/tomcat/stg_geoserver/webapps/admin``
+* User: ``admin``
+* Password: ``Unr3dd``
+* Tomcat http port: ``8201``
+* Tomcat ajp port: ``8101``
 
 
 #### Monitoring Portal
 
-* Webapp directory: /var/tomcat/diss_geoserver/webapps/portal
-* Tomcat http port: 8205
-* Tomcat ajp port: 8205
-* Configuration directory: /var/portal
+* Webapp directory: ``/var/tomcat/diss_geoserver/webapps/portal``
+* Tomcat http port: ``8205``
+* Tomcat ajp port: ``8205``
+* Configuration directory: ``/var/portal``
 
 
 ## Demo data
 
-DRC demo data is in /var/tmp/drc
+DRC demo data is in ``/var/tmp/drc``
 
 The unredd-nfms-portal::install_test_data recipe sets up stg_geoserver, stg_geostore, and stg_geobath data for testing:
 
@@ -306,11 +306,9 @@ on the terminal
 
 ## TODO
 
-* install native JAI
 * Tomcat webapps are deployed in the webapps directory every time chef runs -  check if the webapp version is new and deploy only in that case
-* add apache proxy directives from definitions (geobatch.rb, geoserver.rb, and geostore.rb)
+* add apache proxy directives from definitions (``geobatch.rb``, ``geoserver.rb``, and ``geostore.rb``)
 * dynamically set schema in geobatch config (now set to public)
-* set correct permissions for groovy scripts etc.
 * hard coded stuff in geobatch flow config files
 
 
