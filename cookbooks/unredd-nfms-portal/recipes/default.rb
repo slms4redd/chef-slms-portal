@@ -1,6 +1,8 @@
 # Install back-end
 include_recipe "unredd-nfms-portal::apache2_conf"
 
+include_recipe "unredd-nfms-portal::jai"
+
 include_recipe "unredd-nfms-portal::geoserver"
 include_recipe "unredd-nfms-portal::geostore"
 include_recipe "unredd-nfms-portal::geobatch"
