@@ -18,9 +18,9 @@ log = LoggerFactory.getLogger("training_stats.groovy");
 println "_TEST_"
 log.info "_TEST_"
 
-htmlTemplateFilePath = '/var/geobatch/config/chartscripts/deforestation_chart_template.html' // DEBUG
+htmlTemplateFilePath = '/var/stg_geobatch/config/chartscripts/deforestation_chart_template.html' // DEBUG
 prefix               = 'admin1' // DEBUG
-langFilePath         = '/var/geobatch/config/chartscripts/lang.csv' // DEBUG
+langFilePath         = '/var/stg_geobatch/config/chartscripts/lang.csv' // DEBUG
 
 //chartScriptName = 'deforestation_script'
 
@@ -53,25 +53,25 @@ def execute(Map argsMap)
 
     GeoStoreClient client = createGeoStore(argsMap);
     UNREDDGeostoreManager manager = new UNREDDGeostoreManager(client)
-    
+
     chartScriptName = argsMap.get("configuration").getProperties().get("chartscript_name");
-    
+
     // Load forest change forest data
     forestData = importData(manager, chartScriptName, true)
     nonForestData = importData(manager, chartScriptName, false)
-    
+
     // Load localized data
     loc = loadLangData(langFilePath)
-    
+
     def engine = new SimpleTemplateEngine()
     def htmlTemplate = engine.createTemplate(new File(htmlTemplateFilePath));
     //def csvTemplate  = engine.createTemplate(new File(csvTemplateFilePath));
-        
+
     def lastYear  = null;
     def firstYear = null;
-    
+
     deletePreviousChartData(client, chartScriptName);
-    
+
     // Iterate through the languages
     loc.each { langKey, loc ->
         // Create one HTML per row in the forest change stats data
@@ -89,7 +89,7 @@ def execute(Map argsMap)
                 //outputFilePath = outputBaseDir + '/' + langKey + '/' + prefix + '/' + prefix + '_' + featureId + '.html'
                 //saveAsFile(html, outputFilePath)
                 //saveAsFile(html, '/Users/sgiaccio/stats/' + featureId + '.html') // DEBUG
-                
+
                 // Save in GeoStore
                 def resourceName = chartScriptName + "_" + featureId + "_" + langKey
                 id = saveOnGeoStore(client, featureId, resourceName, html.toString(), "deforestation_script", false, langKey, "html")
@@ -99,13 +99,13 @@ def execute(Map argsMap)
                 e.printStackTrace();
             }
         }
-        
+
         // Create csv
         //def csvBinding = ['loc': loc, 'forestChange': forestChangeStatsData]
         //def csv = csvTemplate.make(csvBinding)
         //println csv; // DEBUG
     }
-    
+
     return ["return": []]
 }
 
@@ -115,7 +115,7 @@ def loadLangData(langFilePath)
     lines = langFile.readLines()
     headerLine = lines.head().split("\t")
     languages = headerLine.tail() // remove first column from first line (it's not a language code nor a label id)
-    
+
     // fill the loc hash map
     loc = [:]
     lines = lines.tail()
@@ -133,7 +133,7 @@ def loadLangData(langFilePath)
             }
         }
     }
-    
+
     return loc
 }
 
@@ -148,7 +148,7 @@ def deletePreviousChartData(client, chartScriptName) {
     {
         def id = chartData.getId();
         log.info("Resource deleted - id = " + id)
-        
+
         client.deleteResource(id);
     }
 }
@@ -173,7 +173,7 @@ def saveOnGeoStore(client, featureId, name, html, chartScriptName, published, la
     RESTStoredData rsd = new RESTStoredData()
     rsd.setData(html)
     chartDataRestResource.setStore(rsd)
-    
+
     // Insert in GeoStore
     int id = client.insert(chartDataRestResource)
     return id
@@ -183,13 +183,13 @@ def saveOnGeoStore(client, featureId, name, html, chartScriptName, published, la
 def importData(manager, dataId, forest)
 {
     List resources = manager.searchStatsDataByStatsDef2('deforestation'); // dataId)
-    
+
     Map output = new HashMap()
-    
+
     for (Resource resource : resources)
     {
         data = resource.getData()
-        
+
         int year  = (Float.parseFloat(getAttribute(resource.getAttribute(), UNREDDStatsData.Attributes.YEAR).getValue())).trunc()
         def lines = parseTable(data.getData(), forest)
         lines.each { id, line ->
@@ -202,7 +202,7 @@ def importData(manager, dataId, forest)
             }
         }
     }
-    
+
     return output
 }
 
@@ -217,16 +217,16 @@ def fillNullRows(map) {
 def parseTable(table, forest)
 {
     HashMap lines = new HashMap()
-    
+
     table.eachLine { line ->
         parsedArr = []
         arr = line.tokenize(csvSeparator)
-        
+
         if ("0".equals(arr[1]) && forest || "1".equals(arr[1]) && !forest)
             return false // skip loop
-        
+
         polygonId = Integer.parseInt(arr[0])
-        
+
         // Values for each administrative regions are split in two rows (forest and non-forest) - join them together again
         for (i in 2..<arr.size) // first element in array is the polygon id, don't need it
         {
@@ -235,11 +235,11 @@ def parseTable(table, forest)
             //println 'parsedArr[i - 2] = ' + parsedArr[i - 2]
             parsedArr[i - 2] = Double.parseDouble(arr[i])
         }
-        
+
         //println 'parsedArr = ' + parsedArr
         lines.put(polygonId, parsedArr)
     }
-    
+
     //print lines
     return lines
 }
@@ -251,7 +251,7 @@ def getAttribute(List attributeList, attribute)
             return attr
         }
     }
-    
+
     return null
 }
 

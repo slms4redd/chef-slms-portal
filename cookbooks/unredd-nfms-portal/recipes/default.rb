@@ -52,6 +52,13 @@ unredd_nfms_portal_app "portal" do
   user            tomcat_user
 end
 
+template "#{portal_config_dir}/portal.properties" do
+  source "portal/portal.properties.erb"
+  owner tomcat_user
+  group tomcat_user
+  mode 0644
+end
+
 
 # Install the admin ui
 # Since we need to modify unredd_admin_applicationContext.xml and security.xml and
