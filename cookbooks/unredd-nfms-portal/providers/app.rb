@@ -8,7 +8,7 @@ action :install do
   #Chef::Log.info "#{new_resource.base}/#{new_resource.app_name}/webapps/#{new_resource.app_name}.war" # DEBUG
 
   # Download the file only if the remote source has changed (uses http_request resource)
-  remote_file "/var/tmp/#{file_name}" do
+  remote_file "#{Chef::Config[:file_cache_path]}/#{file_name}" do
     source new_resource.download_url
     owner new_resource.user
     action :nothing
@@ -17,18 +17,17 @@ action :install do
     message ""
     url new_resource.download_url
     action :head
-    if ::File.exists?("/var/tmp/#{file_name}")
-      headers "If-Modified-Since" => ::File.mtime("/var/tmp/#{file_name}").httpdate
+    if ::File.exists?("#{Chef::Config[:file_cache_path]}/#{file_name}")
+      headers "If-Modified-Since" => ::File.mtime("#{Chef::Config[:file_cache_path]}/#{file_name}").httpdate
     end
-    notifies :create, resources(:remote_file => "/var/tmp/#{file_name}"), :immediately
+    notifies :create, resources(:remote_file => "#{Chef::Config[:file_cache_path]}/#{file_name}"), :immediately
   end
 
   # TODO: The app is deployed every time Chef runs, even if there's no chance - check for changes
-  execute "deploy" do
-    user new_resource.user
+  execute "deploy #{file_name}" do
     destination = ::File.join(new_resource.base, new_resource.tomcat_instance, 'webapps', "#{new_resource.app_name}.war")
     command <<-EOH
-      cp /var/tmp/#{file_name} #{destination}
+      install -o #{new_resource.user} -g #{new_resource.user} #{Chef::Config[:file_cache_path]}/#{file_name} #{destination}
     EOH
     action :run
   end

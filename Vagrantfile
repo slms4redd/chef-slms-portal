@@ -1,6 +1,15 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+# We'll mount the Chef::Config[:file_cache_path] so it persists between
+# Vagrant VMs
+host_cache_path = File.expand_path("../.cache", __FILE__)
+guest_cache_path = "/var/vagrant-cache"
+
+# ensure the cache path exists
+FileUtils.mkdir(host_cache_path) unless File.exist?(host_cache_path)
+
+
 Vagrant::Config.run do |config|
   config.vm.box = 'precise32'
   config.vm.box_url = 'http://files.vagrantup.com/precise32.box'
@@ -13,13 +22,16 @@ Vagrant::Config.run do |config|
 
   config.vm.forward_port 80, 4567
 
-  config.vm.share_folder "shared", "~/shared", "."
+  #config.vm.share_folder "shared", "~/shared", "."
+  config.vm.share_folder "cache", guest_cache_path, host_cache_path
 
   # Upgrade Chef - On precise32 getting "TypeError: can't convert nil into String Chef" otherwise. Might not be needed with other boxes
   config.vm.provision :shell, :inline => "gem update chef"
 
   config.vm.provision :chef_solo do |chef|
     chef.cookbooks_path = "cookbooks"
+    chef.provisioning_path = guest_cache_path
+
     #chef.roles_path     = "roles" # not used (yet?)
     #chef.data_bags_path = "data_bags" # not used (yet?)
 
