@@ -190,7 +190,7 @@ The following web applications are installed:
   <tr>
   <tr>
     <td>GeoBatch</td>
-    <td>http://localhost:4567/stg_geostore</td>
+    <td>http://localhost:4567/stg_geobatch</td>
     <td>admin</td>
     <td>admin</td>
   <tr>
@@ -291,11 +291,11 @@ DRC demo data is in ``/var/tmp/drc``
 
 The unredd-nfms-portal::install_test_data recipe sets up stg_geoserver, stg_geostore, and stg_geobath data for testing:
 
-``area.tif`` and ``provinces.tif`` are copied in ``/var/stg_geoserver/extdata/forest_mask_mosaic``
-the directory ``/var/stg_geoserver/extdata/forest_mask_mosaic`` is created with the .properties
+* the files``area.tif`` and ``provinces.tif`` are copied in ``/var/stg_geoserver/extdata/forest_mask_mosaic``;
+* the directory ``/var/stg_geoserver/extdata/forest_mask_mosaic`` is created with the ``.properties`` files
 
 
-To setup stg_geostore for the demo data type
+To setup stg_geostore for the demo data, type
 
 ``curl -u admin:Unr3dd -XPUT -H "Content-type: text/xml" -d @/var/tmp/unredd_geostore_backup.xml http://localhost/stg_geostore/rest/backup/quick/``
 
