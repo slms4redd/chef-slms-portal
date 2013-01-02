@@ -25,6 +25,9 @@ Vagrant::Config.run do |config|
 
     # chef.add_recipe "locale" # Set locale
 
+    # Uncomment and configure apt cacher if exists
+    # chef.add_recipe "apt::cacher-client"
+        
     chef.add_recipe "apt" # execute apt-get update
 
     #chef.add_recipe "postgresql"
@@ -42,6 +45,11 @@ Vagrant::Config.run do |config|
       #   :lang => "en_US.utf8" # en_US.utf8 is the default value
       # },
 
+      # Uncomment and configure apt cacher if exists
+      #:apt => {
+      #   :cacher_ipaddress => '10.10.100.4'
+      #},
+  
       # PostgreSQL configuration
       :postgresql => {
         :version => "9.1",
