@@ -1,5 +1,5 @@
-.vagrant
-.cache
+vagrant/.vagrant
+cache
 
 # OS generated files #
 ######################
