@@ -1,0 +1,32 @@
+# Don't rewrite hostname
+ProxyPreserveHost on
+
+# Proxy rules for the staging area
+ProxyPass        /stg_geostore   ajp://localhost:<%= @stg_geostore_ajp_porty %>/stg_geostore
+ProxyPassReverse /stg_geostore   ajp://localhost:<%= @stg_geostore_ajp_porty %>/stg_geostore
+ProxyPassReverse /stg_geostore/  ajp://localhost:<%= @stg_geostore_ajp_porty %>/stg_geostore/
+
+ProxyPass        /stg_geoserver   ajp://localhost:<%= @stg_geoserver_ajp_porty %>/stg_geoserver
+ProxyPassReverse /stg_geoserver   ajp://localhost:<%= @stg_geoserver_ajp_porty %>/stg_geoserver
+ProxyPassReverse /stg_geoserver/  ajp://localhost:<%= @stg_geoserver_ajp_porty %>/stg_geoserver/
+
+ProxyPass        /stg_geobatch   ajp://localhost:<%= @stg_geobatch_ajp_porty %>/stg_geobatch
+ProxyPassReverse /stg_geobatch   ajp://localhost:<%= @stg_geobatch_ajp_porty %>/stg_geobatch
+ProxyPassReverse /stg_geobatch/  ajp://localhost:<%= @stg_geobatch_ajp_porty %>/stg_geobatch/
+
+ProxyPass        /admin   ajp://localhost:<%= @admin_ajp_porty %>/admin
+ProxyPassReverse /admin   ajp://localhost:<%= @admin_ajp_porty %>/admin
+ProxyPassReverse /admin/  ajp://localhost:<%= @admin_ajp_porty %>/admin/
+
+# Proxy rules for the dissemination area
+ProxyPass        /diss_geostore   ajp://localhost:<%= @diss_geostore_ajp_porty %>/diss_geostore
+ProxyPassReverse /diss_geostore   ajp://localhost:<%= @diss_geostore_ajp_porty %>/diss_geostore
+ProxyPassReverse /diss_geostore/  ajp://localhost:<%= @diss_geostore_ajp_porty %>/diss_geostore/
+
+ProxyPass        /diss_geoserver   ajp://localhost:<%= @diss_geoserver_ajp_porty %>/diss_geoserver
+ProxyPassReverse /diss_geoserver   ajp://localhost:<%= @diss_geoserver_ajp_porty %>/diss_geoserver
+ProxyPassReverse /diss_geoserver/  ajp://localhost:<%= @diss_geoserver_ajp_porty %>/diss_geoserver/
+
+ProxyPass        /portal   ajp://localhost:<%= @portal_ajp_porty %>/portal
+ProxyPassReverse /portal   ajp://localhost:<%= @portal_ajp_porty %>/portal
+ProxyPassReverse /portal/  ajp://localhost:<%= @portal_ajp_porty %>/portal/
