@@ -1,0 +1,135 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# We'll mount the Chef::Config[:file_cache_path] so it persists between
+# Vagrant VMs
+host_cache_path = File.expand_path("../cache")
+guest_cache_path = "/var/vagrant-cache"
+
+# ensure the cache path exists
+FileUtils.mkdir(host_cache_path) unless File.exist?(host_cache_path)
+
+Vagrant::Config.run do |config|
+  # config.vm.box     = 'precise32'
+  # config.vm.box_url = 'http://files.vagrantup.com/precise32.box'
+
+  # config.vm.box     = 'ubuntu_server_64'
+  # config.vm.box_url = 'https://dl.dropbox.com/u/1543052/Boxes/UbuntuServer12.04amd64.box'
+
+  config.vm.box     = 'centos_6_3'
+  config.vm.box_url = 'https://dl.dropbox.com/u/7225008/Vagrant/CentOS-6.3-x86_64-minimal.box'
+
+  config.vm.host_name = "unredd"
+
+  config.vm.customize ["modifyvm", :id, "--memory", 3072]
+  config.vm.forward_port 80, 4567
+  config.vm.share_folder "cache", guest_cache_path, host_cache_path
+  config.vm.share_folder "shared", "~/shared", "../shared"
+
+  # Upgrade Chef - On precise32 getting "TypeError: can't convert nil into String Chef" otherwise. Might not be needed with other boxes
+  config.vm.provision :shell, :inline => "gem update chef"
+
+  config.vm.provision :chef_solo do |chef|
+    chef.cookbooks_path = "../cookbooks"
+    chef.provisioning_path = guest_cache_path
+
+    #chef.roles_path     = "roles" # not used (yet?)
+    #chef.data_bags_path = "data_bags" # not used (yet?)
+
+    # chef.add_recipe "locale" # Set locale
+
+    # Uncomment and configure apt cacher if exists
+    #chef.add_recipe "apt::cacher-client"
+
+    #chef.add_recipe "apt" # execute apt-get update
+
+    #chef.add_recipe "postgresql"
+    chef.add_recipe "java"
+    chef.add_recipe "postgresql::server"
+    chef.add_recipe "database::postgresql"
+
+    chef.add_recipe "gis" # Needed to install PostGIS
+
+    chef.add_recipe "unredd-nfms-portal"
+    chef.add_recipe "unredd-nfms-portal::install_test_data"
+
+    chef.json = {
+      # :locale => {
+      #   :lang => "en_US.utf8" # en_US.utf8 is the default value
+      # },
+
+      # Uncomment and configure apt cacher if exists
+      #:apt => {
+      #   :cacher_ipaddress => '10.10.100.4'
+      #},
+
+      # PostgreSQL configuration
+      :postgresql => {
+        #:version => "9.1",
+        :password => {
+          :postgres => "postgres" # with chef-solo you must specify them in the json_attribs file used
+        },
+        :pg_hba => [
+          { :type => 'local', :db => 'all', :user => 'postgres', :addr => nil,            :method => 'peer' },
+          { :type => 'local', :db => 'all', :user => 'all',      :addr => nil,            :method => 'md5' },
+          { :type => 'host',  :db => 'all', :user => 'all',      :addr => '127.0.0.1/32', :method => 'md5' },
+          { :type => 'host',  :db => 'all', :user => 'all',      :addr => '::1/128',      :method => 'md5' }
+        ]
+      },
+
+      # The java cookbook is used to install the Oracle distribution of Java
+      :java => {
+        :install_flavor => "oracle",
+        :oracle => {
+          "accept_oracle_download_terms" => true
+        }
+      },
+
+      # Tomcat will be installed in /var/tomcat/tomcat-6
+      # The link /var/tomcat/default -> /var/tomcat/tomcat-6 is also created
+      :tomcat => {
+        :version => '6',
+        :'6' => {
+          :url => "http://archive.apache.org/dist/tomcat/tomcat-6/v6.0.36/bin/apache-tomcat-6.0.36.tar.gz",
+          #:checksum => "3dde098fd0b3a08d3f2867e4a95591ba"
+        },
+        :prefix_dir => "/var"
+      },
+
+      # The gis cookbook will install gdal, postgis and support libraries
+      # TODO: maybe better to use some postgis cookbook
+      :gis => {
+        :ubuntugis => {
+          :repo => "unstable",
+          :packages => %|gdal-bin python-gdal libxml2-dev libgeos-dev proj postgis postgresql-9.1-postgis|
+        }
+      },
+
+      # The unredd webapps will be installed in /var/tomcat/<app_name> by the tomcat cookbook
+      :'unredd-nfms-portal' => {
+        # Configuration parameters for the unredd tomcat instances.
+        # The jvm_opts parameters are ood for a test virtual machine, leave the default ones
+        # for a production server setup (or override them with bigger values).
+        :stg_geostore => {
+          :jvm_opts => { :xms => "128m", :xmx => "256m" }
+        },
+        :diss_geostore => {
+          :jvm_opts => { :xms => "128m", :xmx => "256m" }
+        },
+        :stg_geoserver => {
+          :jvm_opts => { :xms => "128m", :xmx => "512m" }
+        },
+        :diss_geoserver => {
+          :jvm_opts => { :xms => "128m", :xmx => "512m" }
+        },
+        :stg_geobatch => {
+          :jvm_opts => { :xms => "128m", :xmx => "512m" }
+        },
+        :portal => {
+          :minified_js => false
+        }
+      }
+    }
+
+  end
+end
