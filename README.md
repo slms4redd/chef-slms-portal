@@ -36,8 +36,8 @@ The following cookbooks:
 2. Download this repository with submodules: ``git clone --recursive https://github.com/nfms4redd/chef-nfms-portal.git``
 3. Run Vagrant:
 
-        cd chef-nfms-portal
-        Vagrant up
+        cd chef-nfms-portal/vagrant
+        vagrant up
 
 
 ### Memory allocation
@@ -63,7 +63,25 @@ Currently only port 80 in the VM is forwarded to port 4567 on the host OS.
 
 ### Shared folders
 
-A shared folder is created through the line ``config.vm.share_folder "shared", "~/shared", "."`` in ``Vagrantfile``
+Two shared folders are created:
+
+<table>
+  <tr>
+    <th>Dir</th>
+    <th>Mount point</th>
+  </tr>
+  <tr>
+    <td>cache</td>
+    <td>/var/vagrant-cache/</td>
+  </tr>
+  <tr>
+    <td>shared</td>
+    <td>~/shared</td>
+  <tr>
+</table>
+
+
+The ``cache`` shared directory is also set as the ``chef.provisioning_path``, so that the chef files are not cancelled when rebooting or after destroying the vm.
 
 
 ### Users
@@ -281,7 +299,7 @@ The following web applications are installed:
 
 * Webapp directory: ``/var/tomcat/diss_geoserver/webapps/portal``
 * Tomcat http port: ``8205``
-* Tomcat ajp port: ``8205``
+* Tomcat ajp port: ``8105``
 * Configuration directory: ``/var/portal``
 
 

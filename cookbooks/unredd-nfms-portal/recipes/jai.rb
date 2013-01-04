@@ -2,7 +2,7 @@ jai_arch             = node['kernel']['machine'] =~ /x86_64/ ? "amd64" : "i586"
 jai_version          = node['unredd-nfms-portal']['jai']['jai_version'].gsub(/\./, "_")
 jai_imageio_version  = node['unredd-nfms-portal']['jai']['jai_imageio_version']
 
-# Note: use of underscores instead of dots is not consistent. there might be problems when version changes
+# Note: use of underscores and dots is not consistent. There might be problems when version changes
 jai_filename         = "jai-#{jai_version}-lib-linux-#{jai_arch}"
 jai_imageio_filename = "jai_imageio-#{jai_imageio_version.gsub(/\./, "_")}-lib-linux-#{jai_arch}"
 
