@@ -3,7 +3,7 @@
 # Cookbook Name:: unredd-nfms-portal
 # Attributes:: jai
 #
-# (C) 2012, FAO Forestry Department (http://www.fao.org/forestry/)
+# (C) 2013, FAO Forestry Department (http://www.fao.org/forestry/)
 #
 # This application is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public
