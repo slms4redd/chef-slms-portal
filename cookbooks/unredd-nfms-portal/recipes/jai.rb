@@ -1,3 +1,21 @@
+#
+# Author:: Stefano Giaccio (<stefano.giaccio@fao.org>)
+# Cookbook Name:: unredd-nfms-portal
+# Recipe:: jai
+#
+# (C) 2012, FAO Forestry Department (http://www.fao.org/forestry/)
+#
+# This application is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public
+# License as published by the Free Software Foundation;
+# version 3.0 of the License.
+#
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU General Public License for more details.
+
+
 jai_arch             = node['kernel']['machine'] =~ /x86_64/ ? "amd64" : "i586"
 jai_version          = node['unredd-nfms-portal']['jai']['jai_version'].gsub(/\./, "_")
 jai_imageio_version  = node['unredd-nfms-portal']['jai']['jai_imageio_version']

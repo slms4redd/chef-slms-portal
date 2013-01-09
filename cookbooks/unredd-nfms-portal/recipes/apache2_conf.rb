@@ -1,3 +1,21 @@
+#
+# Author:: Stefano Giaccio (<stefano.giaccio@fao.org>)
+# Cookbook Name:: unredd-nfms-portal
+# Recipe:: apache2_conf
+#
+# (C) 2012, FAO Forestry Department (http://www.fao.org/forestry/)
+#
+# This application is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public
+# License as published by the Free Software Foundation;
+# version 3.0 of the License.
+#
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU General Public License for more details.
+
+
 include_recipe "apache2"
 include_recipe "apache2::mod_proxy"
 include_recipe "apache2::mod_proxy_ajp"
