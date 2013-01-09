@@ -1,6 +1,21 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+# Author: Stefano Giaccio (<stefano.giaccio@fao.org>)
+#
+# (C) 2012, FAO Forestry Department (http://www.fao.org/forestry/)
+#
+# This application is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public
+# License as published by the Free Software Foundation;
+# version 3.0 of the License.
+#
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU General Public License for more details.
+
+
 # We'll mount the Chef::Config[:file_cache_path] so it persists between
 # Vagrant VMs
 host_cache_path = File.expand_path("../cache")
@@ -13,8 +28,8 @@ Vagrant::Config.run do |config|
   config.vm.box     = 'precise32'
   config.vm.box_url = 'http://files.vagrantup.com/precise32.box'
 
-  # config.vm.box     = 'ubuntu_server_64'
-  # config.vm.box_url = 'https://dl.dropbox.com/u/1543052/Boxes/UbuntuServer12.04amd64.box'
+  #config.vm.box     = 'ubuntu_server_64'
+  #config.vm.box_url = 'https://dl.dropbox.com/u/1543052/Boxes/UbuntuServer12.04amd64.box'
 
   config.vm.host_name = "unredd"
 
@@ -67,7 +82,7 @@ Vagrant::Config.run do |config|
           :postgres => "postgres" # with chef-solo you must specify them in the json_attribs file used
         },
         :pg_hba => [
-          { :type => 'local', :db => 'all', :user => 'postgres', :addr => nil,            :method => 'peer' },
+          { :type => 'local', :db => 'all', :user => 'postgres', :addr => nil,            :method => 'ident' },
           { :type => 'local', :db => 'all', :user => 'all',      :addr => nil,            :method => 'md5' },
           { :type => 'host',  :db => 'all', :user => 'all',      :addr => '127.0.0.1/32', :method => 'md5' },
           { :type => 'host',  :db => 'all', :user => 'all',      :addr => '::1/128',      :method => 'md5' }
@@ -99,7 +114,7 @@ Vagrant::Config.run do |config|
         :ubuntugis => {
           :repo => "unstable",
           #:packages => %|gdal-bin python-gdal postgresql-9.1 postgresql-server-dev-9.1 libxml2-dev libgeos-dev proj postgis postgresql-9.1-postgis|
-          :packages => %|gdal-bin python-gdal libxml2-dev libgeos-dev proj postgis postgresql-9.1-postgis|
+          :packages => ['gdal-bin', 'python-gdal', 'libxml2-dev', 'libgeos-dev', 'proj', 'postgis', 'postgresql-9.1-postgis']
         }
       },
 

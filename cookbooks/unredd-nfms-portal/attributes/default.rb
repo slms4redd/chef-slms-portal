@@ -1,3 +1,21 @@
+#
+# Author:: Stefano Giaccio (<stefano.giaccio@fao.org>)
+# Cookbook Name:: unredd-nfms-portal
+# Attributes:: default
+#
+# (C) 2012, FAO Forestry Department (http://www.fao.org/forestry/)
+#
+# This application is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public
+# License as published by the Free Software Foundation;
+# version 3.0 of the License.
+#
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU General Public License for more details.
+
+
 # Download URLs
 default['unredd-nfms-portal']['geoserver_download_url']       = 'http://nfms4redd.org/downloads/geoserver/geoserver-2.2+gdal+pyramid+flow.war'
 default['unredd-nfms-portal']['geostore_download_url']        = 'http://nfms4redd.org/downloads/geostore/nfms-geostore-1.0.1.war'

@@ -1,6 +1,21 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+# Author: Stefano Giaccio (<stefano.giaccio@fao.org>)
+#
+# (C) 2012, FAO Forestry Department (http://www.fao.org/forestry/)
+#
+# This application is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public
+# License as published by the Free Software Foundation;
+# version 3.0 of the License.
+#
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU General Public License for more details.
+
+
 # We'll mount the Chef::Config[:file_cache_path] so it persists between
 # Vagrant VMs
 host_cache_path = File.expand_path("../cache")
@@ -44,6 +59,9 @@ Vagrant::Config.run do |config|
     #chef.add_recipe "apt" # execute apt-get update
 
     #chef.add_recipe "postgresql"
+    chef.add_recipe "unredd-nfms-portal::centos"
+
+
     chef.add_recipe "java"
     chef.add_recipe "postgresql::server"
     chef.add_recipe "database::postgresql"
@@ -65,12 +83,12 @@ Vagrant::Config.run do |config|
 
       # PostgreSQL configuration
       :postgresql => {
-        #:version => "9.1",
+        :version => "9.1",
         :password => {
           :postgres => "postgres" # with chef-solo you must specify them in the json_attribs file used
         },
         :pg_hba => [
-          { :type => 'local', :db => 'all', :user => 'postgres', :addr => nil,            :method => 'peer' },
+          { :type => 'local', :db => 'all', :user => 'postgres', :addr => nil,            :method => 'ident' },
           { :type => 'local', :db => 'all', :user => 'all',      :addr => nil,            :method => 'md5' },
           { :type => 'host',  :db => 'all', :user => 'all',      :addr => '127.0.0.1/32', :method => 'md5' },
           { :type => 'host',  :db => 'all', :user => 'all',      :addr => '::1/128',      :method => 'md5' }

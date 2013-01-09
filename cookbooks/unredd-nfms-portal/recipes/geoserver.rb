@@ -1,3 +1,21 @@
+#
+# Author:: Stefano Giaccio (<stefano.giaccio@fao.org>)
+# Cookbook Name:: unredd-nfms-portal
+# Recipe:: geoserver
+#
+# (C) 2012, FAO Forestry Department (http://www.fao.org/forestry/)
+#
+# This application is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public
+# License as published by the Free Software Foundation;
+# version 3.0 of the License.
+#
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU General Public License for more details.
+
+
 geoserver "stg_geoserver" do
   download_url         node['unredd-nfms-portal']['geoserver_download_url']
   tomcat_instance_name node['unredd-nfms-portal']['stg_geoserver']['tomcat_instance_name']
