@@ -2,7 +2,7 @@ SPI=org.geotools.data.postgis.PostgisNGDataStoreFactory
 port=<%= node['postgresql']['config']['port'] %>
 host=<%= node['postgresql']['config']['listen_addresses'] %>
 schema=public
-database=stg_geoserver
+database=<%= @db %>
 Loose\ bbox=true
-user=<%= node['unredd-nfms-portal']['stg_geoserver']['db_user'] %>
-passwd=<%= node['unredd-nfms-portal']['stg_geoserver']['db_password'] %>
+user=<%= @db_user %>
+passwd=<%= @db_password %>

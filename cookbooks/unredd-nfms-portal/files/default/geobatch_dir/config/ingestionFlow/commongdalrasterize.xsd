@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema elementFormDefault="qualified"
-	xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 	targetNamespace="http://www.geobatch.org/gdal_translate"
 	xmlns="http://www.geobatch.org/gdal_translate">
 
@@ -41,20 +41,20 @@
 					maxOccurs="1">
 					<xsd:annotation>
 						<xsd:documentation>
-							The output file name 
+							The output file name
     				</xsd:documentation>
 					</xsd:annotation>
 				</xsd:element>
-				
+
 				<xsd:element name="size">
 				  <xsd:complexType>
 				    <xsd:sequence>
 				      <xsd:element name="width" type="xsd:int" minOccurs="1" maxOccurs="1"/>
-				      <xsd:element name="height" type="xsd:int" minOccurs="1" maxOccurs="1"/"/>
+				      <xsd:element name="height" type="xsd:int" minOccurs="1" maxOccurs="1"/>
 				    </xsd:sequence>
 				  </xsd:complexType>
-				</xsd:element> 
-				
+				</xsd:element>
+
                 <xsd:element name="box">
                   <xsd:complexType>
                     <xsd:sequence>
@@ -64,16 +64,16 @@
                       <xsd:element name="ry1" type="xsd:string" minOccurs="1" maxOccurs="1"/>
                     </xsd:sequence>
                   </xsd:complexType>
-                </xsd:element> 
-              
+                </xsd:element>
+
                 <xsd:element name="nodata" type="xsd:string" minOccurs="1" maxOccurs="1">
                     <xsd:annotation>
                         <xsd:documentation>
                             The no_data value
                     </xsd:documentation>
                     </xsd:annotation>
-                </xsd:element>	
-                
+                </xsd:element>
+
                 <xsd:element name="co" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
                     <xsd:annotation>
                         <xsd:documentation>
@@ -81,7 +81,7 @@
                     </xsd:documentation>
                     </xsd:annotation>
                 </xsd:element>
-                
+
                 <xsd:element name="ot" type="xsd:string" minOccurs="0" maxOccurs="1">
                     <xsd:annotation>
                         <xsd:documentation>
@@ -89,7 +89,7 @@
                     </xsd:documentation>
                     </xsd:annotation>
                 </xsd:element>
-                
+
                 <xsd:element name="of" type="xsd:string" minOccurs="1" maxOccurs="1">
                     <xsd:annotation>
                         <xsd:documentation>
@@ -97,7 +97,7 @@
                     </xsd:documentation>
                     </xsd:annotation>
                 </xsd:element>
-                
+
                 <xsd:element name="a_srs" type="xsd:string" minOccurs="0" maxOccurs="1">
                     <xsd:annotation>
                         <xsd:documentation>
@@ -105,15 +105,15 @@
                     </xsd:documentation>
                     </xsd:annotation>
                 </xsd:element>
-                
+
                 <xsd:element name="where" type="xsd:string" minOccurs="0" maxOccurs="1">
                     <xsd:annotation>
                         <xsd:documentation>
-                            The where clause 
+                            The where clause
                     </xsd:documentation>
                     </xsd:annotation>
                 </xsd:element>
-                
+
 			</xsd:all>
 		</xsd:complexType>
 	</xsd:element>

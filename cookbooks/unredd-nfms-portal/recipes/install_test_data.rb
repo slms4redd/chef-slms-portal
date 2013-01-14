@@ -33,11 +33,13 @@ execute "uncompress sample data" do
   command <<-EOH
     cd /var/tmp/
     tar -xf sample_data.tgz
+
     mkdir -p  /var/stg_geoserver/extdata/stats/
     cp drc/stats/* /var/stg_geoserver/extdata/stats/
+    cp -R drc/forest_mask_mosaic /var/stg_geoserver/extdata
 
-    cp -R drc/diss_forest_mask_mosaic /var/stg_geoserver/extdata/forest_mask_mosaic
-    #curl -u admin:admin -XPUT -H "Content-type: text/xml" -d @/var/tmp/unredd_geostore_backup.xml http://localhost/stg_geostore/rest/backup/quick/
+    mkdir -p  /var/diss_geoserver/extdata/
+    cp -R drc/forest_mask_mosaic /var/diss_geoserver/extdata
   EOH
 end
 
@@ -45,9 +47,25 @@ template "/var/stg_geoserver/extdata/forest_mask_mosaic/datastore.properties" do
   source "test_data/datastore.properties.erb"
   owner  node['tomcat']['user']
   group  node['tomcat']['user']
-  mode   0644
+  variables(
+    :db          => node['unredd-nfms-portal']['stg_geoserver']['db'],
+    :db_user     => node['unredd-nfms-portal']['stg_geoserver']['db_user'],
+    :db_password => node['unredd-nfms-portal']['stg_geoserver']['db_password']
+  )
+  mode 0644
 end
 
+template "/var/diss_geoserver/extdata/forest_mask_mosaic/datastore.properties" do
+  source "test_data/datastore.properties.erb"
+  owner  node['tomcat']['user']
+  group  node['tomcat']['user']
+  variables(
+    :db          => node['unredd-nfms-portal']['diss_geoserver']['db'],
+    :db_user     => node['unredd-nfms-portal']['diss_geoserver']['db_user'],
+    :db_password => node['unredd-nfms-portal']['diss_geoserver']['db_password']
+  )
+  mode 0644
+end
 
 execute "set stg_geoserver extdata dir permissions" do
   user "root"
