@@ -67,11 +67,29 @@ template "/var/diss_geoserver/extdata/forest_mask_mosaic/datastore.properties" d
   mode 0644
 end
 
-execute "set stg_geoserver extdata dir permissions" do
+template "#{node['unredd-nfms-portal']['portal']['config_dir']}/static/custom.js" do
+  source "test_data/custom.js.erb"
+  owner  node['tomcat']['user']
+  group  node['tomcat']['user']
+  mode 0644
+end
+
+template "#{node['unredd-nfms-portal']['portal']['config_dir']}/layers.json" do
+  source "test_data/layers.json.erb"
+  owner  node['tomcat']['user']
+  group  node['tomcat']['user']
+  mode 0644
+end
+
+execute "set stg and diss geoserver extdata dir permissions" do
   user "root"
   command <<-EOH
     chown -R #{node['tomcat']['user']}: /var/stg_geoserver/extdata
     find /var/stg_geoserver/extdata -type d -exec chmod 755 {} \\;
     find /var/stg_geoserver/extdata -type f -exec chmod 644 {} \\;
+
+    chown -R #{node['tomcat']['user']}: /var/diss_geoserver/extdata
+    find /var/diss_geoserver/extdata -type d -exec chmod 755 {} \\;
+    find /var/diss_geoserver/extdata -type f -exec chmod 644 {} \\;
   EOH
 end
