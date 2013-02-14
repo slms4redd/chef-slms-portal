@@ -31,3 +31,6 @@
 [submodule "cookbooks/tomcat"]
 	path = cookbooks/tomcat
 	url = git://github.com/bryanwb/chef-tomcat.git
+[submodule "cookbooks/omnibus_updater"]
+	path = cookbooks/omnibus_updater
+	url = git://github.com/hw-cookbooks/omnibus_updater.git

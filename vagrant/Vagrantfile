@@ -38,9 +38,6 @@ Vagrant::Config.run do |config|
   config.vm.share_folder "cache", guest_cache_path, host_cache_path
   config.vm.share_folder "shared", "~/shared", "../shared"
 
-  # Upgrade Chef - On precise32 getting "TypeError: can't convert nil into String Chef" otherwise. Might not be needed with other boxes
-  config.vm.provision :shell, :inline => "gem update chef"
-
   config.vm.provision :chef_solo do |chef|
     chef.cookbooks_path = "../cookbooks"
     chef.provisioning_path = guest_cache_path
@@ -52,6 +49,9 @@ Vagrant::Config.run do |config|
 
     # Uncomment and configure apt cacher if exists
     #chef.add_recipe "apt::cacher-client"
+
+    # Upgrade Chef - On precise32 getting "TypeError: can't convert nil into String Chef" otherwise. Might not be needed with other boxes
+    chef.add_recipe "omnibus_updater" # execute apt-get update
 
     chef.add_recipe "apt" # execute apt-get update
 
@@ -74,6 +74,10 @@ Vagrant::Config.run do |config|
       #:apt => {
       #   :cacher_ipaddress => '10.10.100.4'
       #},
+
+      :omnibus_updater => {
+        :version => '10.18.2'
+      },
 
       # PostgreSQL configuration
       :postgresql => {
