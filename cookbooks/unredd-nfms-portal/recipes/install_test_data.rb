@@ -36,36 +36,36 @@ execute "uncompress sample data" do
 
     mkdir -p  /var/stg_geoserver/extdata/stats/
     cp drc/stats/* /var/stg_geoserver/extdata/stats/
-    cp -R drc/forest_mask_mosaic /var/stg_geoserver/extdata
+    #cp -R drc/forest_mask_mosaic /var/stg_geoserver/extdata
 
     mkdir -p  /var/diss_geoserver/extdata/
-    cp -R drc/forest_mask_mosaic /var/diss_geoserver/extdata
+    #cp -R drc/forest_mask_mosaic /var/diss_geoserver/extdata
   EOH
 end
 
-template "/var/stg_geoserver/extdata/forest_mask_mosaic/datastore.properties" do
-  source "test_data/datastore.properties.erb"
-  owner  node['tomcat']['user']
-  group  node['tomcat']['user']
-  variables(
-    :db          => node['unredd-nfms-portal']['stg_geoserver']['db'],
-    :db_user     => node['unredd-nfms-portal']['stg_geoserver']['db_user'],
-    :db_password => node['unredd-nfms-portal']['stg_geoserver']['db_password']
-  )
-  mode 0644
-end
+# template "/var/stg_geoserver/extdata/forest_mask_mosaic/datastore.properties" do
+#   source "test_data/datastore.properties.erb"
+#   owner  node['tomcat']['user']
+#   group  node['tomcat']['user']
+#   variables(
+#     :db          => node['unredd-nfms-portal']['stg_geoserver']['db'],
+#     :db_user     => node['unredd-nfms-portal']['stg_geoserver']['db_user'],
+#     :db_password => node['unredd-nfms-portal']['stg_geoserver']['db_password']
+#   )
+#   mode 0644
+# end
 
-template "/var/diss_geoserver/extdata/forest_mask_mosaic/datastore.properties" do
-  source "test_data/datastore.properties.erb"
-  owner  node['tomcat']['user']
-  group  node['tomcat']['user']
-  variables(
-    :db          => node['unredd-nfms-portal']['diss_geoserver']['db'],
-    :db_user     => node['unredd-nfms-portal']['diss_geoserver']['db_user'],
-    :db_password => node['unredd-nfms-portal']['diss_geoserver']['db_password']
-  )
-  mode 0644
-end
+# template "/var/diss_geoserver/extdata/forest_mask_mosaic/datastore.properties" do
+#   source "test_data/datastore.properties.erb"
+#   owner  node['tomcat']['user']
+#   group  node['tomcat']['user']
+#   variables(
+#     :db          => node['unredd-nfms-portal']['diss_geoserver']['db'],
+#     :db_user     => node['unredd-nfms-portal']['diss_geoserver']['db_user'],
+#     :db_password => node['unredd-nfms-portal']['diss_geoserver']['db_password']
+#   )
+#   mode 0644
+# end
 
 template "#{node['unredd-nfms-portal']['portal']['config_dir']}/static/custom.js" do
   source "test_data/custom.js.erb"

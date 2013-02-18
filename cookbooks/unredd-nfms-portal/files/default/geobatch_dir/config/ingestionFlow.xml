@@ -53,6 +53,8 @@
 			<!-- ATTENTION: At today 04/10/2012 this feature isn't implemented yet but you have to setup this dir anyway-->
 			<originalDataTargetDir>{ORIGINAL_DATA_DIR}</originalDataTargetDir>
 
+			<datastorePath>{PATH_TO_DATASTORE.PROPERTIES}</datastorePath>
+
 			<!-- The Url and credentials of the Staging Geostore -->
 			<geoStoreConfig>
 				<url>http://localhost:{PORT}/{STAGING_GEOSTORE_CONTEXT_NAME}/rest</url>
@@ -71,7 +73,7 @@
 				<username>{USERNAME}</username>
 				<password>{PASSWORD}</password>
 			</postGisConfig>
-			
+
 			<!-- Staging geoserver configuration -->
 			<geoServerConfig>
 				<id>stgeGS</id>
@@ -153,4 +155,4 @@
 	</ListenerConfigurations>
 
 </FlowConfiguration>
-		
+

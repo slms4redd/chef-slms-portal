@@ -18,7 +18,7 @@
 
 # Download URLs
 default['unredd-nfms-portal']['geoserver_download_url']       = 'http://nfms4redd.org/downloads/geoserver/geoserver-2.2+gdal+pyramid+flow.war'
-default['unredd-nfms-portal']['geostore_download_url']        = 'http://nfms4redd.org/downloads/geostore/nfms-geostore-1.0.1.war'
+default['unredd-nfms-portal']['geostore_download_url']        = 'http://nfms4redd.org/downloads/geostore/geostore-1.1.0.war'
 default['unredd-nfms-portal']['geostore_schema_download_url'] = 'https://raw.github.com/geosolutions-it/geostore/1.0.1/doc/sql/002_create_schema_postgres.sql'
 
 
@@ -90,8 +90,8 @@ default['unredd-nfms-portal']['diss_geoserver']['web_admin_password']   = 'Unr3d
 default['unredd-nfms-portal']['stg_geobatch']['root_dir']             = '/var/stg_geobatch'
 default['unredd-nfms-portal']['stg_geobatch']['jvm_opts']['xms']      = '2048m'
 default['unredd-nfms-portal']['stg_geobatch']['jvm_opts']['xmx']      = '2048m'
-default['unredd-nfms-portal']['stg_geobatch']['config_dir']           = '/var/stg_geobatch/config'
-default['unredd-nfms-portal']['stg_geobatch']['temp_dir']             = '/var/stg_geobatch/temp'
+default['unredd-nfms-portal']['stg_geobatch']['config_dir']           = "#{node['unredd-nfms-portal']['stg_geobatch']['root_dir']}/config"
+default['unredd-nfms-portal']['stg_geobatch']['temp_dir']             = "#{node['unredd-nfms-portal']['stg_geobatch']['root_dir']}/temp"
 default['unredd-nfms-portal']['stg_geobatch']['tomcat_http_port']     = 8202
 default['unredd-nfms-portal']['stg_geobatch']['tomcat_ajp_port']      = 8102
 default['unredd-nfms-portal']['stg_geobatch']['tomcat_shutdown_port'] = 8022

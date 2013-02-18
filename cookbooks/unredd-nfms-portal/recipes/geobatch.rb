@@ -16,9 +16,10 @@
 # See the GNU General Public License for more details.
 
 
-tomcat_user       = node['tomcat']['user']
-geobatch_root_dir = node['unredd-nfms-portal']['stg_geobatch']['root_dir']
-geobatch_parent   = Pathname.new(geobatch_root_dir).parent.to_s
+tomcat_user         = node['tomcat']['user']
+geobatch_root_dir   = node['unredd-nfms-portal']['stg_geobatch']['root_dir']
+geobatch_config_dir = node['unredd-nfms-portal']['stg_geobatch']['config_dir']
+geobatch_parent     = Pathname.new(geobatch_root_dir).parent.to_s
 
 
 directory geobatch_parent do
@@ -52,22 +53,59 @@ end
 
 # GeoBatch flows config
 # TODO: some params are still hard coded
-template "#{geobatch_root_dir}/config/ingestionFlow.xml" do
+template "#{geobatch_config_dir}/ingestionFlow.xml" do
   source "geobatch/ingestionFlow.xml.erb"
   owner tomcat_user
   group tomcat_user
   mode 0644
 end
 
-template "#{geobatch_root_dir}/config/publishingFlow.xml" do
+template "#{geobatch_config_dir}/publishingFlow.xml" do
   source "geobatch/publishingFlow.xml.erb"
   owner tomcat_user
   group tomcat_user
   mode 0644
 end
 
-template "#{geobatch_root_dir}/config/reprocessFlow.xml" do
+template "#{geobatch_config_dir}/reprocessFlow.xml" do
   source "geobatch/reprocessFlow.xml.erb"
+  owner tomcat_user
+  group tomcat_user
+  mode 0644
+end
+
+
+directory "#{geobatch_config_dir}/settings/stg" do
+  owner     tomcat_user
+  group     tomcat_user
+  recursive true
+end
+
+template "#{geobatch_config_dir}/settings/stg/datastore.properties" do
+  source "geobatch/datastore.properties.erb"
+  variables(
+    :database    => node['unredd-nfms-portal']['stg_geoserver']['db'],
+    :db_user     => node['unredd-nfms-portal']['stg_geoserver']['db_user'],
+    :db_password => node['unredd-nfms-portal']['stg_geoserver']['db_password']
+  )
+  owner tomcat_user
+  group tomcat_user
+  mode 0644
+end
+
+directory "#{geobatch_config_dir}/settings/diss" do
+  owner     tomcat_user
+  group     tomcat_user
+  recursive true
+end
+
+template "#{geobatch_config_dir}/settings/diss/datastore.properties" do
+  source "geobatch/datastore.properties.erb"
+  variables(
+    :database    => node['unredd-nfms-portal']['diss_geoserver']['db'],
+    :db_user     => node['unredd-nfms-portal']['diss_geoserver']['db_user'],
+    :db_password => node['unredd-nfms-portal']['diss_geoserver']['db_password']
+  )
   owner tomcat_user
   group tomcat_user
   mode 0644
@@ -94,6 +132,6 @@ end
 # Download and deploy GeoStore
 unredd_nfms_portal_app "stg_geobatch" do
   tomcat_instance "stg_geobatch"
-  download_url    "http://nfms4redd.org/downloads/geobatch/nfms-geobatch-1.0-RC1.war"
+  download_url    "http://nfms4redd.org/downloads/geobatch/nfms-geobatch-1.0-RC2.war"
   user tomcat_user
 end
