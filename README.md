@@ -310,8 +310,6 @@ DRC demo data is in ``/var/tmp/drc``
 The unredd-nfms-portal::install_test_data recipe sets up stg_geoserver, stg_geostore, and stg_geobath data for testing:
 
 * the files``area.tif`` and ``provinces.tif`` are copied in ``/var/stg_geoserver/extdata/forest_mask_mosaic``;
-* the directory ``/var/stg_geoserver/extdata/forest_mask_mosaic`` is created with the ``.properties`` files
-
 
 To setup stg_geostore for the demo data, type
 
