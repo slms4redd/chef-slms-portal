@@ -35,7 +35,7 @@ remote_directory geobatch_root_dir do
   purge false
   #notifies :run, resources(:execute => "set #{geobatch_root_dir} permissions")
 
-  not_if { ::File.exists?("/var/stg_geobatch") }
+  not_if { ::File.exists?(geobatch_root_dir) }
 end
 
 # Permission of some directories are not set correctly by the remote_directory resource
