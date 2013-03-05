@@ -29,7 +29,7 @@ define :geoserver do
   geoserver_instance_name = params[:name]
   geoserver_data_dir      = params[:data_dir]
   geoserver_log_location  = params[:log_location]
-  geoserver_postgis_db    = params[:db]
+  geoserver_db_schema     = params[:db_schema]
   geoserver_postgis_user  = params[:db_user]
   geoserver_postgis_pwd   = params[:db_password]
   tomcat_instance_name    = params[:tomcat_instance_name]
@@ -129,37 +129,42 @@ define :geoserver do
     action :create_if_missing
   end
 
-
-  # Configure postgis
-  postgresql_connection_info = { :host => "localhost", :username => 'postgres', :password => node['postgresql']['password']['postgres'] }
-
-  # CREATE USER diss_geoserver LOGIN PASSWORD 'admin' NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE;
-  # TODO: check that the following corresponds to the above
-  postgresql_database_user geoserver_postgis_user do
-    connection postgresql_connection_info
-    password   geoserver_postgis_pwd
-    action     :create
+  user_schema geoserver_db_schema do
+    #db_schema   = node['unredd-nfms-portal']['diss_geoserver']['db_schema']
+    db_user     geoserver_postgis_user
+    db_password geoserver_postgis_pwd
   end
 
-  # createdb -O diss_geoserver -T template_postgis stg_geoserver
-  # TODO: check that the following corresponds to the above
-  postgresql_database geoserver_postgis_db do
-    connection postgresql_connection_info
-    template   'template_postgis'
-    encoding   'DEFAULT'
-    # encoding   'UTF8'
-    # collation  'en_US.utf8'
-    tablespace 'DEFAULT'
-    owner      geoserver_postgis_user
-    action     :create
-    #connection_limit '-1'
-  end
+  # # Configure postgis
+  # postgresql_connection_info = { :host => "localhost", :username => 'postgres', :password => node['postgresql']['password']['postgres'] }
 
-  %w( geometry_columns spatial_ref_sys geography_columns ).each do |table|
-    execute "psql -c 'ALTER TABLE #{table} OWNER TO #{geoserver_postgis_user}' #{geoserver_postgis_db}" do
-      user "postgres"
-    end
-  end
+  # # CREATE USER diss_geoserver LOGIN PASSWORD 'admin' NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE;
+  # # TODO: check that the following corresponds to the above
+  # postgresql_database_user geoserver_postgis_user do
+  #   connection postgresql_connection_info
+  #   password   geoserver_postgis_pwd
+  #   action     :create
+  # end
+
+  # # createdb -O diss_geoserver -T template_postgis stg_geoserver
+  # # TODO: check that the following corresponds to the above
+  # postgresql_database geoserver_postgis_db do
+  #   connection postgresql_connection_info
+  #   template   'template_postgis'
+  #   encoding   'DEFAULT'
+  #   # encoding   'UTF8'
+  #   # collation  'en_US.utf8'
+  #   tablespace 'DEFAULT'
+  #   owner      geoserver_postgis_user
+  #   action     :create
+  #   #connection_limit '-1'
+  # end
+
+  # %w( geometry_columns spatial_ref_sys geography_columns ).each do |table|
+  #   execute "psql -c 'ALTER TABLE #{table} OWNER TO #{geoserver_postgis_user}' #{geoserver_postgis_db}" do
+  #     user "postgres"
+  #   end
+  # end
 
   # Download and deploy GeoServer
   unredd_nfms_portal_app geoserver_instance_name do

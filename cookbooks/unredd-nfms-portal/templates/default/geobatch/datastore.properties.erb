@@ -1,7 +1,7 @@
 SPI=org.geotools.data.postgis.PostgisNGDataStoreFactory
 port=<%= node['postgresql']['config']['port'] %>
 host=<%= node['postgresql']['config']['listen_addresses'] %>
-schema=public
+schema=<%= @schema %>
 database=<%= @database %>
 Loose\ bbox=true
 user=<%= @db_user %>

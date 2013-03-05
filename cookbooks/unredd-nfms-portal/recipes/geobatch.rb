@@ -84,7 +84,8 @@ end
 template "#{geobatch_config_dir}/settings/stg/datastore.properties" do
   source "geobatch/datastore.properties.erb"
   variables(
-    :database    => node['unredd-nfms-portal']['stg_geoserver']['db'],
+    :database    => node['unredd-nfms-portal']['db_name'],
+    :schema      => node['unredd-nfms-portal']['stg_geoserver']['db_schema'],
     :db_user     => node['unredd-nfms-portal']['stg_geoserver']['db_user'],
     :db_password => node['unredd-nfms-portal']['stg_geoserver']['db_password']
   )
@@ -102,7 +103,8 @@ end
 template "#{geobatch_config_dir}/settings/diss/datastore.properties" do
   source "geobatch/datastore.properties.erb"
   variables(
-    :database    => node['unredd-nfms-portal']['diss_geoserver']['db'],
+    :database    => node['unredd-nfms-portal']['db_name'],
+    :schema      => node['unredd-nfms-portal']['diss_geoserver']['db_schema'],
     :db_user     => node['unredd-nfms-portal']['diss_geoserver']['db_user'],
     :db_password => node['unredd-nfms-portal']['diss_geoserver']['db_password']
   )

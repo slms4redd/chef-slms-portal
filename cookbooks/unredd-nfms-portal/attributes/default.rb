@@ -16,6 +16,9 @@
 # See the GNU General Public License for more details.
 
 
+default['unredd-nfms-portal']['db_name'] = 'unredd'
+
+
 # Download URLs
 default['unredd-nfms-portal']['geoserver_download_url']       = 'http://nfms4redd.org/downloads/geoserver/geoserver-2.2+gdal+pyramid+flow.war'
 default['unredd-nfms-portal']['geostore_download_url']        = 'http://nfms4redd.org/downloads/geostore/geostore-1.1.0.war'
@@ -28,7 +31,7 @@ default['unredd-nfms-portal']['stg_geostore']['tomcat_instance_name'] = 'stg_geo
 default['unredd-nfms-portal']['stg_geostore']['tomcat_http_port']     = 8200
 default['unredd-nfms-portal']['stg_geostore']['tomcat_ajp_port']      = 8100
 default['unredd-nfms-portal']['stg_geostore']['tomcat_shutdown_port'] = 8020
-default['unredd-nfms-portal']['stg_geostore']['db']                   = 'stg_geostore'
+default['unredd-nfms-portal']['stg_geostore']['db_schema']            = 'stg_geostore'
 default['unredd-nfms-portal']['stg_geostore']['db_user']              = 'stg_geostore'
 default['unredd-nfms-portal']['stg_geostore']['db_password']          = 'admin'
 default['unredd-nfms-portal']['stg_geostore']['jvm_opts']['xms']      = '512m'
@@ -43,7 +46,7 @@ default['unredd-nfms-portal']['diss_geostore']['tomcat_instance_name'] = 'diss_g
 default['unredd-nfms-portal']['diss_geostore']['tomcat_http_port']     = 8204
 default['unredd-nfms-portal']['diss_geostore']['tomcat_ajp_port']      = 8104
 default['unredd-nfms-portal']['diss_geostore']['tomcat_shutdown_port'] = 8024
-default['unredd-nfms-portal']['diss_geostore']['db']                   = 'diss_geostore'
+default['unredd-nfms-portal']['diss_geostore']['db_schema']            = 'diss_geostore'
 default['unredd-nfms-portal']['diss_geostore']['db_user']              = 'diss_geostore'
 default['unredd-nfms-portal']['diss_geostore']['db_password']          = 'admin'
 default['unredd-nfms-portal']['diss_geostore']['jvm_opts']['xms']      = '512m'
@@ -58,7 +61,7 @@ default['unredd-nfms-portal']['stg_geoserver']['tomcat_instance_name'] = 'stg_ge
 default['unredd-nfms-portal']['stg_geoserver']['tomcat_http_port']     = 8201
 default['unredd-nfms-portal']['stg_geoserver']['tomcat_ajp_port']      = 8101
 default['unredd-nfms-portal']['stg_geoserver']['tomcat_shutdown_port'] = 8021
-default['unredd-nfms-portal']['stg_geoserver']['db']                   = 'stg_geoserver'
+default['unredd-nfms-portal']['stg_geoserver']['db_schema']            = 'stg_geoserver'
 default['unredd-nfms-portal']['stg_geoserver']['db_user']              = 'stg_geoserver'
 default['unredd-nfms-portal']['stg_geoserver']['db_password']          = 'admin'
 default['unredd-nfms-portal']['stg_geoserver']['jvm_opts']['xms']      = '1024m'
@@ -75,7 +78,7 @@ default['unredd-nfms-portal']['diss_geoserver']['tomcat_instance_name'] = 'diss_
 default['unredd-nfms-portal']['diss_geoserver']['tomcat_http_port']     = 8205
 default['unredd-nfms-portal']['diss_geoserver']['tomcat_ajp_port']      = 8105
 default['unredd-nfms-portal']['diss_geoserver']['tomcat_shutdown_port'] = 8025
-default['unredd-nfms-portal']['diss_geoserver']['db']                   = 'diss_geoserver'
+default['unredd-nfms-portal']['diss_geoserver']['db_schema']            = 'diss_geoserver'
 default['unredd-nfms-portal']['diss_geoserver']['db_user']              = 'diss_geoserver'
 default['unredd-nfms-portal']['diss_geoserver']['db_password']          = 'admin'
 default['unredd-nfms-portal']['diss_geoserver']['jvm_opts']['xms']      = '1024m'

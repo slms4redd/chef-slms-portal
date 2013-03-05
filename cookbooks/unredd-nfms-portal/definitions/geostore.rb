@@ -26,11 +26,13 @@ define :geostore do
 
   root_dir                     = params[:root_dir]
   geostore_instance_name       = params[:name]
-  geostore_db                  = params[:db]
+  geostore_db_schema           = params[:db_schema]
   geostore_db_user             = params[:db_user]
   geostore_db_pwd              = params[:db_password]
   geostore_postgres_schema_url = params[:postgres_schema_url]
   tomcat_instance_name         = params[:tomcat_instance_name]
+
+  db_name = node['unredd-nfms-portal']['db_name']
 
   temp_dir = '/var/tmp'
 
@@ -60,18 +62,18 @@ define :geostore do
     action     :create
   end
 
-  # createdb -O <geostore_db_user> <geostore_db>
-  # TODO: check that the following corresponds to the above
-  postgresql_database geostore_db do
-    connection postgresql_connection_info
-    encoding   'DEFAULT'
-    #encoding   'UTF8'
-    #collation  'en_US.utf8'
-    tablespace 'DEFAULT'
-    owner      geostore_db_user
-    action     :create
-    #connection_limit '-1'
-  end
+  # # createdb -O <geostore_db_user> <geostore_db>
+  # # TODO: check that the following corresponds to the above
+  # postgresql_database geostore_db_name do
+  #   connection postgresql_connection_info
+  #   encoding   'DEFAULT'
+  #   #encoding   'UTF8'
+  #   #collation  'en_US.utf8'
+  #   tablespace 'DEFAULT'
+  #   owner      geostore_db_user
+  #   action     :create
+  #   #connection_limit '-1'
+  # end
 
 
   # Download the geostore postgres schema file only if the remote source has changed (uses http_request resource)
@@ -90,18 +92,24 @@ define :geostore do
     notifies :create, resources(:remote_file => "#{temp_dir}/create_schema_postgres.sql"), :immediately
   end
 
+  user_schema geostore_db_schema do
+    #db_schema   = node['unredd-nfms-portal']['diss_geoserver']['db_schema']
+    db_user     geostore_db_user
+    db_password geostore_db_pwd
+  end
+
   geostore_postgresql_connection_info = { :host => "localhost", :username => geostore_db_user, :password => geostore_db_pwd }
   # Create the geostore tables and sequences
-  postgresql_database "create #{geostore_db} schema" do
+  postgresql_database "configure #{geostore_instance_name} db" do
     connection geostore_postgresql_connection_info
     sql { ::File.open("#{temp_dir}/create_schema_postgres.sql").read }
-    database_name geostore_db
+    database_name db_name
 
     action :query
 
-    not_if "psql -c \"select * from pg_class where relname='gs_attribute' and relkind='r'\" #{geostore_db} | grep -c gs_attribute", :user => 'postgres'
+    #not_if "psql -c \"select * from pg_class where relname='gs_attribute' and relkind='r'\" #{geostore_db} | grep -c gs_attribute", :user => 'postgres'
+    not_if "psql -tc \"SELECT * FROM information_schema.tables WHERE table_schema='#{geostore_db_schema}' AND table_name='gs_attribute'\" #{db_name} | grep -c gs_attribute", :user => 'postgres'
   end
-
 
   directory "#{root_dir}/#{geostore_instance_name}" do
     owner     tomcat_user
@@ -118,7 +126,8 @@ define :geostore do
     group tomcat_user
     mode "0644"
     variables(
-      :database      => geostore_db,
+      :database      => node['unredd-nfms-portal']['db_name'],
+      :schema        => geostore_db_schema,
       :username      => geostore_db_user,
       :password      => geostore_db_pwd,
       :instance_name => geostore_instance_name
