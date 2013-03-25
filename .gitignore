@@ -1,5 +1,6 @@
 vagrant/.vagrant
 cache
+apt_cache
 
 # OS generated files #
 ######################
