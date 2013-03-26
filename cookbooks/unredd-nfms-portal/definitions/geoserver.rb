@@ -53,7 +53,8 @@ define :geoserver do
       "-Dorg.geotools.shapefile.datetime=true",
       "-DGEOSERVER_DATA_DIR=#{params[:data_dir]}",
       "-DGEOSERVER_LOG_LOCATION=#{params[:log_location]}",
-      "-Duser.timezone=GMT"
+      "-Duser.timezone=GMT",
+      "-Djava.awt.headless=true"
     ]
     manage_config_file true
   end

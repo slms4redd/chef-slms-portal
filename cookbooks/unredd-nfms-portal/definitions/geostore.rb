@@ -46,7 +46,8 @@ define :geostore do
       "-Xms#{params[:xms]}",
       "-Xmx#{params[:xmx]}",
       "-Dgeostore-ovr=file:#{root_dir}/#{geostore_instance_name}/geostore-datasource-ovr.properties",
-      "-Duser.timezone=GMT"
+      "-Duser.timezone=GMT",
+      "-Djava.awt.headless=true"
     ]
     manage_config_file true
   end
