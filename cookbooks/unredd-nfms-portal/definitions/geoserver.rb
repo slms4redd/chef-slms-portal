@@ -59,6 +59,15 @@ define :geoserver do
     manage_config_file true
   end
 
+  # Solve the problem described here ([FIX] GeoTools and GeoServer ( < 2.1.4) not able to load raster plugins with latest Tomcat):
+  # http://geo-solutions.blogspot.it/2010/05/fix-geotools-and-geoserver-not-able-to.html
+  execute "add appContextProtection attribute to #{tomcat_instance_name}" do
+    tomcat_base = resources(:tomcat => tomcat_instance_name).base
+    user "root"
+    command <<-EOH
+      sed -i 's+<Listener className="org.apache.catalina.core.JreMemoryLeakPreventionListener" />+<Listener className="org.apache.catalina.core.JreMemoryLeakPreventionListener" appContextProtection="false"/>+g' #{tomcat_base}/conf/server.xml
+    EOH
+  end
 
   # Create GeoServer data and log directories
 
