@@ -29,6 +29,8 @@ action :install do
   remote_file "#{Chef::Config[:file_cache_path]}/#{file_name}" do
     source new_resource.download_url
     owner new_resource.user
+    retries 10
+    retry_delay 60
     action :nothing
   end
   http_request "HEAD #{new_resource.download_url}" do
@@ -38,6 +40,8 @@ action :install do
     if ::File.exists?("#{Chef::Config[:file_cache_path]}/#{file_name}")
       headers "If-Modified-Since" => ::File.mtime("#{Chef::Config[:file_cache_path]}/#{file_name}").httpdate
     end
+    retries 10
+    retry_delay 60
     notifies :create, resources(:remote_file => "#{Chef::Config[:file_cache_path]}/#{file_name}"), :immediately
   end
 

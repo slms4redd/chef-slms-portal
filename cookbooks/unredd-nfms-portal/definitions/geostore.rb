@@ -81,6 +81,8 @@ define :geostore do
   remote_file "#{temp_dir}/create_schema_postgres.sql" do
     source geostore_postgres_schema_url
     owner 'postgres'
+    retries 10
+    retry_delay 60
     action :nothing
   end
   http_request "HEAD #{geostore_postgres_schema_url}" do
@@ -90,6 +92,8 @@ define :geostore do
     if ::File.exists?("#{temp_dir}/create_schema_postgres.sql")
       headers "If-Modified-Since" => ::File.mtime("#{temp_dir}/create_schema_postgres.sql").httpdate
     end
+    retries 10
+    retry_delay 60
     notifies :create, resources(:remote_file => "#{temp_dir}/create_schema_postgres.sql"), :immediately
   end
 

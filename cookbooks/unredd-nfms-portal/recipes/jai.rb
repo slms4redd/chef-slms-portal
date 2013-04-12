@@ -16,7 +16,7 @@
 # See the GNU General Public License for more details.
 
 
-jai_arch             = node['kernel']['machine'] =~ /x86_64/ ? "amd64" : "i586"
+jai_arch             = node['unredd-nfms-portal']['jai']['arch']
 jai_version          = node['unredd-nfms-portal']['jai']['jai_version'].gsub(/\./, "_")
 jai_imageio_version  = node['unredd-nfms-portal']['jai']['jai_imageio_version']
 
@@ -31,15 +31,21 @@ jai_imageio_url = "http://download.java.net/media/jai-imageio/builds/release/#{j
 
 
 ark jai_filename do
-  url    jai_url
-  path   "/var/tmp"
-  action :put
+  url         jai_url
+  path        "/var/tmp"
+  checksum    node['unredd-nfms-portal']['jai']['jai_checksum']
+  retries     6
+  retry_delay 60
+  action      :put
 end
 
 ark jai_imageio_filename do
-  url    jai_imageio_url
-  path   "/var/tmp"
-  action :put
+  url         jai_imageio_url
+  path        "/var/tmp"
+  checksum    node['unredd-nfms-portal']['jai']['jai_imageio_checksum']
+  retries     6
+  retry_delay 60
+  action      :put
 end
 
 execute "install jai" do

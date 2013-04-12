@@ -98,6 +98,8 @@ t = resources(:tomcat => "stg_geoserver")
 remote_file "/var/tmp/#{admin_file_name}" do
   source admin_download_url
   owner tomcat_user
+  retries 10
+  retry_delay 60
   action :nothing
 end
 http_request "HEAD #{admin_download_url}" do
@@ -107,6 +109,8 @@ http_request "HEAD #{admin_download_url}" do
   if ::File.exists?("/var/tmp/#{admin_file_name}")
     headers "If-Modified-Since" => ::File.mtime("/var/tmp/#{admin_file_name}").httpdate
   end
+  retries 10
+  retry_delay 60
   notifies :create, resources(:remote_file => "/var/tmp/#{admin_file_name}"), :immediately
 end
 

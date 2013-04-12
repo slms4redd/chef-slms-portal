@@ -1,6 +1,8 @@
 vagrant/.vagrant
 cache
 apt_cache
+shared/*
+!shared/README
 
 # OS generated files #
 ######################
