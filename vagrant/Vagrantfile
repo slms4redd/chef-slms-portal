@@ -62,6 +62,8 @@ Vagrant::Config.run do |config|
     # Upgrade Chef - On precise32 getting "TypeError: can't convert nil into String Chef" otherwise. Might not be needed with other boxes
     chef.add_recipe "omnibus_updater" # execute apt-get update
 
+    chef.add_recipe "unredd-nfms-portal::apt_conf" # execute apt-get update
+
     chef.add_recipe "apt" # execute apt-get update
 
     #chef.add_recipe "postgresql"
