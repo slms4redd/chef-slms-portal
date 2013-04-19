@@ -15,7 +15,7 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the GNU General Public License for more details.
 
-default['unredd-nfms-portal']['jai']['arch'] = kernel['machine'] =~ /x86_64/ ? "x86_64" : "i586"
+default['unredd-nfms-portal']['jai']['arch'] = kernel['machine'] =~ /x86_64/ ? "amd64" : "i586"
 
 case kernel['machine']
 when /x86_64/
