@@ -45,7 +45,7 @@ Vagrant::Config.run do |config|
   config.vm.forward_port 80, 4567
   config.vm.share_folder "cache", guest_cache_path, host_cache_path
   config.vm.share_folder "apt-cache", guest_apt_cache_path, host_apt_cache_path
-  config.vm.share_folder "shared", "~/shared", "../shared"
+  config.vm.share_folder "shared", "/shared", "../shared"
 
   config.vm.provision :chef_solo do |chef|
     chef.cookbooks_path = "../cookbooks"
@@ -60,7 +60,7 @@ Vagrant::Config.run do |config|
     #chef.add_recipe "apt::cacher-client"
 
     # Upgrade Chef - On precise32 getting "TypeError: can't convert nil into String Chef" otherwise. Might not be needed with other boxes
-    chef.add_recipe "omnibus_updater" # execute apt-get update
+    #chef.add_recipe "omnibus_updater" # execute apt-get update
 
     chef.add_recipe "unredd-nfms-portal::apt_conf" # retries 10 times in case of failures
 
