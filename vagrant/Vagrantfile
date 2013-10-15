@@ -33,11 +33,11 @@ FileUtils.mkdir(host_apt_cache_path) unless File.exist?(host_apt_cache_path)
 
 
 Vagrant::Config.run do |config|
-  config.vm.box     = 'precise32'
-  config.vm.box_url = 'http://files.vagrantup.com/precise32.box'
+  #config.vm.box     = 'precise32'
+  #config.vm.box_url = 'http://files.vagrantup.com/precise32.box'
 
-  #config.vm.box     = 'ubuntu_server_64'
-  #config.vm.box_url = 'https://dl.dropbox.com/u/1543052/Boxes/UbuntuServer12.04amd64.box'
+  config.vm.box     = 'ubuntu_server_64'
+  config.vm.box_url = 'http://goo.gl/8kWkm'
 
   config.vm.host_name = "unredd"
 
@@ -127,7 +127,7 @@ Vagrant::Config.run do |config|
       # TODO: maybe better to use some postgis cookbook
       :gis => {
         :ubuntugis => {
-          :repo => "unstable",
+          #:repo => "unstable",
           #:packages => %|gdal-bin python-gdal postgresql-9.1 postgresql-server-dev-9.1 libxml2-dev libgeos-dev proj postgis postgresql-9.1-postgis|
           :packages => ['gdal-bin', 'python-gdal', 'libxml2-dev', 'libgeos-dev', 'proj', 'postgis', 'postgresql-9.1-postgis']
         }
