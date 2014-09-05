@@ -39,9 +39,8 @@
     ]
   },
   "java": {
-    "install_flavor": "oracle",
-    "oracle": {
-      "accept_oracle_download_terms": true
+    "install_flavor": "openjdk",
+    "jdk_version": "7"
     }
   },
   "tomcat": {
@@ -60,7 +59,7 @@
         "libgeos-dev",
         "proj",
         "postgis",
-        "postgresql-9.1-postgis"
+        "postgresql-9.1-postgis-2.0"
       ]
     }
   },
