@@ -41,7 +41,6 @@
   "java": {
     "install_flavor": "openjdk",
     "jdk_version": "7"
-    }
   },
   "tomcat": {
     "version": "6",
