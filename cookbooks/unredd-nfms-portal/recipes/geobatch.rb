@@ -74,6 +74,33 @@ template "#{geobatch_config_dir}/reprocessFlow.xml" do
   mode 0644
 end
 
+template "#{geobatch_config_dir}/ingestStaticRasterData.xml" do
+  source "geobatch/ingestStaticRasterData.xml.erb"
+  owner tomcat_user
+  group tomcat_user
+  mode 0644
+end
+
+template "#{geobatch_config_dir}/ingestStaticVectorData.xml" do
+  source "geobatch/ingestStaticVectorData.xml.erb"
+  owner tomcat_user
+  group tomcat_user
+  mode 0644
+end
+
+template "#{geobatch_config_dir}/publishStaticRasterData.xml" do
+  source "geobatch/publishStaticRasterData.xml.erb"
+  owner tomcat_user
+  group tomcat_user
+  mode 0644
+end
+
+template "#{geobatch_config_dir}/publishStaticVectorData.xml" do
+  source "geobatch/publishStaticVectorData.xml.erb"
+  owner tomcat_user
+  group tomcat_user
+  mode 0644
+end
 
 directory "#{geobatch_config_dir}/settings/stg" do
   owner     tomcat_user
@@ -141,7 +168,7 @@ execute "add appContextProtection attribute to stg_geobatch" do
   EOH
 end
 
-# Download and deploy GeoStore
+# Download and deploy GeoBatch
 unredd_nfms_portal_app "stg_geobatch" do
   tomcat_instance "stg_geobatch"
   download_url    "http://nfms4redd.org/downloads/geobatch/nfms-geobatch-1.4.war"

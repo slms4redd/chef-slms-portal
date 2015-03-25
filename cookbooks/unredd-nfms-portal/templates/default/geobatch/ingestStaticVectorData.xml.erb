@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FlowConfiguration>
+  <id>ingestStaticVectorData</id>
+  <description>Ingestion flow for STATIC vector layers. This flow takes in input a shapefile, import it in postgis and publish the layer on the Dissemination(default) or on the Staging geoserver</description>
+  <name>Ingestion of Static vector data</name>
+  <autorun>true</autorun>
+  <EventGeneratorConfiguration>
+    <wildCard>*.zip</wildCard>
+    <watchDirectory>/var/stg_geobatch/input/ingestStaticVectorData</watchDirectory>
+    <osType>OS_UNDEFINED</osType>
+    <eventType>FILE_ADDED</eventType>
+    <keepFiles>false</keepFiles>
+    <id>ingestStaticVectorData</id>
+    <serviceID>fsEventGeneratorService</serviceID>
+    <description>ingestStaticVectorData event generator</description>
+    <name>ingestStaticVectorData</name>
+  </EventGeneratorConfiguration>
+  <EventConsumerConfiguration>
+    <id>ds2ds</id>
+    <description>ds2ds</description>
+    <name>ds2ds</name>
+    <preserveInput>false</preserveInput>
+    <performBackup>false</performBackup>
+    <listenerId>Logger</listenerId>
+    <listenerId>Cumulator</listenerId>
+    <listenerId>Status</listenerId>
+    <Ds2dsConfiguration>
+      <id>Ds2dsGeneratorService</id>
+      <description>Ds2ds action</description>
+      <name>Ds2dsConfiguration</name>
+      <listenerConfigurations/>
+      <failIgnored>false</failIgnored>
+      <purgeData>true</purgeData>
+      <projectOnMappings>false</projectOnMappings>
+      <reprojectedCrs>EPSG:4326</reprojectedCrs>
+      <outputFeature>
+        <dataStore>
+          <entry>
+            <string>dbtype</string>
+            <string>postgis</string>
+          </entry>
+          <entry>
+            <string>host</string>
+            <string><%= node['postgresql']['config']['listen_addresses'] %></string>
+          </entry>
+          <entry>
+            <string>port</string>
+            <string><%= node['postgresql']['config']['port'] %></string>
+          </entry>
+          <entry>
+            <string>database</string>
+            <string>unredd</string>
+          </entry>
+          <entry>
+            <string>user</string>
+            <string><%= node['unredd-nfms-portal']['stg_geoserver']['db_user'] %></string>
+          </entry>
+          <entry>
+            <string>passwd</string>
+            <string><%= node['unredd-nfms-portal']['stg_geoserver']['db_password'] %></string>
+          </entry>
+          <entry>
+            <string>schema</string>
+            <string>stg_geoserver</string>
+          </entry>
+          <entry>
+            <string>Expose primary keys</string>
+            <boolean>true</boolean>
+          </entry>
+        </dataStore>
+      </outputFeature>
+    </Ds2dsConfiguration>
+    <DSGeoServerConfiguration>
+      <id>DSGeoServerConfiguration</id>
+      <description>DSGeoServerConfiguration action</description>
+      <name>DSGeoServerConfiguration</name>
+      <operation>PUBLISH</operation>
+      <createDataStore>true</createDataStore>
+      <createNameSpace>true</createNameSpace>
+      <geoserverURL>http://localhost/stg_geoserver</geoserverURL>
+			<geoserverUID><%= node['unredd-nfms-portal']['stg_geoserver']['web_admin_user'] %></geoserverUID>
+			<geoserverPWD><%= node['unredd-nfms-portal']['stg_geoserver']['web_admin_password'] %></geoserverPWD>
+      <defaultNamespace>unredd</defaultNamespace>
+      <storeName>static_vector_layer</storeName>
+      <failIgnored>false</failIgnored>
+    </DSGeoServerConfiguration>
+  </EventConsumerConfiguration>
+  <ListenerConfigurations>
+    <LoggingProgressListener>
+      <serviceID>loggingListenerService</serviceID>
+      <id>Logger</id>
+      <loggerName>it.geosolutions.geobatch</loggerName>
+    </LoggingProgressListener>
+    <CumulatingProgressListener>
+      <serviceID>cumulatingListenerService</serviceID>
+      <id>Cumulator</id>
+    </CumulatingProgressListener>
+    <StatusProgressListener>
+      <serviceID>statusListenerService</serviceID>
+      <id>Status</id>
+    </StatusProgressListener>
+  </ListenerConfigurations>
+</FlowConfiguration>

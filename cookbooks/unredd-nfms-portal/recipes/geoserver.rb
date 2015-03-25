@@ -31,6 +31,7 @@ geoserver "stg_geoserver" do
   xmx                  node['unredd-nfms-portal']['stg_geoserver']['jvm_opts']['xmx']
   web_admin_password   node['unredd-nfms-portal']['stg_geoserver']['web_admin_password']
   web_admin_user       node['unredd-nfms-portal']['stg_geoserver']['web_admin_user']
+  ext_data             node['unredd-nfms-portal']['stg_geoserver']['ext_data']
 end
 
 geoserver "diss_geoserver" do
@@ -48,4 +49,5 @@ geoserver "diss_geoserver" do
   xmx                  node['unredd-nfms-portal']['diss_geoserver']['jvm_opts']['xmx']
   web_admin_password   node['unredd-nfms-portal']['diss_geoserver']['web_admin_password']
   web_admin_user       node['unredd-nfms-portal']['diss_geoserver']['web_admin_user']
+  ext_data             node['unredd-nfms-portal']['diss_geoserver']['ext_data']
 end

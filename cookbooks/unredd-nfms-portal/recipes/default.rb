@@ -86,7 +86,7 @@ end
 catalina_parent = Pathname.new(node['tomcat']['home']).parent.to_s
 stg_geoserver_tomcat  = node['unredd-nfms-portal']['stg_geoserver']['tomcat_instance_name']
 
-admin_download_url= "http://nfms4redd.org/downloads/admin/admin-0.6.war"
+admin_download_url= "http://nfms4redd.org/downloads/admin/admin-2.0-SNAPSHOT.war"
 admin_file_name = admin_download_url.split('/')[-1]
 # admin_base = "#{catalina_parent}/#{tomcat_instance}"
 
