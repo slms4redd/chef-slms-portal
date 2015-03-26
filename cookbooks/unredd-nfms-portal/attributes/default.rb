@@ -70,6 +70,7 @@ default['unredd-nfms-portal']['stg_geoserver']['data_dir']             = '/var/s
 default['unredd-nfms-portal']['stg_geoserver']['log_location']         = '/var/stg_geoserver/logs/geoserver.log'
 default['unredd-nfms-portal']['stg_geoserver']['web_admin_user']       = 'admin'
 default['unredd-nfms-portal']['stg_geoserver']['web_admin_password']   = 'Unr3dd'
+default['unredd-nfms-portal']['stg_geoserver']['ext_data']             = '/var/stg_geoserver/extdata'
 
 
 # Dissemination GeoServer
@@ -87,6 +88,7 @@ default['unredd-nfms-portal']['diss_geoserver']['data_dir']             = '/var/
 default['unredd-nfms-portal']['diss_geoserver']['log_location']         = '/var/diss_geoserver/logs/geoserver.log'
 default['unredd-nfms-portal']['diss_geoserver']['web_admin_user']       = 'admin'
 default['unredd-nfms-portal']['diss_geoserver']['web_admin_password']   = 'Unr3dd'
+default['unredd-nfms-portal']['diss_geoserver']['ext_data']              = '/var/diss_geoserver/extdata'
 
 
 # Staging GeoBatch

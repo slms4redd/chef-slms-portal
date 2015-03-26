@@ -6,14 +6,21 @@
            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
            http://www.springframework.org/schema/security
            http://www.springframework.org/schema/security/spring-security-3.0.xsd">
-    <http realm="Project Realm" auto-config="true">
-        <intercept-url pattern="/**" access="ROLE_ADMIN"/>
+    <http realm="Project Realm" auto-config="true" use-expressions="true">
+    	<intercept-url pattern="/login*" access="isAnonymous()" />
+        <intercept-url pattern="/**" access="hasRole('ROLE_ADMIN')"/>
+        <form-login
+		    login-page="/Login"
+		    default-target-url="/LayerList"
+			authentication-failure-url="/login?error"
+			always-use-default-target="true" />
+		<logout logout-success-url="/login.jsp" />
     </http>
     <authentication-manager>
         <authentication-provider>
             <password-encoder hash="md5"/>
             <user-service>
-                <user name="admin" password="<%= @md5_encoded_password %>" authorities="ROLE_ADMIN"/>
+              <user name="admin" password="<%= @md5_encoded_password %>" authorities="ROLE_ADMIN"/>
             </user-service>
         </authentication-provider>
     </authentication-manager>

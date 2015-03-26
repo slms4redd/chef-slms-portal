@@ -33,6 +33,7 @@ define :geoserver do
   geoserver_postgis_user  = params[:db_user]
   geoserver_postgis_pwd   = params[:db_password]
   tomcat_instance_name    = params[:tomcat_instance_name]
+  ext_data                = params[:ext_data]
 
   geoserver_log_dir = Pathname.new(geoserver_log_location).parent.to_s
 
@@ -95,6 +96,26 @@ define :geoserver do
 
     action :nothing
   end
+
+  
+  # create the ext_data/staticRasterData directory
+  directory "#{ext_data}/staticRasterData" do
+    owner tomcat_user
+    group tomcat_user
+    recursive true
+  end
+
+  # set the owner and permissions properly
+  execute "set stg and diss geoserver extdata dir permissions" do
+    user "root"
+    command <<-EOH
+      chown -R #{node['tomcat']['user']}: /var/stg_geoserver/extdata
+      find  #{ext_data} -type d -exec chmod 755 {} \\;
+      find  #{ext_data} -type f -exec chmod 644 {} \\;
+    EOH
+  end
+
+
 
   remote_directory geoserver_data_dir do
     source      "geoserver_data_dir"
@@ -182,5 +203,4 @@ define :geoserver do
     download_url    params[:download_url]
     user            tomcat_user
   end
-
 end
