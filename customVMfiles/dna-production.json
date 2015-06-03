@@ -1,0 +1,122 @@
+{
+  "omnibus_updater": {
+    "version": "10.18.2"
+  },
+  "postgresql": {
+    "version": "9.1",
+    "password": {
+      "postgres": "change_me"
+    },
+    "pg_hba": [
+      {
+        "type": "local",
+        "db": "all",
+        "user": "postgres",
+        "addr": null,
+        "method": "ident"
+      },
+      {
+        "type": "local",
+        "db": "all",
+        "user": "all",
+        "addr": null,
+        "method": "md5"
+      },
+      {
+        "type": "host",
+        "db": "all",
+        "user": "all",
+        "addr": "127.0.0.1/32",
+        "method": "md5"
+      },
+      {
+        "type": "host",
+        "db": "all",
+        "user": "all",
+        "addr": "::1/128",
+        "method": "md5"
+      }
+    ]
+  },
+  "java": {
+    "install_flavor": "openjdk",
+    "jdk_version": "7"
+  },
+  "tomcat": {
+    "version": "7",
+    "7": {
+      "url": "http://it.apache.contactlab.it/tomcat/tomcat-7/v7.0.62/bin/apache-tomcat-7.0.62.tar.gz",
+      "checksum": "a787ea12e163e78ccebbb9662d7da78e707aef051d15af9ab5be20489adf1f6d"
+    },
+    "prefix_dir": "/var"
+  },
+  "gis": {
+    "ubuntugis": {
+      "packages": [
+        "gdal-bin",
+        "python-gdal",
+        "libxml2-dev",
+        "libgeos-dev",
+        "proj",
+        "postgis",
+        "postgresql-9.1-postgis-2.0"
+      ]
+    }
+  },
+  "unredd-nfms-portal": {
+    "stg_geostore": {
+      "jvm_opts": {
+        "xms": "256m",
+        "xmx": "256m"
+      },
+      "web_admin_password": "change_me",
+      "db_password": "change_me"
+    },
+    "diss_geostore": {
+      "jvm_opts": {
+        "xms": "256m",
+        "xmx": "256m"
+      },
+      "web_admin_password": "change_me",
+      "db_password": "change_me"
+    },
+    "stg_geoserver": {
+      "jvm_opts": {
+        "xms": "256m",
+        "xmx": "1024m"
+      },
+      "web_admin_password": "change_me",
+      "db_password": "4?$83hlaDa"
+    },
+    "diss_geoserver": {
+      "jvm_opts": {
+        "xms": "256m",
+        "xmx": "1024m"
+      },
+      "web_admin_password": "change_me",
+      "db_password": "change_me"
+    },
+    "stg_geobatch": {
+      "jvm_opts": {
+        "xms": "512m",
+        "xmx": "1024m"
+      }
+    },
+    "portal": {
+      "minified_js": true
+    },
+    "admin": {
+      "password": "change_me"
+    }
+  },
+  "run_list": [
+    "recipe[unredd-nfms-portal::apt_conf]",
+    "recipe[apt]",
+    "recipe[java]",
+    "recipe[postgresql::server]",
+    "recipe[database::postgresql]",
+    "recipe[gis]",
+    "recipe[unredd-nfms-portal]",
+    "recipe[unredd-nfms-portal::install_test_data]"
+  ]
+}
