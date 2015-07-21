@@ -46,13 +46,7 @@
 			<listenerId>IngestionConsumerLogger0</listenerId>
 			<listenerId>IngestionCumulator0</listenerId>
 			<listenerId>IngestionStatusActionLogger0</listenerId>
-
 			<failIgnored>false</failIgnored>
-
-			<!-- the directory where save the input if the ingestion terminates with no errors -->
-			<!-- ATTENTION: At today 04/10/2012 this feature isn't implemented yet but you have to setup this dir anyway-->
-			<originalDataTargetDir>{ORIGINAL_DATA_DIR}</originalDataTargetDir>
-
 			<datastorePath>{PATH_TO_DATASTORE.PROPERTIES}</datastorePath>
 
 			<!-- The Url and credentials of the Staging Geostore -->
