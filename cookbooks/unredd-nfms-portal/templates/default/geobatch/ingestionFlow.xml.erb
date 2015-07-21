@@ -44,10 +44,6 @@
 
       <failIgnored>false</failIgnored>
 
-      <!-- the directory where save the input if the ingestion terminates with no errors -->
-      <!-- ATTENTION: At today 04/10/2012 this feature isn't implemented yet but you have to setup this dir anyway-->
-      <originalDataTargetDir><%= node['unredd-nfms-portal']['stg_geobatch']['root_dir'] %>/orig</originalDataTargetDir>
-
       <datastorePath><%= node['unredd-nfms-portal']['stg_geobatch']['config_dir'] %>/settings/stg/datastore.properties</datastorePath>
       <indexerPath><%= node['unredd-nfms-portal']['stg_geobatch']['config_dir'] %>/settings/stg/indexer.properties</indexerPath>
 
