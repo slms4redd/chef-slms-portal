@@ -45,7 +45,7 @@
   "tomcat": {
     "version": "7",
     "7": {
-      "url": "http://mirrors.muzzy.it/apache/tomcat/tomcat-7/v7.0.63/bin/apache-tomcat-7.0.63.tar.gz"
+      "url": "http://mirrors.muzzy.it/apache/tomcat/tomcat-7/v7.0.65/bin/apache-tomcat-7.0.65.zip"
     },
     "prefix_dir": "/var"
   },
