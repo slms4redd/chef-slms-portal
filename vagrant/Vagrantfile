@@ -136,9 +136,6 @@ Vagrant::Config.run do |config|
         # Configuration parameters for the unredd tomcat instances.
         # The jvm_opts parameters are ood for a test virtual machine, leave the default ones
         # for a production server setup (or override them with bigger values).
-        :stg_geostore => {
-          :jvm_opts => { :xms => "128m", :xmx => "256m" }
-        },
         :diss_geostore => {
           :jvm_opts => { :xms => "128m", :xmx => "256m" }
         },

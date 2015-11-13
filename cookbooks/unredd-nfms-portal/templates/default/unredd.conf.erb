@@ -2,10 +2,6 @@
 ProxyPreserveHost on
 
 # Proxy rules for the staging area
-ProxyPass        /stg_geostore   ajp://localhost:<%= @stg_geostore_ajp_porty %>/stg_geostore
-ProxyPassReverse /stg_geostore   ajp://localhost:<%= @stg_geostore_ajp_porty %>/stg_geostore
-ProxyPassReverse /stg_geostore/  ajp://localhost:<%= @stg_geostore_ajp_porty %>/stg_geostore/
-
 ProxyPass        /stg_geoserver   ajp://localhost:<%= @stg_geoserver_ajp_porty %>/stg_geoserver
 ProxyPassReverse /stg_geoserver   ajp://localhost:<%= @stg_geoserver_ajp_porty %>/stg_geoserver
 ProxyPassReverse /stg_geoserver/  ajp://localhost:<%= @stg_geoserver_ajp_porty %>/stg_geoserver/

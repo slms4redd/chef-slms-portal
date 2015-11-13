@@ -63,12 +63,6 @@
     }
   },
   "unredd-nfms-portal": {
-    "stg_geostore": {
-      "jvm_opts": {
-        "xms": "128m",
-        "xmx": "256m"
-      }
-    },
     "diss_geostore": {
       "jvm_opts": {
         "xms": "128m",

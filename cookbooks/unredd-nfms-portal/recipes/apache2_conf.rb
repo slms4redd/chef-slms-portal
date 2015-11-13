@@ -31,7 +31,6 @@ end
 template "#{node['apache']['dir']}/sites-enabled/unredd.conf" do
   source "unredd.conf.erb"
   variables({
-    :stg_geostore_ajp_porty   => node['unredd-nfms-portal']['stg_geostore']['tomcat_ajp_port'],
     :stg_geoserver_ajp_porty  => node['unredd-nfms-portal']['stg_geoserver']['tomcat_ajp_port'],
     :stg_geobatch_ajp_porty   => node['unredd-nfms-portal']['stg_geobatch']['tomcat_ajp_port'],
     :admin_ajp_porty          => node['unredd-nfms-portal']['stg_geoserver']['tomcat_ajp_port'],

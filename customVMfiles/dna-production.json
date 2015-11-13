@@ -64,14 +64,6 @@
     }
   },
   "unredd-nfms-portal": {
-    "stg_geostore": {
-      "jvm_opts": {
-        "xms": "256m",
-        "xmx": "256m"
-      },
-      "web_admin_password": "change_me",
-      "db_password": "change_me"
-    },
     "diss_geostore": {
       "jvm_opts": {
         "xms": "256m",

@@ -41,11 +41,11 @@
       <listenerId>ReprocessStatusActionLogger0</listenerId>
       <failIgnored>false</failIgnored>
 
-      <!-- The Url and credentials of the Staging Geostore -->
+      <!-- The Url and credentials of the Dissemination Geostore -->
       <geoStoreConfig>
-        <url>http://localhost/stg_geostore/rest</url>
-        <username><%= node['unredd-nfms-portal']['stg_geostore']['web_admin_user'] %></username>
-        <password><%= node['unredd-nfms-portal']['stg_geostore']['web_admin_password'] %></password>
+        <url>http://localhost/diss_geostore/rest</url>
+        <username><%= node['unredd-nfms-portal']['diss_geostore']['web_admin_user'] %></username>
+        <password><%= node['unredd-nfms-portal']['diss_geostore']['web_admin_password'] %></password>
       </geoStoreConfig>
 
       <!-- Credentials and path for the staging Postgis used by geoserver for store infos about ImageMosaic granules ingested-->

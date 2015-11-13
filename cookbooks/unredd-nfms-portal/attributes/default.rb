@@ -25,21 +25,6 @@ default['unredd-nfms-portal']['geostore_download_url']        = 'http://nfms4red
 default['unredd-nfms-portal']['geostore_schema_download_url'] = 'http://nfms4redd.org/downloads/geostore/002_create_schema_postgres.sql'
 
 
-# Staging GeoStore
-default['unredd-nfms-portal']['stg_geostore']['root_dir']             = '/var'
-default['unredd-nfms-portal']['stg_geostore']['tomcat_instance_name'] = 'stg_geostore'
-default['unredd-nfms-portal']['stg_geostore']['tomcat_http_port']     = 8200
-default['unredd-nfms-portal']['stg_geostore']['tomcat_ajp_port']      = 8100
-default['unredd-nfms-portal']['stg_geostore']['tomcat_shutdown_port'] = 8020
-default['unredd-nfms-portal']['stg_geostore']['db_schema']            = 'stg_geostore'
-default['unredd-nfms-portal']['stg_geostore']['db_user']              = 'stg_geostore'
-default['unredd-nfms-portal']['stg_geostore']['db_password']          = 'admin'
-default['unredd-nfms-portal']['stg_geostore']['jvm_opts']['xms']      = '512m'
-default['unredd-nfms-portal']['stg_geostore']['jvm_opts']['xmx']      = '512m'
-default['unredd-nfms-portal']['stg_geostore']['web_admin_user']       = 'admin'
-default['unredd-nfms-portal']['stg_geostore']['web_admin_password']   = 'Unr3dd'
-
-
 # Dissemination GeoStore
 default['unredd-nfms-portal']['diss_geostore']['root_dir']             = '/var'
 default['unredd-nfms-portal']['diss_geostore']['tomcat_instance_name'] = 'diss_geostore'

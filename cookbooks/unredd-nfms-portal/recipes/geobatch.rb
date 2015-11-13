@@ -60,13 +60,6 @@ template "#{geobatch_config_dir}/ingestionFlow.xml" do
   mode 0644
 end
 
-template "#{geobatch_config_dir}/publishingFlow.xml" do
-  source "geobatch/publishingFlow.xml.erb"
-  owner tomcat_user
-  group tomcat_user
-  mode 0644
-end
-
 template "#{geobatch_config_dir}/reprocessFlow.xml" do
   source "geobatch/reprocessFlow.xml.erb"
   owner tomcat_user
@@ -83,20 +76,6 @@ end
 
 template "#{geobatch_config_dir}/ingestStaticVectorData.xml" do
   source "geobatch/ingestStaticVectorData.xml.erb"
-  owner tomcat_user
-  group tomcat_user
-  mode 0644
-end
-
-template "#{geobatch_config_dir}/publishStaticRasterData.xml" do
-  source "geobatch/publishStaticRasterData.xml.erb"
-  owner tomcat_user
-  group tomcat_user
-  mode 0644
-end
-
-template "#{geobatch_config_dir}/publishStaticVectorData.xml" do
-  source "geobatch/publishStaticVectorData.xml.erb"
   owner tomcat_user
   group tomcat_user
   mode 0644

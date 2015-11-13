@@ -16,7 +16,7 @@ UNREDD.layerInfo = {
             return messages.province + ": " + feature.attributes.PROVINCE;
         };
         that.statsLink = function() {
-            return UNREDD.wmsServers[0] + '/stg_geostore/rest/misc/category/name/ChartData/resource/name/deforestation_script_' +  feature.attributes.OBJECTID + '_' + languageCode + '/data?name=' + feature.attributes.PROVINCE;
+            return UNREDD.wmsServers[0] + '/diss_geostore/rest/misc/category/name/ChartData/resource/name/deforestation_script_' +  feature.attributes.OBJECTID + '_' + languageCode + '/data?name=' + feature.attributes.PROVINCE;
         };
         return that;
     }
