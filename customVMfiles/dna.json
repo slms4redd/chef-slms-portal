@@ -98,7 +98,6 @@
     "recipe[postgresql::server]",
     "recipe[database::postgresql]",
     "recipe[gis]",
-    "recipe[unredd-nfms-portal]",
-    "recipe[unredd-nfms-portal::install_test_data]"
+    "recipe[unredd-nfms-portal]"
   ]
 }

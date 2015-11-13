@@ -105,16 +105,16 @@ define :geoserver do
     recursive true
   end
 
+  # TODO geoserver instance name (diss_geoserver) should be in a parameter
   # set the owner and permissions properly
   execute "set stg and diss geoserver extdata dir permissions" do
     user "root"
     command <<-EOH
-      chown -R #{node['tomcat']['user']}: /var/stg_geoserver/extdata
+      chown -R #{node['tomcat']['user']}: /var/diss_geoserver/extdata
       find  #{ext_data} -type d -exec chmod 755 {} \\;
       find  #{ext_data} -type f -exec chmod 644 {} \\;
     EOH
   end
-
 
 
   remote_directory geoserver_data_dir do
