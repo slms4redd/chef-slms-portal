@@ -45,7 +45,7 @@
   "tomcat": {
     "version": "7",
     "7": {
-      "url": "http://it.apache.contactlab.it/tomcat/tomcat-7/v7.0.62/bin/apache-tomcat-7.0.62.tar.gz",
+      "url": "http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.62/bin/apache-tomcat-7.0.62.tar.gz",
       "checksum": "a787ea12e163e78ccebbb9662d7da78e707aef051d15af9ab5be20489adf1f6d"
     },
     "prefix_dir": "/var"
