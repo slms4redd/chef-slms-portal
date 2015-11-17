@@ -132,7 +132,8 @@ tomcat "stg_geobatch" do
     "-DGEOBATCH_CONFIG_DIR=#{node['unredd-nfms-portal']['stg_geobatch']['config_dir']}",
     "-DGEOBATCH_TEMP_DIR=#{node['unredd-nfms-portal']['stg_geobatch']['temp_dir']}",
     "-Duser.timezone=GMT",
-    "-Djava.awt.headless=true"
+    "-Djava.awt.headless=true",
+    "-Dorg.apache.el.parser.SKIP_IDENTIFIER_CHECK=true"
   ]
   manage_config_file true
 end
