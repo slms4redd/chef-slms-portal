@@ -5,7 +5,7 @@ UNREDD.mapCenter = new OpenLayers.LonLat(2500000, -400000);
 UNREDD.defaultZoomLevel = 0;
 
 UNREDD.wmsServers = [
-    "http://demo1.geo-solutions.it",
+    "http://slms4redd.org",
     "http://incuweb84-33-51-16.serverclienti.com"
 ];
 
