@@ -25,19 +25,19 @@ default['unredd-nfms-portal']['geostore_download_url']        = 'http://nfms4red
 default['unredd-nfms-portal']['geostore_schema_download_url'] = 'http://nfms4redd.org/downloads/geostore/002_create_schema_postgres.sql'
 
 
-# Dissemination GeoStore
-default['unredd-nfms-portal']['diss_geostore']['root_dir']             = '/var'
-default['unredd-nfms-portal']['diss_geostore']['tomcat_instance_name'] = 'diss_geostore'
-default['unredd-nfms-portal']['diss_geostore']['tomcat_http_port']     = 8204
-default['unredd-nfms-portal']['diss_geostore']['tomcat_ajp_port']      = 8104
-default['unredd-nfms-portal']['diss_geostore']['tomcat_shutdown_port'] = 8024
-default['unredd-nfms-portal']['diss_geostore']['db_schema']            = 'diss_geostore'
-default['unredd-nfms-portal']['diss_geostore']['db_user']              = 'diss_geostore'
-default['unredd-nfms-portal']['diss_geostore']['db_password']          = 'admin'
-default['unredd-nfms-portal']['diss_geostore']['jvm_opts']['xms']      = '512m'
-default['unredd-nfms-portal']['diss_geostore']['jvm_opts']['xmx']      = '1024m'
-default['unredd-nfms-portal']['diss_geostore']['web_admin_user']       = 'admin'
-default['unredd-nfms-portal']['diss_geostore']['web_admin_password']   = 'Unr3dd'
+# GeoStore
+default['unredd-nfms-portal']['geostore']['root_dir']             = '/var'
+default['unredd-nfms-portal']['geostore']['tomcat_instance_name'] = 'geostore'
+default['unredd-nfms-portal']['geostore']['tomcat_http_port']     = 8204
+default['unredd-nfms-portal']['geostore']['tomcat_ajp_port']      = 8104
+default['unredd-nfms-portal']['geostore']['tomcat_shutdown_port'] = 8024
+default['unredd-nfms-portal']['geostore']['db_schema']            = 'geostore'
+default['unredd-nfms-portal']['geostore']['db_user']              = 'geostore'
+default['unredd-nfms-portal']['geostore']['db_password']          = 'admin'
+default['unredd-nfms-portal']['geostore']['jvm_opts']['xms']      = '512m'
+default['unredd-nfms-portal']['geostore']['jvm_opts']['xmx']      = '1024m'
+default['unredd-nfms-portal']['geostore']['web_admin_user']       = 'admin'
+default['unredd-nfms-portal']['geostore']['web_admin_password']   = 'Unr3dd'
 
 
 # Staging GeoServer

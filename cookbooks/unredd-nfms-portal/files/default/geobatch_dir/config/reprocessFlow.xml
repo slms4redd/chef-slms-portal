@@ -47,9 +47,9 @@
             <listenerId>ReprocessStatusActionLogger0</listenerId>
 			<failIgnored>false</failIgnored>
 
-			<!-- The Url and credentials of the Staging Geostore -->
+			<!-- The Url and credentials of Geostore -->
 			<geoStoreConfig>
-				<url>http://localhost:{PORT}/{STAGING_GEOSTORE_CONTEXT_NAME}/rest</url>
+				<url>http://localhost:{PORT}/{GEOSTORE_CONTEXT_NAME}/rest</url>
 				<username>{USERNAME}</username>
 				<password>{PASSWORD}</password>
 			</geoStoreConfig>

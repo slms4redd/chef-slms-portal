@@ -20,6 +20,6 @@ recipe "unredd-nfms-portal::apache2_conf", "Configures mod_proxy and mod_proxy_a
 recipe "unredd-nfms-portal::db_conf", "Configures PostGIS"
 recipe "unredd-nfms-portal::geobatch", "Installs GeoBatch"
 recipe "unredd-nfms-portal::geoserver", "Installs staging and dissemination GeoServer"
-recipe "unredd-nfms-portal::geostore", "Installs staging and dissemination GeoStore"
+recipe "unredd-nfms-portal::geostore", "Installs GeoStore"
 recipe "unredd-nfms-portal::install_test_data", "Installs portal test data"
 recipe "unredd-nfms-portal::jai", "Installs native jai"

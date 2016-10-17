@@ -15,9 +15,9 @@ ProxyPassReverse /admin   ajp://localhost:<%= @admin_ajp_porty %>/admin
 ProxyPassReverse /admin/  ajp://localhost:<%= @admin_ajp_porty %>/admin/
 
 # Proxy rules for the dissemination area
-ProxyPass        /diss_geostore   ajp://localhost:<%= @diss_geostore_ajp_porty %>/diss_geostore
-ProxyPassReverse /diss_geostore   ajp://localhost:<%= @diss_geostore_ajp_porty %>/diss_geostore
-ProxyPassReverse /diss_geostore/  ajp://localhost:<%= @diss_geostore_ajp_porty %>/diss_geostore/
+ProxyPass        /geostore   ajp://localhost:<%= @geostore_ajp_porty %>/geostore
+ProxyPassReverse /geostore   ajp://localhost:<%= @geostore_ajp_porty %>/geostore
+ProxyPassReverse /geostore/  ajp://localhost:<%= @geostore_ajp_porty %>/geostore/
 
 ProxyPass        /diss_geoserver   ajp://localhost:<%= @diss_geoserver_ajp_porty %>/diss_geoserver
 ProxyPassReverse /diss_geoserver   ajp://localhost:<%= @diss_geoserver_ajp_porty %>/diss_geoserver
