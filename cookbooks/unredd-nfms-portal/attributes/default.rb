@@ -20,9 +20,9 @@ default['unredd-nfms-portal']['db_name'] = 'unredd'
 
 
 # Download URLs
-default['unredd-nfms-portal']['geoserver_download_url']       = 'http://nfms4redd.org/downloads/geoserver/geoserver-2.5.2+css+wps+monitor.war'
-default['unredd-nfms-portal']['geostore_download_url']        = 'http://nfms4redd.org/downloads/geostore/geostore-1.1.0.war'
-default['unredd-nfms-portal']['geostore_schema_download_url'] = 'http://nfms4redd.org/downloads/geostore/002_create_schema_postgres.sql'
+default['unredd-nfms-portal']['geoserver_download_url']       = 'http://slms4redd.org/downloads/geoserver/geoserver-2.5.2+css+wps+monitor.war'
+default['unredd-nfms-portal']['geostore_download_url']        = 'http://slms4redd.org/downloads/geostore/geostore-1.1.0.war'
+default['unredd-nfms-portal']['geostore_schema_download_url'] = 'http://slms4redd.org/downloads/geostore/002_create_schema_postgres.sql'
 
 
 # GeoStore

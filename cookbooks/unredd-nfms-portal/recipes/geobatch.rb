@@ -151,6 +151,6 @@ end
 # Download and deploy GeoBatch
 unredd_nfms_portal_app "stg_geobatch" do
   tomcat_instance "stg_geobatch"
-  download_url    "http://nfms4redd.org/downloads/geobatch/nfms-geobatch-1.4.war"
+  download_url    "http://slms4redd.org/downloads/geobatch/nfms-geobatch-1.4.war"
   user tomcat_user
 end

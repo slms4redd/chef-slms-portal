@@ -66,7 +66,7 @@ end
 
 unredd_nfms_portal_app "portal" do
   tomcat_instance diss_geoserver_tomcat
-  download_url    "http://nfms4redd.org/downloads/portal/portal-0.9.1.war"
+  download_url    "http://slms4redd.org/downloads/portal/portal-0.9.1.war"
   user            tomcat_user
 end
 
@@ -86,7 +86,7 @@ end
 catalina_parent = Pathname.new(node['tomcat']['home']).parent.to_s
 stg_geoserver_tomcat  = node['unredd-nfms-portal']['stg_geoserver']['tomcat_instance_name']
 
-admin_download_url= "http://nfms4redd.org/downloads/admin/admin-2.0-SNAPSHOT.war"
+admin_download_url= "http://slms4redd.org/downloads/admin/admin-2.0-SNAPSHOT.war"
 admin_file_name = admin_download_url.split('/')[-1]
 # admin_base = "#{catalina_parent}/#{tomcat_instance}"
 
