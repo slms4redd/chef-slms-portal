@@ -50,8 +50,8 @@
       <!-- The Url and credentials of the Staging Geostore -->
       <geoStoreConfig>
         <url>http://localhost/diss_geostore/rest</url> <%# TODO: parametrize %>
-        <username><%= node['unredd-nfms-portal']['diss_geostore']['web_admin_user'] %></username>
-        <password><%= node['unredd-nfms-portal']['diss_geostore']['web_admin_password'] %></password>
+        <username><%= node['unredd-nfms-portal']['geostore']['web_admin_user'] %></username>
+        <password><%= node['unredd-nfms-portal']['geostore']['web_admin_password'] %></password>
       </geoStoreConfig>
 
       <!-- Credentials and path for the staging Postgis used by geoserver for store infos about ImageMosaic granules ingested-->
