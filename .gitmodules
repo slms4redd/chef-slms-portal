@@ -31,3 +31,7 @@
 [submodule "cookbooks/omnibus_updater"]
 	path = cookbooks/omnibus_updater
 	url = git://github.com/hw-cookbooks/omnibus_updater.git
+[submodule "cookbooks/postgresql"]
+	path = cookbooks/postgresql
+	url = git@github.com:slms4redd/postgresql.git
+	branch = slms-patched
