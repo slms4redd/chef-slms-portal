@@ -25,9 +25,6 @@
 [submodule "cookbooks/openssl"]
 	path = cookbooks/openssl
 	url = http://github.com/opscode-cookbooks/openssl
-[submodule "cookbooks/postgresql"]
-	path = cookbooks/postgresql
-	url = http://github.com/opscode-cookbooks/postgresql
 [submodule "cookbooks/tomcat"]
 	path = cookbooks/tomcat
 	url = git://github.com/bryanwb/chef-tomcat.git
